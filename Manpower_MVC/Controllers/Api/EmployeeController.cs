@@ -16,7 +16,7 @@ namespace Manpower_MVC.Controllers.Api
 
             using (var db = new Database("sqlserver", System.Configuration.ConfigurationManager.ConnectionStrings["ManpowerDBEntities"].ConnectionString))
             {
-                var response = new Editor(db, "Employee", "ID")
+                var response = new Editor(db, "Employee", "Id")
                     .Model<Employee>()
                     .Field(new Field("EmpID").Validator(Validation.NotEmpty()))
                     .Field(new Field("EmpName").Validator(Validation.NotEmpty()).Xss(false))

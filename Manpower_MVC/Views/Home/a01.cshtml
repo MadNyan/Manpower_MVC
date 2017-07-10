@@ -3,7 +3,7 @@
     //ViewBag.Description = "Home Page";
 }
 
-<table id="Employee" class="table table-striped table-bordered dataTable cell-border" cellspacing="0" width="100%">
+<table id="tbEmployee" class="table table-striped table-bordered dataTable cell-border" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th></th>
@@ -37,7 +37,7 @@
                         url: "../api/employee/remove",
                     }
                 },
-                table: "#Employee",
+                table: "#tbEmployee",
                 idSrc: 'ID',
                 fields: [{
                     label: "工號:",
@@ -98,7 +98,7 @@
             //    alert('Success~~!!');
             //});
 
-            var table = $('#Employee').DataTable({
+            var table = $('#tbEmployee').DataTable({
                 language: {
                     url: "../Content/dataTables.Chinese.traditional.txt"
                 },
@@ -115,14 +115,17 @@
                     }
                 ],
                 columns: [
-                    { data: 'ID' },
-                    { data: 'EmpID' },
-                    { data: 'EmpName' },
+                    { data: 'Id' },
+                    { data: 'EmployeeId' },
+                    { data: 'CustName' },
+                    { data: 'CustShortName' },
+                    { data: 'CustUniNumber' },
+                    { data: 'Principal' },
                     { data: 'Tel' },
-                    { data: 'Phone' },
-                    { data: 'ConPerson' },
-                    { data: 'ConPersonTel' },
-                    { data: 'CreateDate' }
+                    { data: 'FAX' },
+                    { data: 'Manager' },
+                    { data: 'Address' },
+                    { data: 'Memo' }
                 ],
                 order: [[1, 'asc']],
                 keys: true,
