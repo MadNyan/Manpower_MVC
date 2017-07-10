@@ -1,0 +1,50 @@
+﻿@using Manpower_MVC.Controllers
+<aside class="main-sidebar">
+    <section class="sidebar">
+        @* BEGIN Search *@
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        @* END Search *@
+        @* BEGIN Menu *@
+        <ul class="sidebar-menu">
+            <li class="header">功能選單</li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "index" ? "active" : "")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>回首頁</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a01" ? "active" : "")">
+                <a href="@Url.Action("a01", "Home")"><i class="fa fa-newspaper-o"></i><span>客戶資料 (Alt + 1)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a11" ? "active" : "")">
+                <a href="@Url.Action("a11", "Home")"><i class="fa fa-truck"></i><span>貨櫃車資料 (Alt + 2)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a21" ? "active" : "")">
+                <a href="@Url.Action("a21", "Home")"><i class="fa fa-map-marker"></i><span>地點資料 (Alt + 3)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a31" ? "active" : "")">
+                <a href="@Url.Action("a31", "Home")"><i class="fa fa-truck"></i><span>貨品基本 (Alt + 4)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b01" ? "active" : "")">
+                <a href="@Url.Action("b01", "Home")"><i class="fa fa-bus"></i><span>運送作業 (Alt + 5)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b11" ? "active" : "")">
+                <a href="@Url.Action("b11", "Home")"><i class="fa fa-envelope"></i><span>請款作業 (Alt + 6)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b21" ? "active" : "")">
+                <a href="@Url.Action("b21", "Home")"><i class="fa fa-money"></i><span>付款作業 (Alt + 7)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "BackupDatabase" ? "active" : "")">
+                <a href="@Url.Action("BackupDatabase", "Backup")"><i class="fa fa-hdd-o"></i><span>資料庫備份</span></a>
+            </li>
+        </ul>
+
+        @* END Menu *@
+    </section>
+</aside>
