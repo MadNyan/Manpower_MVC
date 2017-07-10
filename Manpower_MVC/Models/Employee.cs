@@ -16,6 +16,7 @@ namespace Manpower_MVC.Models
 
     public partial class Employee
     {
+        [Key]
         [Required]
         public int ID { get; set; }
         [DisplayName("工號")]
