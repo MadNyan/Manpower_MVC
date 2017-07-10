@@ -7,26 +7,26 @@ using Manpower_MVC.Models;
 
 namespace Manpower_MVC.Controllers
 {
-    public class HomeController : Controller
+    public class EmployeeController : Controller
     {
         ManpowerDBEntities db = new ManpowerDBEntities();
+        // GET: Employee
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult a01()
         {
             var Get = from p in db.Employee orderby p.ID descending select p;
             return View(Get.ToList());
         }
-        public ActionResult a01Ins()
+        public ActionResult Create()
         {
             return View();
         }
+
+        // POST: News/Create
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult a01Ins(Employee emp)
+        public ActionResult Create(Employee emp)
         {
             Employee _emp = new Employee();
             _emp.EmpID = emp.EmpID;
@@ -38,7 +38,7 @@ namespace Manpower_MVC.Controllers
             _emp.CreateDate = DateTime.Now;
             db.Employee.Add(_emp);
             db.SaveChanges();
-            return RedirectToAction("a01");
+            return RedirectToAction("Index");
         }
     }
 }

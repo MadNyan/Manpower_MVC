@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<Manpower_MVC.Models.Employee>
 
 @{
-    ViewBag.Title = "點工人事資料";
+    ViewBag.Title = "Index";
 }
 
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -60,7 +65,5 @@
         </td>
     </tr>
 }
-    <p>
-        @Html.ActionLink("新增點工人事資料", "a01Ins")
-    </p>
+
 </table>

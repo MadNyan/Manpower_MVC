@@ -16,7 +16,6 @@ namespace Manpower_MVC.Models
 
     public partial class Employee
     {
-        [Key]
         [Required]
         public int ID { get; set; }
         [DisplayName("工號")]
@@ -34,7 +33,7 @@ namespace Manpower_MVC.Models
         [DisplayName("緊急連絡電話")]
         public string ConPersonTel { get; set; }
         [DisplayName("建立日期")]
-        [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> CreateDate { get; set; }
     }
 }
