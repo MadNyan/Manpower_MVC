@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Manpower_MVC.Models.WorkCategory>
+
+@{
+    ViewBag.Title = "工種薪資";
+}
+
+<p>
+    <h2>工種薪資列表</h2>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkCareID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkCareName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OvertimeSal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverOvertimeSal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkCareID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkCareName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OvertimeSal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverOvertimeSal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            @Html.ActionLink("更新", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("刪除", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+<p>
+    @Html.ActionLink("新增工種薪資資料", "Create")
+</p>
