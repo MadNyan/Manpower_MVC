@@ -4,14 +4,15 @@
     ViewBag.Title = "人事資料管理";
 }
 
-@using (Html.BeginForm()) 
-{
+<form method="post" action="@Url.Action("Edit")">
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>員工基本資料</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
         <div class="form-group">
             @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -62,12 +63,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="建立" class="btn btn-default" />
+                <input type="submit" value="更新" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+</form>
 
-<div>
-    @Html.ActionLink("返回人事資料列表", "Index")
-</div>
+    <div>
+        @Html.ActionLink("返回人事資料列表", "Index")
+    </div>

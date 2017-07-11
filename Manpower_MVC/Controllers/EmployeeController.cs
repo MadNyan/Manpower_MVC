@@ -21,9 +21,6 @@ namespace Manpower_MVC.Controllers
             return View();
         }
 
-        // POST: News/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee emp)
@@ -39,6 +36,36 @@ namespace Manpower_MVC.Controllers
             db.Employee.Add(_emp);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult Edit(int id)
+        {
+            return View(getOneEmp(id));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Employee emp)
+        {
+            Employee _emp = getOneEmp(id);
+            _emp.EmpID = emp.EmpID;
+            _emp.EmpName = emp.EmpName;
+            _emp.Tel = emp.Tel;
+            _emp.Phone = emp.Phone;
+            _emp.ConPerson = emp.ConPerson;
+            _emp.ConPersonTel = emp.ConPersonTel;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public ActionResult Delete(int id)
+        {
+            db.Employee.Remove(getOneEmp(id));
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public Employee getOneEmp(int id)
+        {
+            var Get = from p in db.Employee where p.ID == id select p;
+            return Get.FirstOrDefault();
         }
     }
 }

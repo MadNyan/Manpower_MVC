@@ -25,6 +25,7 @@ namespace Manpower_MVC.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult a01Ins(Employee emp)
         {

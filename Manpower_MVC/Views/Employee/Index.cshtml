@@ -1,13 +1,11 @@
 ﻿@model IEnumerable<Manpower_MVC.Models.Employee>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "人事資料管理";
 }
 
-<h2>Index</h2>
-
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <h4>人事資料列表</h4>
 </p>
 <table class="table">
     <tr>
@@ -59,11 +57,14 @@
             @Html.DisplayFor(modelItem => item.CreateDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
+<p>
+    @Html.ActionLink("建立員工資料", "Create")
+</p>
