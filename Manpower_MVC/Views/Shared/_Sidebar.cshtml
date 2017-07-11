@@ -20,13 +20,13 @@
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>回首頁</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a01" ? "active" : "")">
-                <a href="@Url.Action("a01", "Home")"><i class="fa fa-newspaper-o"></i><span>客戶資料 (Alt + 1)</span></a>
+                <a href="@Url.Action("Index", "Employee")"><i class="fa fa-newspaper-o"></i><span>人事資料 (Alt + 1)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a11" ? "active" : "")">
-                <a href="@Url.Action("a11", "Home")"><i class="fa fa-truck"></i><span>貨櫃車資料 (Alt + 2)</span></a>
+                <a href="@Url.Action("Index", "WorkCare")"><i class="fa fa-truck"></i><span>工種薪資 (Alt + 2)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a21" ? "active" : "")">
-                <a href="@Url.Action("a21", "Home")"><i class="fa fa-map-marker"></i><span>地點資料 (Alt + 3)</span></a>
+                <a href="@Url.Action("Index", "Owner")"><i class="fa fa-map-marker"></i><span>業主資料 (Alt + 3)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a31" ? "active" : "")">
                 <a href="@Url.Action("a31", "Home")"><i class="fa fa-truck"></i><span>貨品基本 (Alt + 4)</span></a>

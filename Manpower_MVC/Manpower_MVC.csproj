@@ -506,11 +506,9 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
-    <Content Include="Views\Employee\Delete.cshtml" />
     <Content Include="Views\WorkCare\Index.cshtml" />
     <Content Include="Views\WorkCare\Create.cshtml" />
     <Content Include="Views\WorkCare\Edit.cshtml" />
-    <Content Include="Views\WorkCare\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
