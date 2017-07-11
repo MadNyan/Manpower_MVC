@@ -11,18 +11,33 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Owner
     {
         public int ID { get; set; }
+        [DisplayName("代碼")]
+        [Required(ErrorMessage="不可為空值")]
         public string OwnerID { get; set; }
+        [DisplayName("名稱")]
+        [Required(ErrorMessage = "不可為空值")]
         public string OwnerName { get; set; }
+        [DisplayName("電話")]
         public string Tel { get; set; }
+        [DisplayName("電話")]
         public string Tel2 { get; set; }
+        [DisplayName("連絡人")]
         public string ConPerson { get; set; }
+        [DisplayName("手機")]
         public string ConPersonPhone { get; set; }
+        [DisplayName("電話")]
         public string ConPersonTel { get; set; }
+        [DisplayName("統一編號")]
+        [Required(ErrorMessage = "不可為空值")]
+        [StringLength(8,ErrorMessage ="請輸入8個號碼")]
         public string UnifiedNum { get; set; }
+        [DisplayName("地址")]
         public string Address { get; set; }
     }
 }

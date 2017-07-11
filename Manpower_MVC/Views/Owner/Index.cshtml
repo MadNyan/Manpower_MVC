@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Manpower_MVC.Models.Owner>
+
+@{
+    ViewBag.Title = "業主資料";
+}
+
+<p>
+    <h4>業主資料列表</h4>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPersonPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPersonTel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnifiedNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPersonPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPersonTel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnifiedNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("建立業主資料", "Create")
+</p>
