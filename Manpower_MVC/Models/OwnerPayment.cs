@@ -16,10 +16,6 @@ namespace Manpower_MVC.Models
     {
         public int ID { get; set; }
         public string PayID { get; set; }
-        public int SalaryDay { get; set; }
-        public int OvertimeHr { get; set; }
-        public int OverOvertimeHr { get; set; }
-        public string OwnerID { get; set; }
-        public string WorkCareID { get; set; }
+        public int OwnerID { get; set; }
     }
 }

@@ -22,12 +22,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EmpID" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="EmpName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Tel" Type="nvarchar(max)" />
-          <Property Name="Phone" Type="nvarchar(max)" />
-          <Property Name="ConPerson" Type="nvarchar(max)" />
-          <Property Name="ConPersonTel" Type="nvarchar(max)" />
+          <Property Name="EmpID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmpName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ConPerson" Type="nvarchar" MaxLength="50" />
+          <Property Name="ConPersonTel" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="date" />
         </EntityType>
         <EntityType Name="Owner">
@@ -62,11 +62,18 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PayID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OwnerID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OwnerPayWork">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SalaryDay" Type="int" Nullable="false" />
           <Property Name="OvertimeHr" Type="int" Nullable="false" />
           <Property Name="OverOvertimeHr" Type="int" Nullable="false" />
-          <Property Name="OwnerID" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="WorkCareID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="WorkCareID" Type="int" Nullable="false" />
+          <Property Name="PayID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -111,6 +118,7 @@
           <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OwnerBuilding" EntityType="Self.OwnerBuilding" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OwnerPayment" EntityType="Self.OwnerPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OwnerPayWork" EntityType="Self.OwnerPayWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkCategory" EntityType="Self.WorkCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkList" EntityType="Self.WorkList" Schema="dbo" store:Type="Tables" />
@@ -136,12 +144,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmpID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmpName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Tel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ConPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ConPersonTel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConPersonTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Owner">
@@ -169,18 +177,6 @@
           <Property Name="ConPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ConPersonTel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OwnerPayment">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PayID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SalaryDay" Type="Int32" Nullable="false" />
-          <Property Name="OvertimeHr" Type="Int32" Nullable="false" />
-          <Property Name="OverOvertimeHr" Type="Int32" Nullable="false" />
-          <Property Name="OwnerID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="WorkCareID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -224,11 +220,31 @@
           <EntitySet Name="Employee" EntityType="Self.Employee" />
           <EntitySet Name="Owner" EntityType="Self.Owner" />
           <EntitySet Name="OwnerBuilding" EntityType="Self.OwnerBuilding" />
-          <EntitySet Name="OwnerPayment" EntityType="Self.OwnerPayment" />
           <EntitySet Name="WorkCategory" EntityType="Self.WorkCategory" />
           <EntitySet Name="Worker" EntityType="Self.Worker" />
           <EntitySet Name="WorkList" EntityType="Self.WorkList" />
+          <EntitySet Name="OwnerPayWork" EntityType="ManpowerDBModel.OwnerPayWork" />
+          <EntitySet Name="OwnerPayment" EntityType="ManpowerDBModel.OwnerPayment" />
         </EntityContainer>
+        <EntityType Name="OwnerPayWork">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalaryDay" Type="Int32" Nullable="false" />
+          <Property Name="OvertimeHr" Type="Int32" Nullable="false" />
+          <Property Name="OverOvertimeHr" Type="Int32" Nullable="false" />
+          <Property Name="WorkCareID" Type="Int32" Nullable="false" />
+          <Property Name="PayID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OwnerPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PayID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -290,19 +306,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OwnerPayment">
-            <EntityTypeMapping TypeName="ManpowerDBModel.OwnerPayment">
-              <MappingFragment StoreEntitySet="OwnerPayment">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PayID" ColumnName="PayID" />
-                <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
-                <ScalarProperty Name="OvertimeHr" ColumnName="OvertimeHr" />
-                <ScalarProperty Name="OverOvertimeHr" ColumnName="OverOvertimeHr" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="WorkCareID" ColumnName="WorkCareID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WorkCategory">
             <EntityTypeMapping TypeName="ManpowerDBModel.WorkCategory">
               <MappingFragment StoreEntitySet="WorkCategory">
@@ -340,6 +343,27 @@
                 <ScalarProperty Name="BuildName" ColumnName="BuildName" />
                 <ScalarProperty Name="ConPerson" ColumnName="ConPerson" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OwnerPayWork">
+            <EntityTypeMapping TypeName="ManpowerDBModel.OwnerPayWork">
+              <MappingFragment StoreEntitySet="OwnerPayWork">
+                <ScalarProperty Name="PayID" ColumnName="PayID" />
+                <ScalarProperty Name="WorkCareID" ColumnName="WorkCareID" />
+                <ScalarProperty Name="OverOvertimeHr" ColumnName="OverOvertimeHr" />
+                <ScalarProperty Name="OvertimeHr" ColumnName="OvertimeHr" />
+                <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OwnerPayment">
+            <EntityTypeMapping TypeName="ManpowerDBModel.OwnerPayment">
+              <MappingFragment StoreEntitySet="OwnerPayment">
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="PayID" ColumnName="PayID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,17 +12,13 @@ namespace Manpower_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Owner
+    public partial class OwnerPayWork
     {
         public int ID { get; set; }
-        public string OwnerID { get; set; }
-        public string OwnerName { get; set; }
-        public string Tel { get; set; }
-        public string Tel2 { get; set; }
-        public string ConPerson { get; set; }
-        public string ConPersonPhone { get; set; }
-        public string ConPersonTel { get; set; }
-        public string UnifiedNum { get; set; }
-        public string Address { get; set; }
+        public int SalaryDay { get; set; }
+        public int OvertimeHr { get; set; }
+        public int OverOvertimeHr { get; set; }
+        public int WorkCareID { get; set; }
+        public int PayID { get; set; }
     }
 }

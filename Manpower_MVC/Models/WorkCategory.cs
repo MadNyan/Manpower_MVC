@@ -11,28 +11,15 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class WorkCategory
     {
         public int ID { get; set; }
-        [DisplayName("代碼")]
-        [Required]
         public string WorkCareID { get; set; }
-        [DisplayName("工作職稱")]
-        [Required]
         public string WorkCareName { get; set; }
-        [DisplayName("日薪")]
-        [Required]
         public int Salary { get; set; }
-        [DisplayName("加班時薪")]
-        [Required]
         public int OvertimeSal { get; set; }
-        [DisplayName("超時時薪")]
-        [Required]
         public int OverOvertimeSal { get; set; }
-        [DisplayName("備註")]
         public string Remark { get; set; }
     }
 }

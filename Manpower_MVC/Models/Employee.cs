@@ -11,28 +11,16 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Employee
     {
         public int ID { get; set; }
-        [DisplayName("工號")]
-        [Required]
         public string EmpID { get; set; }
-        [DisplayName("姓名")]
-        [Required]
         public string EmpName { get; set; }
-        [DisplayName("電話")]
         public string Tel { get; set; }
-        [DisplayName("手機")]
         public string Phone { get; set; }
-        [DisplayName("連絡人")]
         public string ConPerson { get; set; }
-        [DisplayName("緊急連絡電話")]
         public string ConPersonTel { get; set; }
-        [DisplayName("建立日期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> CreateDate { get; set; }
     }
 }
