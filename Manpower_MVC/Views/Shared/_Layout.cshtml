@@ -39,10 +39,11 @@
 
         @Html.Partial("_ControlSidebar")
     </div>
-
     @{ Html.RenderPartial("_Scripts"); }
     @RenderSection("pagesection", false)
-
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script>
         // Shift 的鍵盤代碼是 16，Ctrl 的鍵盤代碼是 17，Alt 的鍵盤代碼是 18
         function keyFunction() {
@@ -81,7 +82,7 @@
             if ((event.altKey) && (event.keyCode == 83)) {
                 $("input[type='search']").focus()
             }
-            
+
             if (event.keyCode == 13) // enter => focus 在Table的第一個Cell
             {
                 if ($('table').find('td.focus').length == 0)
