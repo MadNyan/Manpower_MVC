@@ -18,8 +18,8 @@ namespace Manpower_MVC.Models
         public int SalaryDay { get; set; }
         public int OvertimeHr { get; set; }
         public int OverOvertimeHr { get; set; }
-        public string ListID { get; set; }
-        public string EmpID { get; set; }
-        public string WorkCareID { get; set; }
+        public int ListID { get; set; }
+        public int EmpID { get; set; }
+        public int WorkCareID { get; set; }
     }
 }

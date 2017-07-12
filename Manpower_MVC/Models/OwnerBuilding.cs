@@ -19,6 +19,6 @@ namespace Manpower_MVC.Models
         public string BuildingName { get; set; }
         public string ConPerson { get; set; }
         public string ConPersonTel { get; set; }
-        public string OwnerID { get; set; }
+        public int OwnerID { get; set; }
     }
 }

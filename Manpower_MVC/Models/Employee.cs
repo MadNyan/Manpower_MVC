@@ -11,16 +11,11 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Employee
     {
         public int ID { get; set; }
-        [Display(Name = "工號")]
-        [Required(ErrorMessage = "工號為必填")]
         public string EmpID { get; set; }
-        [Display(Name = "姓名")]
-        [Required(ErrorMessage = "姓名為必填")]
         public string EmpName { get; set; }
         public string Tel { get; set; }
         public string Phone { get; set; }

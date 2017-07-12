@@ -19,7 +19,7 @@ namespace Manpower_MVC.Models
         public string InsName { get; set; }
         public string PosOrNeg { get; set; }
         public int Price { get; set; }
-        public string EmpID { get; set; }
+        public int EmpID { get; set; }
         public string Remark { get; set; }
     }
 }

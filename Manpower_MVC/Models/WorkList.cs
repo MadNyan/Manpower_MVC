@@ -21,6 +21,7 @@ namespace Manpower_MVC.Models
         public System.DateTime CreateDate { get; set; }
         public string BuildName { get; set; }
         public string ConPerson { get; set; }
-        public string OwnerID { get; set; }
+        public int OwnerID { get; set; }
+        public string Remark { get; set; }
     }
 }
