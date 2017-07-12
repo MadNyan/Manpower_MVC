@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewOwnerPayment>
+
+@{
+    ViewBag.Title = "業主工種請款";
+}
+<h4>請款列表</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PayID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
+            @Html.ActionLink("請款工種列表", "ListPayWork", new { id = item.ID }) |
+            @Html.ActionLink("編輯", "EditPayment", new { id = item.ID }) |
+            @Html.ActionLink("刪除", "DeletePayment", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+<p>
+    @Html.ActionLink("新增請款", "CreatePayment")
+</p>

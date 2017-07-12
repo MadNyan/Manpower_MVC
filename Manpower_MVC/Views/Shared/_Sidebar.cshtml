@@ -29,7 +29,7 @@
                 <a href="@Url.Action("Index", "Owner")"><i class="fa fa-map-marker"></i><span>業主資料 (Alt + 3)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "a31" ? "active" : "")">
-                <a href="@Url.Action("a31", "Home")"><i class="fa fa-truck"></i><span>貨品基本 (Alt + 4)</span></a>
+                <a href="@Url.Action("Index", "OwnerPay")"><i class="fa fa-truck"></i><span>業主工種請款 (Alt + 4)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b01" ? "active" : "")">
                 <a href="@Url.Action("b01", "Home")"><i class="fa fa-bus"></i><span>運送作業 (Alt + 5)</span></a>

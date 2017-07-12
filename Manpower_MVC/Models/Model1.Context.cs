@@ -34,5 +34,9 @@ namespace Manpower_MVC.Models
         public virtual DbSet<WorkList> WorkList { get; set; }
         public virtual DbSet<OwnerPayWork> OwnerPayWork { get; set; }
         public virtual DbSet<OwnerPayment> OwnerPayment { get; set; }
+
+        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewOwnerPayment> ViewOwnerPayments { get; set; }
+
+        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewOwnerPayWork> ViewOwnerPayWorks { get; set; }
     }
 }
