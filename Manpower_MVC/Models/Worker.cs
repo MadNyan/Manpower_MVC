@@ -21,5 +21,6 @@ namespace Manpower_MVC.Models
         public int ListID { get; set; }
         public int EmpID { get; set; }
         public int WorkCareID { get; set; }
+        public string Remark { get; set; }
     }
 }

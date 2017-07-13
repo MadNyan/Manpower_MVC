@@ -15,13 +15,11 @@ namespace Manpower_MVC.Models
     public partial class WorkList
     {
         public int ID { get; set; }
-        public string ListID { get; set; }
         public string SerialNum { get; set; }
         public string SingleNum { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string BuildName { get; set; }
         public string ConPerson { get; set; }
         public int OwnerID { get; set; }
-        public string Remark { get; set; }
     }
 }
