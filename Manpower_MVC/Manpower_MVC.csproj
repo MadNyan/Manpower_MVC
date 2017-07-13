@@ -178,11 +178,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\ApiController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\OwnerPayController.cs" />
     <Compile Include="Controllers\WorkCareController.cs" />
+    <Compile Include="Controllers\WorkListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,6 +233,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ViewOwnerPayment.cs" />
     <Compile Include="ViewModels\ViewOwnerPayWork.cs" />
+    <Compile Include="ViewModels\ViewWorker.cs" />
+    <Compile Include="ViewModels\ViewWorkList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ManpowerDB.mdf" />
@@ -527,6 +531,12 @@
     <Content Include="Views\OwnerPay\ListPayWork.cshtml" />
     <Content Include="Views\OwnerPay\CreatePayWork.cshtml" />
     <Content Include="Views\OwnerPay\EditPayWork.cshtml" />
+    <Content Include="Views\WorkList\Index.cshtml" />
+    <Content Include="Views\WorkList\CreateWorkList.cshtml" />
+    <Content Include="Views\WorkList\EditWorkList.cshtml" />
+    <Content Include="Views\WorkList\ListWorker.cshtml" />
+    <Content Include="Views\WorkList\CreateWorker.cshtml" />
+    <Content Include="Views\WorkList\EditWorker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -537,7 +547,9 @@
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Api\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

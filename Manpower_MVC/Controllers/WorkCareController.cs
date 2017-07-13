@@ -4,17 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
+using Manpower_MVC.Controllers.Api;
 
 namespace Manpower_MVC.Controllers
 {
-    public class WorkCareController : Controller
+    public class WorkCareController : ApiController
     {
-        ManpowerDBEntities db = new ManpowerDBEntities();
         // GET: WorkCategory
         public ActionResult Index()
         {
-            var Get = from p in db.WorkCategory orderby p.ID ascending select p;
-            return View(Get.ToList());
+            return View(getAllWorkCate());
         }
         public ActionResult Create()
         {
@@ -52,12 +51,6 @@ namespace Manpower_MVC.Controllers
             db.WorkCategory.Remove(getOneWorkCate(id));
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public WorkCategory getOneWorkCate(int id)
-        {
-            var Get = from p in db.WorkCategory where p.ID == id select p;
-            return Get.FirstOrDefault();
         }
     }
 }

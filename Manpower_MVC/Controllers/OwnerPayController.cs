@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
 using Manpower_MVC.ViewModels;
+using Manpower_MVC.Controllers.Api;
 
 namespace Manpower_MVC.Controllers
 {
-    public class OwnerPayController : Controller
+    public class OwnerPayController : ApiController
     {
-        private ManpowerDBEntities db = new ManpowerDBEntities();
         //for OwnerPayment
         /*************************************************************************************************/
         public ActionResult Index()
@@ -19,7 +19,7 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult CreatePayment()
         {
-            ViewBag.owner = from p in db.Owner orderby p.ID descending select p;
+            ViewBag.owner = getAllOwner();
             return View();
         }
         [HttpPost]
@@ -32,7 +32,7 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult EditPayment(int id)
         {
-            ViewBag.owner = from p in db.Owner orderby p.ID descending select p;
+            ViewBag.owner = getAllOwner();
             return View(getOneOwnerPay(id));
         }
         [HttpPost]
@@ -73,7 +73,7 @@ namespace Manpower_MVC.Controllers
                 ViewBag.payId = id;
                 OwnerPayWork _payWork = new OwnerPayWork();
                 _payWork.PayID = id.Value;
-                ViewBag.cate = from p in db.WorkCategory orderby p.ID descending select p;
+                ViewBag.cate = getAllWorkCate();
                 return View(_payWork);
             }
             return RedirectToAction("Index");
@@ -91,7 +91,7 @@ namespace Manpower_MVC.Controllers
             if (id > 0)
             {
                 ViewBag.payId = id;
-                ViewBag.cate = from p in db.WorkCategory orderby p.ID descending select p;
+                ViewBag.cate = getAllWorkCate();
                 return View(getOneOwnerPayWork(id.Value));
             }
             return RedirectToAction("Index");
@@ -114,53 +114,6 @@ namespace Manpower_MVC.Controllers
             db.OwnerPayWork.Remove(_payWork);
             db.SaveChanges();
             return RedirectToAction("ListPayWork", new { id = _payWork.PayID });
-        }
-        //select方法
-        /*************************************************************************************************/
-        public OwnerPayment getOneOwnerPay(int id)
-        {
-            var Get = from p in db.OwnerPayment where p.ID == id select p;
-            return Get.FirstOrDefault();
-        }
-        public List<OwnerPayWork> getSomeOwnerPayWork(int id)
-        {
-            var Get = from p in db.OwnerPayWork where p.PayID == id select p;
-            return Get.ToList();
-        }
-        public OwnerPayWork getOneOwnerPayWork(int id)
-        {
-            var Get = from p in db.OwnerPayWork where p.ID == id select p;
-            return Get.FirstOrDefault();
-        }
-        public List<ViewOwnerPayment> getViewOwnerPayment()
-        {
-            var Get = from p in db.OwnerPayment
-                      join e in db.Owner on p.OwnerID equals e.ID
-                      select new ViewOwnerPayment
-                      {
-                          ID = p.ID,
-                          PayID = p.PayID,
-                          OwnerName = e.OwnerName
-                      };
-            return Get.ToList();
-        }
-        public List<ViewOwnerPayWork> getViewOwnerPayWork(int payId)
-        {
-            var Get = from p in db.OwnerPayWork
-                      join e in db.WorkCategory on p.WorkCareID equals e.ID
-                      where p.PayID == payId
-                      select new ViewOwnerPayWork
-                      {
-                          ID = p.ID,
-                          SalaryDay = p.SalaryDay,
-                          OvertimeHr = p.OvertimeHr,
-                          OverOvertimeHr = p.OverOvertimeHr,
-                          WorkCareName = e.WorkCareName,
-                          Salary = e.Salary,
-                          OvertimeSal = e.OvertimeSal,
-                          OverOvertimeSal = e.OverOvertimeSal
-                      };
-            return Get.ToList();
         }
     }
 }

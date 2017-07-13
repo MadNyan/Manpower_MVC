@@ -34,5 +34,9 @@ namespace Manpower_MVC.Models
         public virtual DbSet<WorkCategory> WorkCategory { get; set; }
         public virtual DbSet<Worker> Worker { get; set; }
         public virtual DbSet<WorkList> WorkList { get; set; }
+
+        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewWorkList> ViewWorkLists { get; set; }
+
+        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewWorker> ViewWorkers { get; set; }
     }
 }

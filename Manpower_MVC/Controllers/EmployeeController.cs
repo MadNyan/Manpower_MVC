@@ -4,17 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
+using Manpower_MVC.Controllers.Api;
 
 namespace Manpower_MVC.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : ApiController
     {
-        ManpowerDBEntities db = new ManpowerDBEntities();
         // GET: Employee
         public ActionResult Index()
         {
-            var Get = from p in db.Employee orderby p.ID descending select p;
-            return View(Get.ToList());
+            return View(getAllEmp());
         }
         public ActionResult Create()
         {
@@ -60,12 +59,6 @@ namespace Manpower_MVC.Controllers
             db.Employee.Remove(getOneEmp(id));
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public Employee getOneEmp(int id)
-        {
-            var Get = from p in db.Employee where p.ID == id select p;
-            return Get.FirstOrDefault();
         }
     }
 }

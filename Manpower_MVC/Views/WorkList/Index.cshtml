@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewWorkList>
+
+@{
+    ViewBag.Title = "每日工單輸入";
+}
+
+<h2>工單列表</h2>
+
+<p>
+    @Html.ActionLink("新增本日工單", "CreateWorkList")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SerialNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SingleNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BuildName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SingleNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuildName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
+            @Html.ActionLink("工人列表", "ListWorker", new { listId = item.ID }) |
+            @Html.ActionLink("編輯", "EditWorkList", new { id=item.ID }) |
+            @Html.ActionLink("刪除", "DeleteWorkList", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

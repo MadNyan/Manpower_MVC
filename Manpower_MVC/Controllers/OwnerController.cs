@@ -4,16 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
+using Manpower_MVC.Controllers.Api;
 
 namespace Manpower_MVC.Controllers
 {
-    public class OwnerController : Controller
+    public class OwnerController : ApiController
     {
-        private ManpowerDBEntities db = new ManpowerDBEntities();
         public ActionResult Index()
         {
-            var Get = from p in db.Owner orderby p.ID descending select p;
-            return View(Get.ToList());
+            return View(getAllOwner());
         }
         public ActionResult Create()
         {
@@ -53,12 +52,6 @@ namespace Manpower_MVC.Controllers
             db.Owner.Remove(getOneOwner(id));
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public Owner getOneOwner(int id)
-        {
-            var Get = from p in db.Owner where p.ID == id select p;
-            return Get.FirstOrDefault();
         }
     }
 }
