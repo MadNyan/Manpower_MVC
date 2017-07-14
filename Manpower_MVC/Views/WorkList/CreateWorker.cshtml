@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" >工單流水編號</label>
             <div class="col-md-10">
-                <input class="form-control" readonly="readonly" value="ViewBag.serialNum" />
+                <input class="form-control" readonly="readonly" value="@ViewBag.serialNum" />
             </div>
         </div>
 
@@ -89,5 +89,5 @@
 }
 
 <div>
-    @Html.ActionLink("返回工人列表", "ListWorker", new { listId = Model.ListID })
+    @Html.ActionLink("返回工人列表", "ListWorker", new { listId = ViewBag.listId })
 </div>

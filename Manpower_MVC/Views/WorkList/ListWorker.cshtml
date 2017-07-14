@@ -7,7 +7,7 @@
 <h2>工單工人列表</h2>
 
 <p>
-    @Html.ActionLink("新增工人", "CreateWorker")
+    @Html.ActionLink("新增工人", "CreateWorker", new { listId = ViewBag.listId })
 </p>
 <table class="table">
     <tr>

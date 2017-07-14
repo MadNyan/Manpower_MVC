@@ -30,14 +30,13 @@ namespace Manpower_MVC.Controllers
                 BuildName = list.BuildName,
                 ConPerson = list.ConPerson,
                 CreateDate = DateTime.Now,
-                ID = list.ID,
                 OwnerID = list.OwnerID,
                 SerialNum = list.SerialNum,
                 SingleNum = list.SingleNum
             };
             db.WorkList.Add(_list);
             db.SaveChanges();
-            return RedirectToAction("CreateWorker", new {ListId = list.ID });
+            return RedirectToAction("Index");
         }
         public ActionResult EditWorkList(int id)
         {
@@ -74,6 +73,7 @@ namespace Manpower_MVC.Controllers
         {
             if(listId > 0)
             {
+                ViewBag.listId = listId.Value;
                 return View(getSomeViewWorker(listId.Value));
             }
             return RedirectToAction("Index");
@@ -86,6 +86,7 @@ namespace Manpower_MVC.Controllers
                 ViewBag.serialNum = getOneWorkList(listId.Value).SerialNum;
                 ViewBag.emp = getAllEmp();
                 ViewBag.cate = getAllWorkCate();
+                ViewBag.listId = listId.Value;
                 return View();
             }
             return RedirectToAction("Index");
@@ -115,6 +116,7 @@ namespace Manpower_MVC.Controllers
             ViewBag.serialNum = getOneWorkList(_worker.ListID).SerialNum;
             ViewBag.emp = getAllEmp();
             ViewBag.cate = getAllWorkCate();
+            ViewBag.listId = _worker.ListID;
             return View(_worker);
         }
         [HttpPost]
@@ -129,12 +131,13 @@ namespace Manpower_MVC.Controllers
             _worker.SalaryDay = worker.SalaryDay;
             _worker.WorkCareID = worker.WorkCareID;
             db.SaveChanges();
-            return RedirectToAction("ListWorker", new { ListId = worker.ListID });
+            return RedirectToAction("ListWorker", new { ListId = _worker.ListID });
         }
         public ActionResult DeleteWorker(int id)
         {
             Worker _worker = getOneWorker(id);
             db.Worker.Remove(_worker);
+            db.SaveChanges();
             return RedirectToAction("ListWorker", new { ListId = _worker.ListID });
         }
     }
