@@ -70,6 +70,7 @@ namespace Manpower_MVC.Controllers
         {
             if (id > 0)
             {
+                ViewBag.payId = id;
                 Session["workId"] = id.ToString();
                 ViewBag.cate = getAllWorkCate();
                 return View();
