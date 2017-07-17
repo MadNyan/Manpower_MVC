@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewEmpSalDetail>
+
+@{
+    ViewBag.Title = "EmpSalDetail";
+}
+
+<h2>EmpSalDetail</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkCateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salary)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkCateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salary)
+        </td>
+    </tr>
+}
+
+</table>

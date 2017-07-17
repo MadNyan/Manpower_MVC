@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewEmpSal>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpName)
+        </th>
+        <th>
+            月份
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)年 @Html.DisplayFor(modelItem => item.Month)月
+        </td>
+        <td>
+            @Html.ActionLink("Detail", "EmpSalDetail", new { year = item.Year , month = item.Month })
+        </td>
+    </tr>
+}
+
+</table>

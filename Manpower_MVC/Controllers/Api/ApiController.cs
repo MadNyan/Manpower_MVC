@@ -170,5 +170,37 @@ namespace Manpower_MVC.Controllers.Api
                       };
             return Get.ToList();
         }
+        //select ViewEmpSal
+        /*************************************************************************************************/
+        public List<ViewEmpSal> getAllViewEmpSal()
+        {
+            var Get = from p in db.WorkList
+                      join e in db.Worker on p.ID equals e.ListID
+                      join q in db.Employee on e.EmpID equals q.ID
+                      select new ViewEmpSal
+                      {
+                          ID = q.ID,
+                          EmpID = q.EmpID,
+                          EmpName = q.EmpName,
+                          Month = p.CreateDate.Month,
+                          Year = p.CreateDate.Year
+                      };
+            return Get.Distinct().ToList();
+        }
+        //select ViewEmpSalDetail
+        /*************************************************************************************************/
+        public List<ViewEmpSalDetail> getViewEmpSalDetail(int year, int month)
+        {
+            var Get = from p in db.Worker
+                      join e in db.WorkList on p.ListID equals e.ID
+                      join c in db.WorkCategory on p.WorkCareID equals c.ID
+                      where e.CreateDate.Year == year && e.CreateDate.Month == month
+                      select new ViewEmpSalDetail
+                      {
+                          WorkCateName = c.WorkCareName,
+                          Salary = (c.Salary * p.SalaryDay) + (c.OvertimeSal * p.OvertimeHr) + (c.OverOvertimeSal * p.OverOvertimeHr)
+                      };
+            return Get.ToList();
+        }
     }
 }
