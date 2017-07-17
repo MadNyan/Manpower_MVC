@@ -10,18 +10,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SalaryDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListSerialNum)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.EmpID)
         </th>
         <th>
@@ -34,25 +22,22 @@
             @Html.DisplayNameFor(model => model.WorkCareName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.SalaryDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OvertimeHr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverOvertimeHr)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Remark)
         </th>
         <th></th>
     </tr>
-
+    
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalaryDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OvertimeHr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeHr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ListSerialNum)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.EmpID)
         </td>
@@ -64,6 +49,15 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.WorkCareName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalaryDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OvertimeHr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverOvertimeHr)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remark)

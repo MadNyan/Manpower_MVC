@@ -15,7 +15,9 @@ namespace Manpower_MVC.ViewModels
         public int OvertimeHr { get; set; }
         [Display(Name = "超時時數")]
         public int OverOvertimeHr { get; set; }
-        [Display(Name = "工種")]
+        [Display(Name = "工種代碼")]
+        public string WorkCareID { get; set; }
+        [Display(Name = "工種名稱")]
         public string WorkCareName { get; set; }
         [Display(Name = "日薪")]
         public int Salary { get; set; }
@@ -23,5 +25,6 @@ namespace Manpower_MVC.ViewModels
         public int OvertimeSal { get; set; }
         [Display(Name = "超時時薪")]
         public int OverOvertimeSal { get; set; }
+        
     }
 }

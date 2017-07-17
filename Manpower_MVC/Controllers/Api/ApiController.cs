@@ -99,8 +99,11 @@ namespace Manpower_MVC.Controllers.Api
                       select new ViewOwnerPayment
                       {
                           ID = p.ID,
-                          PayID = p.PayID,
-                          OwnerName = e.OwnerName
+                          OwnerID = e.OwnerID,
+                          OwnerName = e.OwnerName,
+                          ConPerson = e.ConPerson,
+                          ConPersonTel = e.ConPersonTel,
+                          OwnerTel = e.Tel
                       };
             return Get.ToList();
         }
@@ -117,6 +120,7 @@ namespace Manpower_MVC.Controllers.Api
                           SalaryDay = p.SalaryDay,
                           OvertimeHr = p.OvertimeHr,
                           OverOvertimeHr = p.OverOvertimeHr,
+                          WorkCareID = e.WorkCareID,
                           WorkCareName = e.WorkCareName,
                           Salary = e.Salary,
                           OvertimeSal = e.OvertimeSal,

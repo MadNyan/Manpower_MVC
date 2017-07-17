@@ -9,25 +9,28 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.SalaryDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OvertimeHr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverOvertimeHr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkCareID)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.WorkCareName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Salary)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SalaryDay)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.OvertimeSal)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OvertimeHr)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.OverOvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeHr)
         </th>
         <th></th>
     </tr>
@@ -35,37 +38,42 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.SalaryDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OvertimeHr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverOvertimeHr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkCareID)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.WorkCareName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Salary) 元
+            @Html.DisplayFor(modelItem => item.Salary)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SalaryDay) 天
+            @Html.DisplayFor(modelItem => item.OvertimeSal)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OvertimeSal) 元
+            @Html.DisplayFor(modelItem => item.OverOvertimeSal)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OvertimeHr) 小時
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeSal) 元
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeHr) 小時
-        </td>
-        <td>
-            @Html.ActionLink("編輯", "EditPayWork", new { id=item.ID }) |
+            @Html.ActionLink("更新", "EditPayWork", new { id=item.ID }) |
             @Html.ActionLink("刪除", "DeletePayWork", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
 <p>
-    @Html.ActionLink("新增請款工種", "CreatePayWork", new { id = ViewBag.payId })
+    @Html.ActionLink("建立請款工種", "CreatePayWork")
 </p>
+
 <p>
     @Html.ActionLink("返回請款列表", "Index")
 </p>

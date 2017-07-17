@@ -18,13 +18,13 @@
             @Html.DisplayNameFor(model => model.CreateDate)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.BuildName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ConPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
         </th>
         <th></th>
     </tr>
@@ -41,13 +41,13 @@
             @Html.DisplayFor(modelItem => item.CreateDate)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.BuildName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ConPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerName)
         </td>
         <td>
             @Html.ActionLink("工人列表", "ListWorker", new { listId = item.ID }) |

@@ -11,7 +11,7 @@ namespace Manpower_MVC.ViewModels
         public string SerialNum { get; set; }
         [Display(Name = "單號")]
         public string SingleNum { get; set; }
-        [Display(Name = "建立日期")]
+        [Display(Name = "日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
         [Display(Name = "工地")]
