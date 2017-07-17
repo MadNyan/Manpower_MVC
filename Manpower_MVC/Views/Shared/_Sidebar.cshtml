@@ -32,16 +32,7 @@
                 <a href="@Url.Action("Index", "OwnerPay")"><i class="fa fa-truck"></i><span>業主工種請款 (Alt + 4)</span></a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b01" ? "active" : "")">
-                <a href="@Url.Action("b01", "Home")"><i class="fa fa-bus"></i><span>運送作業 (Alt + 5)</span></a>
-            </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b11" ? "active" : "")">
-                <a href="@Url.Action("b11", "Home")"><i class="fa fa-envelope"></i><span>請款作業 (Alt + 6)</span></a>
-            </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "b21" ? "active" : "")">
-                <a href="@Url.Action("b21", "Home")"><i class="fa fa-money"></i><span>付款作業 (Alt + 7)</span></a>
-            </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "BackupDatabase" ? "active" : "")">
-                <a href="@Url.Action("BackupDatabase", "Backup")"><i class="fa fa-hdd-o"></i><span>資料庫備份</span></a>
+                <a href="@Url.Action("Index", "WorkList")"><i class="fa fa-bus"></i><span>每日工單輸入 (Alt + 5)</span></a>
             </li>
         </ul>
 

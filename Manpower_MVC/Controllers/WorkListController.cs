@@ -108,7 +108,7 @@ namespace Manpower_MVC.Controllers
             Session["listId"] = null;
             db.Worker.Add(_worker);
             db.SaveChanges();
-            return RedirectToAction("ListWorker", new {ListId = worker.ListID });
+            return RedirectToAction("ListWorker", new {ListId = _worker.ListID });
         }
         public ActionResult EditWorker(int id)
         {

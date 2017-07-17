@@ -70,11 +70,9 @@ namespace Manpower_MVC.Controllers
         {
             if (id > 0)
             {
-                ViewBag.payId = id;
-                OwnerPayWork _payWork = new OwnerPayWork();
-                _payWork.PayID = id.Value;
+                Session["workId"] = id.ToString();
                 ViewBag.cate = getAllWorkCate();
-                return View(_payWork);
+                return View();
             }
             return RedirectToAction("Index");
         }
@@ -82,9 +80,17 @@ namespace Manpower_MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePayWork(OwnerPayWork payWork)
         {
-            db.OwnerPayWork.Add(payWork);
+            OwnerPayWork _payWork = new OwnerPayWork()
+            {
+                OverOvertimeHr = payWork.OverOvertimeHr,
+                OvertimeHr = payWork.OvertimeHr,
+                PayID = Convert.ToInt32(Session["workId"].ToString()),
+                SalaryDay = payWork.SalaryDay,
+                WorkCareID = payWork.WorkCareID
+            };
+            db.OwnerPayWork.Add(_payWork);
             db.SaveChanges();
-            return RedirectToAction("ListPayWork", new { id = payWork.PayID });
+            return RedirectToAction("ListPayWork", new { id = _payWork.PayID });
         }
         public ActionResult EditPayWork(int? id)
         {

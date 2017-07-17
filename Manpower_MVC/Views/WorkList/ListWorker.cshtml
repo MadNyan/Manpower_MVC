@@ -4,11 +4,9 @@
     ViewBag.Title = "每日工單輸入";
 }
 
-<h2>工單工人列表</h2>
+<h4>工單工人列表</h4>
 
-<p>
-    @Html.ActionLink("新增工人", "CreateWorker", new { listId = ViewBag.listId })
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -78,6 +76,10 @@
 }
 
 </table>
+
+<p>
+    @Html.ActionLink("新增工人", "CreateWorker", new { listId = ViewBag.listId })
+</p>
 
 <div>
     @Html.ActionLink("返回工單列表", "Index")

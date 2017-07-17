@@ -11,12 +11,14 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class WorkList
     {
         public int ID { get; set; }
         public string SerialNum { get; set; }
         public string SingleNum { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
         public string BuildName { get; set; }
         public string ConPerson { get; set; }

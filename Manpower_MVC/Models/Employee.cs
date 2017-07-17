@@ -11,7 +11,8 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Employee
     {
         public int ID { get; set; }
@@ -21,6 +22,7 @@ namespace Manpower_MVC.Models
         public string Phone { get; set; }
         public string ConPerson { get; set; }
         public string ConPersonTel { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> CreateDate { get; set; }
     }
 }
