@@ -11,11 +11,14 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EmpInsurance
     {
         public int ID { get; set; }
+        [Display(Name = "代號")]
         public string InsID { get; set; }
+        [Display(Name = "名稱")]
         public string InsName { get; set; }
         public string PosOrNeg { get; set; }
         public int Price { get; set; }

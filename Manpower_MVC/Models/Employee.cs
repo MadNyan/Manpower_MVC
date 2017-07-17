@@ -16,12 +16,19 @@ namespace Manpower_MVC.Models
     public partial class Employee
     {
         public int ID { get; set; }
+        [Display(Name = "工號")]
         public string EmpID { get; set; }
+        [Display(Name = "姓名")]
         public string EmpName { get; set; }
+        [Display(Name = "電話")]
         public string Tel { get; set; }
+        [Display(Name = "手機")]
         public string Phone { get; set; }
+        [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
+        [Display(Name = "連絡人電話")]
         public string ConPersonTel { get; set; }
+        [Display(Name = "建立日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> CreateDate { get; set; }
     }

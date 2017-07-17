@@ -11,18 +11,28 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Owner
     {
         public int ID { get; set; }
+        [Display(Name = "代碼")]
         public string OwnerID { get; set; }
+        [Display(Name = "名稱")]
         public string OwnerName { get; set; }
+        [Display(Name = "電話1")]
         public string Tel { get; set; }
+        [Display(Name = "電話2")]
         public string Tel2 { get; set; }
+        [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
+        [Display(Name = "連絡人手機")]
         public string ConPersonPhone { get; set; }
+        [Display(Name = "連絡人電話")]
         public string ConPersonTel { get; set; }
+        [Display(Name = "統一編號")]
         public string UnifiedNum { get; set; }
+        [Display(Name = "地址")]
         public string Address { get; set; }
     }
 }
