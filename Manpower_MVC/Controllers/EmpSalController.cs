@@ -16,11 +16,11 @@ namespace Manpower_MVC.Controllers
         {
             return View(getAllViewEmpSal());
         }
-        public ActionResult EmpSalDetail(int? year, int? month)
+        public ActionResult EmpSalDetail(int? id, int? year, int? month)
         {
-            if (year != null && month != null)
+            if (id != null && year != null && month != null)
             {
-                return View(getViewEmpSalDetail(year.Value, month.Value));
+                return View(getViewEmpSalDetail(id.Value, year.Value, month.Value));
             }
             return RedirectToAction("Index");
         }

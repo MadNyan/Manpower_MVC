@@ -177,6 +177,7 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.WorkList
                       join e in db.Worker on p.ID equals e.ListID
                       join q in db.Employee on e.EmpID equals q.ID
+                      orderby p.CreateDate ascending
                       select new ViewEmpSal
                       {
                           ID = q.ID,
@@ -185,16 +186,16 @@ namespace Manpower_MVC.Controllers.Api
                           Month = p.CreateDate.Month,
                           Year = p.CreateDate.Year
                       };
-            return Get.Distinct().ToList();
+            return Get.Distinct().ToList().OrderByDescending(p => p.Month).ToList().OrderByDescending(p => p.Year).ToList();
         }
         //select ViewEmpSalDetail
         /*************************************************************************************************/
-        public List<ViewEmpSalDetail> getViewEmpSalDetail(int year, int month)
+        public List<ViewEmpSalDetail> getViewEmpSalDetail(int id, int year, int month)
         {
             var Get = from p in db.Worker
                       join e in db.WorkList on p.ListID equals e.ID
                       join c in db.WorkCategory on p.WorkCareID equals c.ID
-                      where e.CreateDate.Year == year && e.CreateDate.Month == month
+                      where p.EmpID == id && e.CreateDate.Year == year && e.CreateDate.Month == month
                       select new ViewEmpSalDetail
                       {
                           WorkCateName = c.WorkCareName,
