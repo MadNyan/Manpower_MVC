@@ -17,6 +17,7 @@ namespace Manpower_MVC.Models
     {
         public int ID { get; set; }
         [Display(Name = "流水編號")]
+		[Required(ErrorMessage = "此項為必填")]
         public string SerialNum { get; set; }
         [Display(Name = "單號")]
         public string SingleNum { get; set; }
@@ -28,6 +29,7 @@ namespace Manpower_MVC.Models
         [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
         [Display(Name = "業主")]
+		[Required(ErrorMessage = "此項為必填")]
         public int OwnerID { get; set; }
     }
 }

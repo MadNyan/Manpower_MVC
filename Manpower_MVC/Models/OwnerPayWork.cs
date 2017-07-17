@@ -23,8 +23,10 @@ namespace Manpower_MVC.Models
         [Display(Name = "超時時數")]
         public int OverOvertimeHr { get; set; }
         [Display(Name = "工種")]
+		[Required(ErrorMessage = "此項為必填")]
         public int WorkCareID { get; set; }
         [Display(Name = "單號")]
+		[Required(ErrorMessage = "此項為必填")]
         public int PayID { get; set; }
     }
 }

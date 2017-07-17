@@ -17,8 +17,10 @@ namespace Manpower_MVC.Models
     {
         public int ID { get; set; }
         [Display(Name = "工號")]
+		[Required(ErrorMessage = "此項為必填")]
         public string EmpID { get; set; }
         [Display(Name = "姓名")]
+		[Required(ErrorMessage = "此項為必填")]
         public string EmpName { get; set; }
         [Display(Name = "電話")]
         public string Tel { get; set; }
