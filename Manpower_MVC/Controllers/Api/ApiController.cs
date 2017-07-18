@@ -23,6 +23,18 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.Employee where p.ID == id select p;
             return Get.FirstOrDefault();
         }
+        //select EmpInsurance
+        /*************************************************************************************************/
+        public List<EmpInsurance> getAllEmpIns(int id)
+        {
+            var Get = from p in db.EmpInsurance where p.EmpID == id orderby p.ID ascending select p;
+            return Get.ToList();
+        }
+        public EmpInsurance getOneEmpIns(int id)
+        {
+            var Get = from p in db.EmpInsurance where p.ID == id select p;
+            return Get.FirstOrDefault();
+        }
         //select Owner
         /*************************************************************************************************/
         public List<Owner> getAllOwner()
@@ -203,5 +215,6 @@ namespace Manpower_MVC.Controllers.Api
                       };
             return Get.ToList();
         }
+
     }
 }

@@ -60,5 +60,72 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        // EmpInsurance
+        /*************************************************************************************************/
+        public ActionResult ListEmpIns(int? id)
+        {
+            if (id > 0)
+            {
+                ViewBag.empId = id.Value;
+                return View(getAllEmpIns(id.Value));
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult CreateEmpIns(int? id)
+        {
+            if (id > 0)
+            {
+                Session["empID"] = id.ToString();
+                ViewBag.empId = id.Value;
+                ViewBag.emp = getAllEmp();
+                return View();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEmpIns(EmpInsurance empIns)
+        {
+            EmpInsurance _empIns = new EmpInsurance() {
+                EmpID = Convert.ToInt32(Session["empID"].ToString()),
+                InsID = empIns.InsID,
+                InsName = empIns.InsName,
+                PosOrNeg = empIns.PosOrNeg,
+                Price = empIns.Price,
+                Remark = empIns.Remark
+            };
+            Session["empID"] = null;
+            db.EmpInsurance.Add(_empIns);
+            db.SaveChanges();
+            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+        }
+        public ActionResult EditEmpIns(int id)
+        {
+            EmpInsurance _empIns = getOneEmpIns(id);
+            ViewBag.empId = _empIns.EmpID;
+            ViewBag.emp = getAllEmp();
+            return View(_empIns);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditEmpIns(int id, EmpInsurance empIns)
+        {
+            EmpInsurance _empIns = getOneEmpIns(id);
+            _empIns.InsID = empIns.InsID;
+            _empIns.InsName = empIns.InsName;
+            _empIns.PosOrNeg = empIns.PosOrNeg;
+            _empIns.Price = empIns.Price;
+            _empIns.Remark = empIns.Remark;
+            db.SaveChanges();
+            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+        }
+        public ActionResult DeleteEmpIns(int id)
+        {
+            EmpInsurance _empIns = getOneEmpIns(id);
+            db.EmpInsurance.Remove(_empIns);
+            db.SaveChanges();
+            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+        }
     }
 }

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Manpower_MVC.Models.EmpInsurance>
+
+@{
+    ViewBag.Title = "人事勞健加減項";
+}
+
+<h4>勞健加減項</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InsID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PosOrNeg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PosOrNeg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            @Html.ActionLink("更新", "EditEmpIns", new { id=item.ID }) |
+            @Html.ActionLink("刪除", "DeleteEmpIns", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("新增勞健加減項", "CreateEmpIns", new { id = ViewBag.empId })
+</p>
+
+<p>
+    @Html.ActionLink("返回人事資料列表", "Index")
+</p>

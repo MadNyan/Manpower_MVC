@@ -57,6 +57,7 @@
             @Html.DisplayFor(modelItem => item.CreateDate)
         </td>
         <td>
+            @Html.ActionLink("勞健加減項", "ListEmpIns", new { id = item.ID }) |
             @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
             @Html.ActionLink("刪除", "Delete", new { id=item.ID })
         </td>

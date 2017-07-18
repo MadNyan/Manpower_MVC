@@ -234,6 +234,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ViewEmpSal.cs" />
     <Compile Include="ViewModels\ViewEmpSalDetail.cs" />
+    <Compile Include="ViewModels\ViewMonthSal.cs" />
     <Compile Include="ViewModels\ViewOwnerPayment.cs" />
     <Compile Include="ViewModels\ViewOwnerPayWork.cs" />
     <Compile Include="ViewModels\ViewWorker.cs" />
@@ -542,6 +543,9 @@
     <Content Include="Views\OwnerPay\ListPayWork.cshtml" />
     <Content Include="Views\EmpSal\Index.cshtml" />
     <Content Include="Views\EmpSal\EmpSalDetail.cshtml" />
+    <Content Include="Views\Employee\ListEmpIns.cshtml" />
+    <Content Include="Views\Employee\CreateEmpIns.cshtml" />
+    <Content Include="Views\Employee\EditEmpIns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
