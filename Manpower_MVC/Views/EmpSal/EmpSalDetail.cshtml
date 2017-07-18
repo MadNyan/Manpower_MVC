@@ -9,24 +9,50 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.WorkCateName)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Salary)
+            @Html.DisplayNameFor(model => model.Price)
         </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.WorkCateName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salary)
-        </td>
+        @if (item.PosOrNeg.Equals("減項"))
+        {
+            <td>
+                <font color="red">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </font>
+            </td>
+            <td>
+                <font color="red">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </font>
+            </td>
+        }
+        else
+        {
+            <td>
+                <font color="blue">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </font>
+            </td>
+            <td>
+                <font color="blue">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </font>
+            </td>
+        }
     </tr>
 }
-
+    <tr>
+        <td>
+            應支金額：@ViewBag.pos |
+            應扣金額：@ViewBag.neg |
+            總金額：@ViewBag.sum
+        </td>
+    </tr>
 </table>
 
 <p>

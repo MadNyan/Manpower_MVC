@@ -9,8 +9,9 @@ namespace Manpower_MVC.ViewModels
     public partial class ViewEmpSalDetail
     {
         [Display(Name = "薪資項目")]
-        public string WorkCateName { get; set; }
+        public string Name { get; set; }
         [Display(Name = "金額")]
-        public int Salary { get; set; }
+        public int Price { get; set; }
+        public string PosOrNeg { get; set; }
     }
 }

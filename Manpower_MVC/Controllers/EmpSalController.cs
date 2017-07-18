@@ -20,7 +20,23 @@ namespace Manpower_MVC.Controllers
         {
             if (id != null && year != null && month != null)
             {
-                return View(getViewEmpSalDetail(id.Value, year.Value, month.Value));
+                List<ViewEmpSalDetail> details = getViewEmpSalDetail(id.Value, year.Value, month.Value);
+                int posPrice = 0, negPrice = 0;
+                foreach(ViewEmpSalDetail detail in details)
+                {
+                    if (detail.PosOrNeg.Equals("減項"))
+                    {
+                        negPrice += detail.Price;
+                    }
+                    else
+                    {
+                        posPrice += detail.Price;
+                    }
+                }
+                ViewBag.pos = posPrice.ToString();
+                ViewBag.neg = negPrice.ToString();
+                ViewBag.sum = (posPrice - negPrice).ToString();
+                return View(details);
             }
             return RedirectToAction("Index");
         }

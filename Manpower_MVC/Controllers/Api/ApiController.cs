@@ -204,16 +204,38 @@ namespace Manpower_MVC.Controllers.Api
         /*************************************************************************************************/
         public List<ViewEmpSalDetail> getViewEmpSalDetail(int id, int year, int month)
         {
-            var Get = from p in db.Worker
-                      join e in db.WorkList on p.ListID equals e.ID
-                      join c in db.WorkCategory on p.WorkCareID equals c.ID
-                      where p.EmpID == id && e.CreateDate.Year == year && e.CreateDate.Month == month
+            int salary = 0;
+            var GetWoker = from p in db.Worker
+                           join e in db.WorkList on p.ListID equals e.ID
+                           join c in db.WorkCategory on p.WorkCareID equals c.ID
+                           where p.EmpID == id && e.CreateDate.Year == year && e.CreateDate.Month == month
+                           select new ViewEmpSalDetail
+                           {
+                               Name = c.WorkCareName,
+                               Price = (c.Salary * p.SalaryDay) + (c.OvertimeSal * p.OvertimeHr) + (c.OverOvertimeSal * p.OverOvertimeHr)
+                           };
+            foreach (ViewEmpSalDetail detail in GetWoker.ToList())
+            {
+                salary += detail.Price;
+            }
+            var Get = from p in db.EmpInsurance
+                      where p.EmpID == id
                       select new ViewEmpSalDetail
                       {
-                          WorkCateName = c.WorkCareName,
-                          Salary = (c.Salary * p.SalaryDay) + (c.OvertimeSal * p.OvertimeHr) + (c.OverOvertimeSal * p.OverOvertimeHr)
+                          Name = p.InsName,
+                          Price = p.Price,
+                          PosOrNeg = p.PosOrNeg
                       };
-            return Get.ToList();
+            ViewEmpSalDetail firstDetail = new ViewEmpSalDetail()
+            {
+                Name = "工資",
+                Price = salary,
+                PosOrNeg = "加項"
+            };
+            List<ViewEmpSalDetail> details = new List<ViewEmpSalDetail>();
+            details.Add(firstDetail);
+            details.AddRange(Get.ToList());
+            return details;
         }
 
     }

@@ -57,6 +57,10 @@ namespace Manpower_MVC.Controllers
         public ActionResult Delete(int id)
         {
             db.Employee.Remove(getOneEmp(id));
+            foreach(EmpInsurance _empIns in getAllEmpIns(id))
+            {
+                db.EmpInsurance.Remove(_empIns);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
