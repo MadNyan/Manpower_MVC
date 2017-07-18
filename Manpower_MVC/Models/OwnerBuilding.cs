@@ -11,23 +11,14 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OwnerBuilding
     {
         public int ID { get; set; }
-        [Display(Name = "代號")]
-		[Required(ErrorMessage = "此項為必填")]
         public string BuildingID { get; set; }
-        [Display(Name = "名稱")]
-		[Required(ErrorMessage = "此項為必填")]
         public string BuildingName { get; set; }
-        [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
-        [Display(Name = "連絡人電話")]
         public string ConPersonTel { get; set; }
-        [Display(Name = "業主")]
-		[Required(ErrorMessage = "此項為必填")]
         public int OwnerID { get; set; }
     }
 }

@@ -1,11 +1,14 @@
-﻿@model IEnumerable<Manpower_MVC.Models.EmpInsurance>
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewEmpIns>
 
 @{
-    ViewBag.Title = "人事勞健加減項";
+    ViewBag.Title = "勞健加減項";
 }
 
-<h4>勞健加減項</h4>
+<h2>ListEmpIns</h2>
 
+<p>
+    @Html.ActionLink("增新", "CreateEmpIns", new { id = ViewBag.empId })
+</p>
 <table class="table">
     <tr>
         <th>
@@ -51,11 +54,3 @@
 }
 
 </table>
-
-<p>
-    @Html.ActionLink("新增勞健加減項", "CreateEmpIns", new { id = ViewBag.empId })
-</p>
-
-<p>
-    @Html.ActionLink("返回人事資料列表", "Index")
-</p>

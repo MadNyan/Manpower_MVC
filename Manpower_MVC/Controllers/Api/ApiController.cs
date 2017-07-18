@@ -35,6 +35,18 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.EmpInsurance where p.ID == id select p;
             return Get.FirstOrDefault();
         }
+        //select InsCate
+        /*************************************************************************************************/
+        public List<InsCate> getAllInsCate()
+        {
+            var Get = from p in db.InsCate orderby p.ID ascending select p;
+            return Get.ToList();
+        }
+        public InsCate getOneInsCate(int id)
+        {
+            var Get = from p in db.InsCate where p.ID == id select p;
+            return Get.FirstOrDefault();
+        }
         //select Owner
         /*************************************************************************************************/
         public List<Owner> getAllOwner()
@@ -101,6 +113,41 @@ namespace Manpower_MVC.Controllers.Api
         {
             var Get = from p in db.Worker where p.ListID == id select p;
             return Get.ToList();
+        }
+        //select ViewEmpIns
+        /*************************************************************************************************/
+        public List<ViewEmpIns> getAllViewEmpIns(int id)
+        {
+            var Get = from p in db.EmpInsurance
+                      join e in db.InsCate on p.InsID equals e.ID
+                      where p.EmpID == id
+                      orderby p.ID ascending
+                      select new ViewEmpIns()
+                      {
+                          ID = p.ID,
+                          InsID = e.InsID,
+                          InsName = e.InsName,
+                          PosOrNeg = e.PosOrNeg,
+                          Price = p.Price,
+                          Remark = p.Remark
+                      };
+            return Get.ToList();
+        }
+        public ViewEmpIns getOneViewEmpIns(int id)
+        {
+            var Get = from p in db.EmpInsurance
+                      join e in db.InsCate on p.InsID equals e.ID
+                      where p.ID == id
+                      select new ViewEmpIns()
+                      {
+                          ID = p.ID,
+                          InsID = e.InsID,
+                          InsName = e.InsName,
+                          PosOrNeg = e.PosOrNeg,
+                          Price = p.Price,
+                          Remark = p.Remark
+                      };
+            return Get.FirstOrDefault();
         }
         //select ViewOwnerPayment
         /*************************************************************************************************/
@@ -219,12 +266,13 @@ namespace Manpower_MVC.Controllers.Api
                 salary += detail.Price;
             }
             var Get = from p in db.EmpInsurance
+                      join e in db.InsCate on p.InsID equals e.ID
                       where p.EmpID == id
                       select new ViewEmpSalDetail
                       {
-                          Name = p.InsName,
+                          Name = e.InsName,
                           Price = p.Price,
-                          PosOrNeg = p.PosOrNeg
+                          PosOrNeg = e.PosOrNeg
                       };
             ViewEmpSalDetail firstDetail = new ViewEmpSalDetail()
             {

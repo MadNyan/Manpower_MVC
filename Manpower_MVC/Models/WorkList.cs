@@ -11,25 +11,15 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class WorkList
     {
         public int ID { get; set; }
-        [Display(Name = "流水編號")]
-		[Required(ErrorMessage = "此項為必填")]
         public string SerialNum { get; set; }
-        [Display(Name = "單號")]
         public string SingleNum { get; set; }
-        [Display(Name = "建立日期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
-        [Display(Name = "工地")]
         public string BuildName { get; set; }
-        [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
-        [Display(Name = "業主")]
-		[Required(ErrorMessage = "此項為必填")]
         public int OwnerID { get; set; }
     }
 }

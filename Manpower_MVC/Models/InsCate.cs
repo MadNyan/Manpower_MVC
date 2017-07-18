@@ -12,12 +12,11 @@ namespace Manpower_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EmpInsurance
+    public partial class InsCate
     {
         public int ID { get; set; }
-        public int Price { get; set; }
-        public int InsID { get; set; }
-        public int EmpID { get; set; }
-        public string Remark { get; set; }
+        public string InsID { get; set; }
+        public string InsName { get; set; }
+        public string PosOrNeg { get; set; }
     }
 }

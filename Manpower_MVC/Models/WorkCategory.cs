@@ -11,27 +11,15 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class WorkCategory
     {
         public int ID { get; set; }
-        [Display(Name = "代號")]
-		[Required(ErrorMessage = "此項為必填")]
         public string WorkCareID { get; set; }
-        [Display(Name = "名稱")]
-		[Required(ErrorMessage = "此項為必填")]
         public string WorkCareName { get; set; }
-        [Display(Name = "日薪")]
-		[Required(ErrorMessage = "此項為必填")]
         public int Salary { get; set; }
-        [Display(Name = "加班時薪")]
-		[Required(ErrorMessage = "此項為必填")]
         public int OvertimeSal { get; set; }
-        [Display(Name = "超時時薪")]
-		[Required(ErrorMessage = "此項為必填")]
         public int OverOvertimeSal { get; set; }
-        [Display(Name = "備註")]
         public string Remark { get; set; }
     }
 }

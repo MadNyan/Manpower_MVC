@@ -64,14 +64,14 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        // EmpInsurance
+        // ViewEmpIns
         /*************************************************************************************************/
         public ActionResult ListEmpIns(int? id)
         {
             if (id > 0)
             {
                 ViewBag.empId = id.Value;
-                return View(getAllEmpIns(id.Value));
+                return View(getAllViewEmpIns(id.Value));
             }
             return RedirectToAction("Index");
         }
@@ -81,7 +81,7 @@ namespace Manpower_MVC.Controllers
             {
                 Session["empID"] = id.ToString();
                 ViewBag.empId = id.Value;
-                ViewBag.emp = getAllEmp();
+                ViewBag.InsCate = getAllInsCate();
                 return View();
             }
             return RedirectToAction("Index");
@@ -94,8 +94,6 @@ namespace Manpower_MVC.Controllers
             EmpInsurance _empIns = new EmpInsurance() {
                 EmpID = Convert.ToInt32(Session["empID"].ToString()),
                 InsID = empIns.InsID,
-                InsName = empIns.InsName,
-                PosOrNeg = empIns.PosOrNeg,
                 Price = empIns.Price,
                 Remark = empIns.Remark
             };
@@ -108,7 +106,7 @@ namespace Manpower_MVC.Controllers
         {
             EmpInsurance _empIns = getOneEmpIns(id);
             ViewBag.empId = _empIns.EmpID;
-            ViewBag.emp = getAllEmp();
+            ViewBag.InsCate = getAllInsCate();
             return View(_empIns);
         }
         [HttpPost]
@@ -117,8 +115,6 @@ namespace Manpower_MVC.Controllers
         {
             EmpInsurance _empIns = getOneEmpIns(id);
             _empIns.InsID = empIns.InsID;
-            _empIns.InsName = empIns.InsName;
-            _empIns.PosOrNeg = empIns.PosOrNeg;
             _empIns.Price = empIns.Price;
             _empIns.Remark = empIns.Remark;
             db.SaveChanges();

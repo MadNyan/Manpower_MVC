@@ -25,7 +25,6 @@ namespace Manpower_MVC.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<EmpInsurance> EmpInsurance { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Owner> Owner { get; set; }
         public virtual DbSet<OwnerBuilding> OwnerBuilding { get; set; }
@@ -33,16 +32,8 @@ namespace Manpower_MVC.Models
         public virtual DbSet<OwnerPayWork> OwnerPayWork { get; set; }
         public virtual DbSet<WorkCategory> WorkCategory { get; set; }
         public virtual DbSet<Worker> Worker { get; set; }
+        public virtual DbSet<InsCate> InsCate { get; set; }
+        public virtual DbSet<EmpInsurance> EmpInsurance { get; set; }
         public virtual DbSet<WorkList> WorkList { get; set; }
-
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewWorkList> ViewWorkLists { get; set; }
-
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewWorker> ViewWorkers { get; set; }
-
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewOwnerPayment> ViewOwnerPayments { get; set; }
-
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewOwnerPayWork> ViewOwnerPayWorks { get; set; }
-
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewEmpSal> ViewEmpSals { get; set; }
     }
 }
