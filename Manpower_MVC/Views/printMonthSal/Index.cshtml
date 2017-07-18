@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewMonthSal>
+
+@{
+    ViewBag.Title = "月份員工薪資總表";
+}
+
+<form method="post" action="@Url.Action("Index")">
+    <p>
+        <input type="month" name="date" id="date" />
+    </p>
+    <p>
+        <input type="submit" name="sub" id="sub" />
+    </p>
+</form>
+
+<input type="button" style="text-align:right" onclick="printScreen(print)" />
+
+<div id="print">
+    <p>
+        <h2>@ViewBag.year/@ViewBag.month  月份員工薪資總表</h2>
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TraCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PosPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LaborIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HealIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PenStatute)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Other)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NegPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SumPrice)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Allowance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TraCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PosPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LaborIns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HealIns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PenStatute)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupIns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Other)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Borrowed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NegPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SumPrice)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script type="text/javascript">
+    function printScreen(printlist) {
+        var value = printlist.value;
+        var printPage = window.open("", "Printing...", "");
+        printPage.document.open();
+        printPage.document.write("<HTML><head></head><BODY onload='window.print()'>");
+        printPage.document.write("<PRE>");
+        printPage.document.write(value);
+        printPage.document.write("</PRE>");
+        printPage.document.close("</BODY></HTML>");
+    }
+</script>

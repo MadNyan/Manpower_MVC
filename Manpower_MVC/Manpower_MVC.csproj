@@ -184,6 +184,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\OwnerPayController.cs" />
+    <Compile Include="Controllers\printMonthSalController.cs" />
     <Compile Include="Controllers\WorkCareController.cs" />
     <Compile Include="Controllers\WorkListController.cs" />
     <Compile Include="Global.asax.cs">
@@ -550,6 +551,7 @@
     <Content Include="Views\Employee\ListEmpIns.cshtml" />
     <Content Include="Views\Employee\CreateEmpIns.cshtml" />
     <Content Include="Views\Employee\EditEmpIns.cshtml" />
+    <Content Include="Views\printMonthSal\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

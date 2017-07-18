@@ -6,6 +6,7 @@ namespace Manpower_MVC.ViewModels
     using System.ComponentModel.DataAnnotations;
     public partial class ViewMonthSal
     {
+		public int ID { get; set; }
         [Display(Name = "工號")]
         public string EmpID { get; set; }
         [Display(Name = "姓名")]

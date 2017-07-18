@@ -285,6 +285,87 @@ namespace Manpower_MVC.Controllers.Api
             details.AddRange(Get.ToList());
             return details;
         }
-
+        //select ViewMonthSal
+        /*************************************************************************************************/
+        public List<ViewMonthSal> getViewMonthSal(int year, int month)
+        {
+            List<ViewMonthSal> monthSal = new List<ViewMonthSal>();
+            var Get = from p in db.Employee
+                      orderby p.ID 
+                      ascending select new ViewMonthSal
+                      {
+                          ID = p.ID,
+                          EmpID = p.EmpID,
+                          EmpName = p.EmpName
+                      };
+            foreach (ViewMonthSal _monthSal in Get.ToList())
+            {
+                _monthSal.Salary = getSalary(_monthSal.ID, year, month);
+                for (int i = 1; i <= getAllInsCate().Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            _monthSal.Allowance = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 2:
+                            _monthSal.TraCost = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 3:
+                            _monthSal.LaborIns = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 4:
+                            _monthSal.HealIns = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 5:
+                            _monthSal.PenStatute = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 6:
+                            _monthSal.Tax = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 7:
+                            _monthSal.GroupIns = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 8:
+                            _monthSal.Other = getInsPrice(_monthSal.ID, i);
+                            break;
+                        case 9:
+                            _monthSal.Borrowed = getInsPrice(_monthSal.ID, i);
+                            break;
+                    }
+                }
+                _monthSal.PosPrice = _monthSal.Salary + _monthSal.Allowance + _monthSal.TraCost;
+                _monthSal.NegPrice = _monthSal.LaborIns + _monthSal.HealIns + _monthSal.PenStatute + _monthSal.Tax + _monthSal.GroupIns + _monthSal.Other + _monthSal.Borrowed;
+                _monthSal.SumPrice = _monthSal.PosPrice - _monthSal.NegPrice;
+                monthSal.Add(_monthSal);
+            }
+            return monthSal;
+        }
+        public int getSalary(int id, int year, int month)
+        {
+            int salary = 0;
+            var Get = from p in db.Worker
+                      join e in db.WorkList on p.ListID equals e.ID
+                      join c in db.WorkCategory on p.WorkCareID equals c.ID
+                      where p.EmpID == id && e.CreateDate.Year == year && e.CreateDate.Month == month
+                      select (c.Salary * p.SalaryDay) + (c.OvertimeSal * p.OvertimeHr) + (c.OverOvertimeSal * p.OverOvertimeHr);
+            foreach (int _salary in Get.ToList())
+            {
+                salary += _salary;
+            }
+            return salary;
+        }
+        public int getInsPrice(int id, int insId)
+        {
+            int price = 0;
+            var Get = from p in db.EmpInsurance
+                      where p.EmpID == id && p.InsID == insId
+                      select p.Price;
+            foreach (int _price in Get.ToList())
+            {
+                price += _price;
+            }
+            return price;
+        }
     }
 }
