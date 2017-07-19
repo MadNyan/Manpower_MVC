@@ -340,6 +340,42 @@ namespace Manpower_MVC.Controllers.Api
                 _monthSal.SumPrice = _monthSal.PosPrice - _monthSal.NegPrice;
                 monthSal.Add(_monthSal);
             }
+            ViewMonthSal sum = new ViewMonthSal()
+            {
+                ID = 0,
+                EmpID = "合計",
+                EmpName = "",
+                Allowance = 0,
+                Borrowed = 0,
+                GroupIns = 0,
+                HealIns = 0,
+                LaborIns = 0,
+                NegPrice = 0,
+                Other = 0,
+                PenStatute = 0,
+                PosPrice = 0,
+                Salary = 0,
+                SumPrice = 0,
+                Tax = 0,
+                TraCost = 0
+            };
+            foreach (ViewMonthSal _monthSal in monthSal)
+            {
+                sum.Allowance += _monthSal.Allowance;
+                sum.Borrowed += _monthSal.Borrowed;
+                sum.GroupIns += _monthSal.GroupIns;
+                sum.HealIns += _monthSal.HealIns;
+                sum.LaborIns += _monthSal.LaborIns;
+                sum.NegPrice += _monthSal.NegPrice;
+                sum.Other += _monthSal.Other;
+                sum.PenStatute += _monthSal.PenStatute;
+                sum.PosPrice += _monthSal.PosPrice;
+                sum.Salary += _monthSal.Salary;
+                sum.SumPrice += _monthSal.SumPrice;
+                sum.Tax += _monthSal.Tax;
+                sum.TraCost += _monthSal.TraCost;
+            }
+            monthSal.Add(sum);
             return monthSal;
         }
         public int getSalary(int id, int year, int month)
