@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewMonthWork>
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewPrintMonthWork>
 
 @{
     Layout = null;
@@ -8,6 +8,7 @@
 
 <html>
 <head>
+    <title>@ViewBag.year/@ViewBag.month 出工月報表</title>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/css/icheck/blue.min.css" rel="stylesheet">
@@ -54,10 +55,10 @@
             if (item.Worktime.ToString().Equals("正常"))
             {
                 <tr class="active">
-                    <td>
+                    <td rowspan="2" valign="middle">
                         @Html.DisplayFor(modelItem => item.EmpID)
                     </td>
-                    <td>
+                    <td rowspan="2" valign="middle">
                         @Html.DisplayFor(modelItem => item.EmpName)
                     </td>
                     <td>
@@ -78,12 +79,6 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EmpID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmpName)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Worktime)
                     </td>
                     @foreach (var date in item.Date)
@@ -99,7 +94,6 @@
             }
 
         }
-
     </table>
 </body>
 </html>

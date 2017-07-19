@@ -36,6 +36,6 @@ namespace Manpower_MVC.Models
         public virtual DbSet<EmpInsurance> EmpInsurance { get; set; }
         public virtual DbSet<WorkList> WorkList { get; set; }
 
-        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewMonthSal> ViewMonthSals { get; set; }
+        public System.Data.Entity.DbSet<Manpower_MVC.ViewModels.ViewPrintMonthSal> ViewMonthSals { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace Manpower_MVC.ViewModels
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    public partial class ViewMonthSal
+    public partial class ViewPrintMonthSal
     {
 		public int ID { get; set; }
         [Display(Name = "工號")]

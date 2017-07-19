@@ -40,5 +40,15 @@ namespace Manpower_MVC.Controllers
             }
             return RedirectToAction("Index");
         }
+        public ActionResult Print(DateTime? date)
+        {
+            if (date != null)
+            {
+                ViewBag.year = date.Value.Year;
+                ViewBag.month = date.Value.Month;
+                return View(getViewPrintMonthSal(date.Value.Year, date.Value.Month));
+            }
+            return View(new ViewPrintMonthSal());
+        }
     }
 }

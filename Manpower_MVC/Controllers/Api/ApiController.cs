@@ -285,21 +285,21 @@ namespace Manpower_MVC.Controllers.Api
             details.AddRange(Get.ToList());
             return details;
         }
-        //select ViewMonthSal
+        //select ViewPrintMonthSal
         /*************************************************************************************************/
-        public List<ViewMonthSal> getViewMonthSal(int year, int month)
+        public List<ViewPrintMonthSal> getViewPrintMonthSal(int year, int month)
         {
-            List<ViewMonthSal> monthSal = new List<ViewMonthSal>();
+            List<ViewPrintMonthSal> monthSal = new List<ViewPrintMonthSal>();
             var Get = from p in db.Employee
                       orderby p.ID
                       ascending
-                      select new ViewMonthSal
+                      select new ViewPrintMonthSal
                       {
                           ID = p.ID,
                           EmpID = p.EmpID,
                           EmpName = p.EmpName
                       };
-            foreach (ViewMonthSal _monthSal in Get.ToList())
+            foreach (ViewPrintMonthSal _monthSal in Get.ToList())
             {
                 _monthSal.Salary = getSalary(_monthSal.ID, year, month);
                 for (int i = 1; i <= getAllInsCate().Count; i++)
@@ -340,7 +340,7 @@ namespace Manpower_MVC.Controllers.Api
                 _monthSal.SumPrice = _monthSal.PosPrice - _monthSal.NegPrice;
                 monthSal.Add(_monthSal);
             }
-            ViewMonthSal sum = new ViewMonthSal()
+            ViewPrintMonthSal sum = new ViewPrintMonthSal()
             {
                 ID = 0,
                 EmpID = "合計",
@@ -359,7 +359,7 @@ namespace Manpower_MVC.Controllers.Api
                 Tax = 0,
                 TraCost = 0
             };
-            foreach (ViewMonthSal _monthSal in monthSal)
+            foreach (ViewPrintMonthSal _monthSal in monthSal)
             {
                 sum.Allowance += _monthSal.Allowance;
                 sum.Borrowed += _monthSal.Borrowed;
@@ -404,27 +404,27 @@ namespace Manpower_MVC.Controllers.Api
             }
             return price;
         }
-        //select ViewMonthWork
+        //select ViewPrintMonthWork
         /*************************************************************************************************/
-        public List<ViewMonthWork> getViewMonthWork(int year, int month)
+        public List<ViewPrintMonthWork> getViewPrintMonthWork(int year, int month)
         {
-            List<ViewMonthWork> monthWork = new List<ViewMonthWork>();
+            List<ViewPrintMonthWork> monthWork = new List<ViewPrintMonthWork>();
             var Get = from p in db.Worker
                       join e in db.Employee on p.EmpID equals e.ID
                       join q in db.WorkList on p.ListID equals q.ID
                       where q.CreateDate.Year == year && q.CreateDate.Month == month
                       orderby p.EmpID
                       ascending
-                      select new ViewMonthWork
+                      select new ViewPrintMonthWork
                       {
                           ID = e.ID,
                           EmpID = e.EmpID,
                           EmpName = e.EmpName
                       };
 
-            foreach (ViewMonthWork _monthWork in Get.Distinct().ToList())
+            foreach (ViewPrintMonthWork _monthWork in Get.Distinct().ToList())
             {
-                ViewMonthWork dayWork = new ViewMonthWork()
+                ViewPrintMonthWork dayWork = new ViewPrintMonthWork()
                 {
                     ID = _monthWork.ID,
                     EmpID = _monthWork.EmpID,
@@ -440,7 +440,7 @@ namespace Manpower_MVC.Controllers.Api
                 }
                 monthWork.Add(dayWork);
 
-                ViewMonthWork hrWork = new ViewMonthWork()
+                ViewPrintMonthWork hrWork = new ViewPrintMonthWork()
                 {
                     ID = _monthWork.ID,
                     EmpID = _monthWork.EmpID,
@@ -456,7 +456,7 @@ namespace Manpower_MVC.Controllers.Api
                 }
                 monthWork.Add(hrWork);
             }
-            ViewMonthWork daySum = new ViewMonthWork()
+            ViewPrintMonthWork daySum = new ViewPrintMonthWork()
             {
                 ID = 0,
                 EmpID = "合計",
@@ -465,7 +465,7 @@ namespace Manpower_MVC.Controllers.Api
                 Date = new int[31],
                 Sum = 0
             };
-            ViewMonthWork hrSum = new ViewMonthWork()
+            ViewPrintMonthWork hrSum = new ViewPrintMonthWork()
             {
                 ID = 0,
                 EmpID = "合計",
@@ -474,7 +474,7 @@ namespace Manpower_MVC.Controllers.Api
                 Date = new int[31],
                 Sum = 0
             };
-            foreach (ViewMonthWork _monthWork in monthWork)
+            foreach (ViewPrintMonthWork _monthWork in monthWork)
             {
                 if (_monthWork.Worktime.Equals(daySum.Worktime))
                 {
