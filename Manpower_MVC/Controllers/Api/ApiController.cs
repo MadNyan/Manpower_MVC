@@ -404,5 +404,127 @@ namespace Manpower_MVC.Controllers.Api
             }
             return price;
         }
+        //select ViewMonthWork
+        /*************************************************************************************************/
+        public List<ViewMonthWork> getViewMonthWork(int year, int month)
+        {
+            List<ViewMonthWork> monthWork = new List<ViewMonthWork>();
+            var Get = from p in db.Worker
+                      join e in db.Employee on p.EmpID equals e.ID
+                      join q in db.WorkList on p.ListID equals q.ID
+                      where q.CreateDate.Year == year && q.CreateDate.Month == month
+                      orderby p.EmpID
+                      ascending
+                      select new ViewMonthWork
+                      {
+                          ID = e.ID,
+                          EmpID = e.EmpID,
+                          EmpName = e.EmpName
+                      };
+
+            foreach (ViewMonthWork _monthWork in Get.Distinct().ToList())
+            {
+                ViewMonthWork dayWork = new ViewMonthWork()
+                {
+                    ID = _monthWork.ID,
+                    EmpID = _monthWork.EmpID,
+                    EmpName = _monthWork.EmpName,
+                    Date = new int[31],
+                    Worktime = "正常",
+                    Sum = 0
+                };
+                for (int i = 0; i < dayWork.Date.Length; i++)
+                {
+                    dayWork.Date[i] = getSalaryDay(dayWork.ID, year, month, i);
+                    dayWork.Sum += getSalaryDay(dayWork.ID, year, month, i);
+                }
+                monthWork.Add(dayWork);
+
+                ViewMonthWork hrWork = new ViewMonthWork()
+                {
+                    ID = _monthWork.ID,
+                    EmpID = _monthWork.EmpID,
+                    EmpName = _monthWork.EmpName,
+                    Date = new int[31],
+                    Worktime = "加班",
+                    Sum = 0
+                };
+                for (int i = 0; i < hrWork.Date.Length; i++)
+                {
+                    hrWork.Date[i] = getOvertimeHr(hrWork.ID, year, month, i);
+                    hrWork.Sum += getOvertimeHr(hrWork.ID, year, month, i);
+                }
+                monthWork.Add(hrWork);
+            }
+            ViewMonthWork daySum = new ViewMonthWork()
+            {
+                ID = 0,
+                EmpID = "合計",
+                EmpName = "",
+                Worktime = "正常",
+                Date = new int[31],
+                Sum = 0
+            };
+            ViewMonthWork hrSum = new ViewMonthWork()
+            {
+                ID = 0,
+                EmpID = "合計",
+                EmpName = "",
+                Worktime = "加班",
+                Date = new int[31],
+                Sum = 0
+            };
+            foreach (ViewMonthWork _monthWork in monthWork)
+            {
+                if (_monthWork.Worktime.Equals(daySum.Worktime))
+                {
+                    for (int i = 0; i < daySum.Date.Length; i++)
+                    {
+                        daySum.Date[i] += _monthWork.Date[i];
+                    }
+                    daySum.Sum += _monthWork.Sum;
+                }
+                else
+                {
+                    for (int i = 0; i < hrSum.Date.Length; i++)
+                    {
+                        hrSum.Date[i] += _monthWork.Date[i];   
+                    }
+                    hrSum.Sum += _monthWork.Sum;
+                }
+            }
+            monthWork.Add(daySum);
+            monthWork.Add(hrSum);
+            return monthWork;
+        }
+
+        public int getSalaryDay(int id, int year, int month, int day)
+        {
+            int salDay = 0;
+            var Get = from p in db.Worker
+                      join e in db.Employee on p.EmpID equals e.ID
+                      join q in db.WorkList on p.ListID equals q.ID
+                      where p.EmpID == id && q.CreateDate.Year == year && q.CreateDate.Month == month && q.CreateDate.Day == day
+                      select p.SalaryDay;
+            foreach (int _salDay in Get.ToList())
+            {
+                salDay += _salDay;
+            }
+            return salDay;
+        }
+        public int getOvertimeHr(int id, int year, int month, int day)
+        {
+            int hr = 0;
+            var Get = from p in db.Worker
+                      join e in db.Employee on p.EmpID equals e.ID
+                      join q in db.WorkList on p.ListID equals q.ID
+                      where p.EmpID == id && q.CreateDate.Year == year && q.CreateDate.Month == month && q.CreateDate.Day == day
+                      select p.OverOvertimeHr + p.OvertimeHr;
+            foreach (int _hr in Get.ToList())
+            {
+                hr += _hr;
+            }
+            return hr;
+        }
     }
 }

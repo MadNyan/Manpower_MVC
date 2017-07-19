@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewMonthWork>
+
+@{
+    ViewBag.Title = "出工月報表";
+}
+
+<form method="post" action="@Url.Action("Index")">
+    <p>
+        <input type="month" name="date" id="date" value="" />
+    </p>
+    <p>
+        <input type="submit" value="顯示報表" class="btn btn-primary" name="sub" id="sub" />
+    </p>
+</form>
+
+<input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("Print", new { year = ViewBag.year, month = ViewBag.month})')" />
+
+<p>
+    <h2>@ViewBag.year/@ViewBag.month 出工月報表</h2>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worktime)
+        </th>
+        @for (int i = 1; i <= 31; i++)
+        {
+            if (i < 10)
+            {
+                string str = "0"+i;
+                <th>
+                    @str
+                </th>
+            }
+            else
+            {
+                <th>
+                    @i
+                </th>
+            }
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.Sum)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    if (item.Worktime.ToString().Equals("正常"))
+    {
+        <tr class="active">
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Worktime)
+            </td>
+            @foreach (var date in item.Date)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => date)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum)
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Worktime)
+            </td>
+            @foreach (var date in item.Date)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => date)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum)
+            </td>
+        </tr>
+    }
+
+}
+
+</table>
+<script>
+    var date = new Date();
+
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    if (month < 10) month = "0" + month;
+
+    var today = year + "-" + month;
+    document.getElementById("date").value = today;
+</script>
