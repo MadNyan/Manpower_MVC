@@ -9,13 +9,12 @@
         <input type="month" name="date" id="date" />
     </p>
     <p>
-        <input type="submit" name="sub" id="sub" />
+        <input type="submit" value="顯示總表" class="btn btn-primary" name="sub" id="sub" />
     </p>
 </form>
 
-<input type="button" style="text-align:right" onclick="printScreen(print)" />
-
-<div id="print">
+<input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("Print", new { year = ViewBag.year, month = ViewBag.month})')" />
+<div>
     <p>
         <h2>@ViewBag.year/@ViewBag.month  月份員工薪資總表</h2>
     </p>
@@ -122,16 +121,3 @@
 
     </table>
 </div>
-
-<script type="text/javascript">
-    function printScreen(printlist) {
-        var value = printlist.value;
-        var printPage = window.open("", "Printing...", "");
-        printPage.document.open();
-        printPage.document.write("<HTML><head></head><BODY onload='window.print()'>");
-        printPage.document.write("<PRE>");
-        printPage.document.write(value);
-        printPage.document.write("</PRE>");
-        printPage.document.close("</BODY></HTML>");
-    }
-</script>

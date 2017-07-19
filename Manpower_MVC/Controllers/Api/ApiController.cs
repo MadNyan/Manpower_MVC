@@ -291,8 +291,9 @@ namespace Manpower_MVC.Controllers.Api
         {
             List<ViewMonthSal> monthSal = new List<ViewMonthSal>();
             var Get = from p in db.Employee
-                      orderby p.ID 
-                      ascending select new ViewMonthSal
+                      orderby p.ID
+                      ascending
+                      select new ViewMonthSal
                       {
                           ID = p.ID,
                           EmpID = p.EmpID,

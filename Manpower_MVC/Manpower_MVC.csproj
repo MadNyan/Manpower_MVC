@@ -552,6 +552,7 @@
     <Content Include="Views\Employee\CreateEmpIns.cshtml" />
     <Content Include="Views\Employee\EditEmpIns.cshtml" />
     <Content Include="Views\printMonthSal\Index.cshtml" />
+    <Content Include="Views\printMonthSal\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

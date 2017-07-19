@@ -27,10 +27,13 @@ namespace Manpower_MVC.Controllers
                 ViewBag.month = date.Value.Month;
                 return View(getViewMonthSal(date.Value.Year, date.Value.Month));
             }
-            DateTime _date = DateTime.Now;
-            ViewBag.year = _date.Year;
-            ViewBag.month = _date.Month;
-            return View(getViewMonthSal(_date.Year, _date.Month));
+            return Index();
+        }
+        public ActionResult Print(int year, int month)
+        {
+            ViewBag.year = year;
+            ViewBag.month = month;
+            return View(getViewMonthSal(year, month));
         }
     }
 }
