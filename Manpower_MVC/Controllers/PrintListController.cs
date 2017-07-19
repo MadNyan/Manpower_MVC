@@ -10,7 +10,7 @@ namespace Manpower_MVC.Controllers
 {
     public class PrintListController : ApiController
     {
-        // GET: printMonthWork
+        // PrintMonthWork
         public ActionResult MonthWork()
         {
             DateTime _date = DateTime.Now;
@@ -34,6 +34,16 @@ namespace Manpower_MVC.Controllers
             ViewBag.year = year;
             ViewBag.month = month;
             return View(getViewPrintMonthWork(year, month));
+        }
+
+        // PrintEmpSal
+        public ActionResult EmpSal()
+        {
+            return View(getViewPrintEmpSal());
+        }
+        public ActionResult PrintEmpSal()
+        {
+            return View(getViewPrintEmpSal());
         }
     }
 }

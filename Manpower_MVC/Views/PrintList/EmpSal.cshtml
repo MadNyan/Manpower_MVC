@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewPrintEmpSal>
+
+@{
+    ViewBag.Title = "出工薪資總表";
+}
+
+<input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("PrintEmpSal")')" />
+
+<p>
+    <h2>出工薪資總表</h2>
+</p>
+
+<table class="table table-striped">
+    <tr>
+        <th colspan="3">
+         
+        </th>
+        <th colspan="2">
+            日薪(天)
+        </th>
+        <th colspan="2">
+            加班時數(小時)
+        </th>
+        <th colspan="2">
+            超時時數(小時)
+        </th>
+        <th>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkCate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalaryDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OvertimeHr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OvertimeSal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverOvertimeHr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverOvertimeSal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sum)
+        </th>
+    </tr>
+@foreach (var item in Model) {
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkCate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalaryDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OvertimeHr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OvertimeSal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverOvertimeHr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverOvertimeSal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sum)
+        </td>
+    </tr>
+}
+
+</table>

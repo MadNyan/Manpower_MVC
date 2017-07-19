@@ -185,8 +185,6 @@
     <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\OwnerPayController.cs" />
     <Compile Include="Controllers\PrintListController.cs" />
-    <Compile Include="Controllers\printMonthSalController.cs" />
-    <Compile Include="Controllers\printMonthWorkController.cs" />
     <Compile Include="Controllers\WorkCareController.cs" />
     <Compile Include="Controllers\WorkListController.cs" />
     <Compile Include="Global.asax.cs">
@@ -241,6 +239,7 @@
     <Compile Include="ViewModels\ViewEmpIns.cs" />
     <Compile Include="ViewModels\ViewEmpSal.cs" />
     <Compile Include="ViewModels\ViewEmpSalDetail.cs" />
+    <Compile Include="ViewModels\ViewPrintEmpSal.cs" />
     <Compile Include="ViewModels\ViewPrintMonthSal.cs" />
     <Compile Include="ViewModels\ViewPrintMonthWork.cs" />
     <Compile Include="ViewModels\ViewOwnerPayment.cs" />
@@ -554,13 +553,11 @@
     <Content Include="Views\Employee\ListEmpIns.cshtml" />
     <Content Include="Views\Employee\CreateEmpIns.cshtml" />
     <Content Include="Views\Employee\EditEmpIns.cshtml" />
-    <Content Include="Views\printMonthSal\Index.cshtml" />
-    <Content Include="Views\printMonthSal\Print.cshtml" />
-    <Content Include="Views\printMonthWork\Index.cshtml" />
-    <Content Include="Views\printMonthWork\Print.cshtml" />
     <Content Include="Views\EmpSal\Print.cshtml" />
     <Content Include="Views\PrintList\MonthWork.cshtml" />
     <Content Include="Views\PrintList\PrintMonthWork.cshtml" />
+    <Content Include="Views\PrintList\EmpSal.cshtml" />
+    <Content Include="Views\PrintList\PrintEmpSal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

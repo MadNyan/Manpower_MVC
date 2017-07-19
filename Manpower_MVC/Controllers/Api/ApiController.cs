@@ -526,5 +526,30 @@ namespace Manpower_MVC.Controllers.Api
             }
             return hr;
         }
+        //select ViewPrintEmpSal
+        /*************************************************************************************************/
+        public List<ViewPrintEmpSal> getViewPrintEmpSal()
+        {
+            var Get = from p in db.Worker
+                      join e in db.Employee on p.EmpID equals e.ID
+                      join q in db.WorkCategory on p.WorkCareID equals q.ID
+                      orderby p.EmpID
+                      ascending
+                      select new ViewPrintEmpSal
+                      {
+                          ID = p.ID,
+                          EmpID = e.EmpID,
+                          EmpName = e.EmpName,
+                          OverOvertimeHr = p.OverOvertimeHr,
+                          OverOvertimeSal = q.OverOvertimeSal,
+                          OvertimeHr = p.OvertimeHr,
+                          OvertimeSal = q.OvertimeSal,
+                          SalaryDay = p.SalaryDay,
+                          Salary = q.Salary,
+                          WorkCate = q.WorkCareName,
+                          Sum = (p.OverOvertimeHr * q.OverOvertimeSal) + (p.OvertimeHr * q.OvertimeSal) + (p.SalaryDay * q.Salary)
+                      };
+            return Get.ToList();
+        }
     }
 }
