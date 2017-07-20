@@ -585,8 +585,8 @@ namespace Manpower_MVC.Controllers.Api
                           OwnerID = q.OwnerID,
                           OwnerName = q.OwnerName,
                           BuildName = e.BuildingName,
-                          ConPerson = e.ConPerson,
-                          ConPersonTel = e.ConPersonTel
+                          ConPerson = q.ConPerson,
+                          ConPersonTel = q.ConPersonTel
                       };
             return Get.Distinct().ToList().OrderByDescending(p => p.Month).ToList().OrderByDescending(p => p.Year).ToList();
         }
