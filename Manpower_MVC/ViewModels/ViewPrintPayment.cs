@@ -7,9 +7,10 @@ namespace Manpower_MVC.ViewModels
     public partial class ViewPrintPayment
     {
         public int ID { get; set; }
+		public int Year { get; set; }
+		public int Month { get; set; }
         [Display(Name = "帳款年月")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM}")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         [Display(Name = "業主代碼")]
         public string OwnerID { get; set; }
         [Display(Name = "業主名稱")]

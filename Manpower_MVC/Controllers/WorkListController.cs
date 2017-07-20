@@ -18,7 +18,7 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult CreateWorkList()
         {
-            ViewBag.owner = getAllOwner();
+            ViewBag.building = getAllOwnerBuilding();
             return View();
         }
         [HttpPost]
@@ -27,10 +27,8 @@ namespace Manpower_MVC.Controllers
         {
             WorkList _list = new WorkList()
             {
-                BuildName = list.BuildName,
-                ConPerson = list.ConPerson,
+                BuildingID = list.BuildingID,
                 CreateDate = DateTime.Now,
-                OwnerID = list.OwnerID,
                 SerialNum = list.SerialNum,
                 SingleNum = list.SingleNum
             };
@@ -40,7 +38,7 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult EditWorkList(int id)
         {
-            ViewBag.owner = getAllOwner();
+            ViewBag.building = getAllOwnerBuilding();
             return View(getOneWorkList(id));
         }
         [HttpPost]
@@ -48,9 +46,7 @@ namespace Manpower_MVC.Controllers
         public ActionResult EditWorkList(int id, WorkList list)
         {
             WorkList _list = getOneWorkList(id);
-            _list.BuildName = list.BuildName;
-            _list.ConPerson = list.ConPerson;
-            _list.OwnerID = list.OwnerID;
+            _list.BuildingID = list.BuildingID;
             _list.SerialNum = list.SerialNum;
             _list.SingleNum = list.SingleNum;
             db.SaveChanges();

@@ -49,6 +49,11 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult Delete(int id)
         {
+            List<OwnerBuilding> _someBuilding = getSomeOwnerBuilding(id);
+            foreach (OwnerBuilding _building in _someBuilding)
+            {
+                db.OwnerBuilding.Remove(_building);
+            }
             db.Owner.Remove(getOneOwner(id));
             db.SaveChanges();
             return RedirectToAction("Index");

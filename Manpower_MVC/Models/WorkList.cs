@@ -18,8 +18,6 @@ namespace Manpower_MVC.Models
         public string SerialNum { get; set; }
         public string SingleNum { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public string BuildName { get; set; }
-        public string ConPerson { get; set; }
-        public int OwnerID { get; set; }
+        public int BuildingID { get; set; }
     }
 }

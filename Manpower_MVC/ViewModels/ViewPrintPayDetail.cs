@@ -6,7 +6,7 @@ namespace Manpower_MVC.ViewModels
     using System.ComponentModel.DataAnnotations;
     public partial class ViewPrintPayDetail
     {
-        public int ID { get; set; }
+		public int ID { get; set; }
         [Display(Name = "日期")]
         [DisplayFormat(DataFormatString = "{0:MM/dd}")]
         public DateTime Date { get; set; }

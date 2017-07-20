@@ -61,6 +61,11 @@ namespace Manpower_MVC.Controllers.Api
         }
         //select OwnerBuilding
         /*************************************************************************************************/
+        public List<OwnerBuilding> getAllOwnerBuilding()
+        {
+            var Get = from p in db.OwnerBuilding orderby p.ID ascending select p;
+            return Get.ToList();
+        }
         public List<OwnerBuilding> getSomeOwnerBuilding(int id)
         {
             var Get = from p in db.OwnerBuilding where p.OwnerID == id orderby p.ID ascending select p;
@@ -204,14 +209,15 @@ namespace Manpower_MVC.Controllers.Api
         public List<ViewWorkList> getAllViewWorkList()
         {
             var Get = from p in db.WorkList
-                      join e in db.Owner on p.OwnerID equals e.ID
+                      join e in db.OwnerBuilding on p.BuildingID equals e.ID
+                      join q in db.Owner on e.OwnerID equals q.ID
                       select new ViewWorkList
                       {
                           ID = p.ID,
-                          BuildName = p.BuildName,
-                          ConPerson = p.ConPerson,
+                          BuildName = e.BuildingName,
+                          ConPerson = e.ConPerson,
                           CreateDate = p.CreateDate,
-                          OwnerName = e.OwnerName,
+                          OwnerName = q.OwnerName,
                           SerialNum = p.SerialNum,
                           SingleNum = p.SingleNum
                       };
@@ -568,16 +574,17 @@ namespace Manpower_MVC.Controllers.Api
         public List<ViewPrintPayment> getViewPrintPayment()
         {
             var Get = from p in db.WorkList
-                      join e in db.Owner on p.OwnerID equals e.ID
+                      join e in db.OwnerBuilding on p.BuildingID equals e.ID
+                      join q in db.Owner on e.OwnerID equals q.ID
                       select new ViewPrintPayment
                       {
-                          ID = p.OwnerID,
+                          ID = p.BuildingID,
                           Year = p.CreateDate.Year,
                           Month = p.CreateDate.Month,
                           Date = "" + p.CreateDate.Year + "/" + p.CreateDate.Month,
-                          OwnerID = e.OwnerID,
-                          OwnerName = e.OwnerName,
-                          BuildName = p.BuildName,
+                          OwnerID = q.OwnerID,
+                          OwnerName = q.OwnerName,
+                          BuildName = e.BuildingName,
                           ConPerson = e.ConPerson,
                           ConPersonTel = e.ConPersonTel
                       };
@@ -585,7 +592,7 @@ namespace Manpower_MVC.Controllers.Api
         }
         //select ViewPrintPayWork
         /*************************************************************************************************/
-        public List<ViewPrintPayWork> getViewPrintPayWork(int onwerId, int year, int month)
+        public List<ViewPrintPayWork> getViewPrintPayWork(int buildingId, int year, int month)
         {
             var Get = from p in db.WorkCategory
                       orderby p.ID ascending
@@ -604,9 +611,9 @@ namespace Manpower_MVC.Controllers.Api
             List<ViewPrintPayWork> payWork = Get.ToList();
             foreach (ViewPrintPayWork _payWork in payWork)
             {
-                _payWork.SalaryDay = getPayWorkSalaryDay(onwerId, _payWork.ID, year, month);
-                _payWork.OvertimeHr = getPayWorkOvertimeHr(onwerId, _payWork.ID, year, month);
-                _payWork.OverOvertimeHr = getPayWorkOverOvertimeHr(onwerId, _payWork.ID, year, month);
+                _payWork.SalaryDay = getPayWorkSalaryDay(buildingId, _payWork.ID, year, month);
+                _payWork.OvertimeHr = getPayWorkOvertimeHr(buildingId, _payWork.ID, year, month);
+                _payWork.OverOvertimeHr = getPayWorkOverOvertimeHr(buildingId, _payWork.ID, year, month);
                 _payWork.Salary *= _payWork.SalaryDay;
                 _payWork.OvertimeSal *= _payWork.OvertimeHr;
                 _payWork.OverOvertimeSal *= _payWork.OverOvertimeHr;
@@ -614,12 +621,12 @@ namespace Manpower_MVC.Controllers.Api
             }
             return payWork;
         }
-        public int getPayWorkSalaryDay(int onwerId, int cateId, int year, int month)
+        public int getPayWorkSalaryDay(int buildingId, int cateId, int year, int month)
         {
             int salDay = 0;
             var Get = from p in db.Worker
                       join e in db.WorkList on p.ListID equals e.ID
-                      where e.OwnerID == onwerId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
+                      where e.BuildingID == buildingId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
                       select p.SalaryDay;
             foreach (int _salDay in Get.ToList())
             {
@@ -627,12 +634,12 @@ namespace Manpower_MVC.Controllers.Api
             }
             return salDay;
         }
-        public int getPayWorkOvertimeHr(int onwerId, int cateId, int year, int month)
+        public int getPayWorkOvertimeHr(int buildingId, int cateId, int year, int month)
         {
             int hr = 0;
             var Get = from p in db.Worker
                       join e in db.WorkList on p.ListID equals e.ID
-                      where e.OwnerID == onwerId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
+                      where e.BuildingID == buildingId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
                       select p.OvertimeHr;
             foreach (int _hr in Get.ToList())
             {
@@ -640,12 +647,12 @@ namespace Manpower_MVC.Controllers.Api
             }
             return hr;
         }
-        public int getPayWorkOverOvertimeHr(int onwerId, int cateId, int year, int month)
+        public int getPayWorkOverOvertimeHr(int buildingId, int cateId, int year, int month)
         {
             int hr = 0;
             var Get = from p in db.Worker
                       join e in db.WorkList on p.ListID equals e.ID
-                      where e.OwnerID == onwerId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
+                      where e.BuildingID == buildingId && p.WorkCareID == cateId && e.CreateDate.Year == year && e.CreateDate.Month == month
                       select p.OverOvertimeHr;
             foreach (int _hr in Get.ToList())
             {
@@ -655,12 +662,12 @@ namespace Manpower_MVC.Controllers.Api
         }
         //select ViewPrintPayDetail
         /*************************************************************************************************/
-        public List<ViewPrintPayDetail> getViewPrintPayDetail(int onwerId, int year, int month)
+        public List<ViewPrintPayDetail> getViewPrintPayDetail(int buildingId, int year, int month)
         {
             var Get = from p in db.Worker
                       join e in db.WorkList on p.ListID equals e.ID
                       join q in db.WorkCategory on p.WorkCareID equals q.ID
-                      where e.OwnerID == onwerId && e.CreateDate.Year == year && e.CreateDate.Month == month
+                      where e.BuildingID == buildingId && e.CreateDate.Year == year && e.CreateDate.Month == month
                       orderby p.WorkCareID ascending
                       select new ViewPrintPayDetail
                       {
@@ -679,9 +686,9 @@ namespace Manpower_MVC.Controllers.Api
             List<ViewPrintPayDetail> detail = Get.ToList();
             foreach (ViewPrintPayDetail _detail in detail)
             {
-                _detail.SalaryDay = getPayWorkSalaryDay(onwerId, _detail.ID, year, month);
-                _detail.OvertimeHr = getPayWorkOvertimeHr(onwerId, _detail.ID, year, month);
-                _detail.OverOvertimeHr = getPayWorkOverOvertimeHr(onwerId, _detail.ID, year, month);
+                _detail.SalaryDay = getPayWorkSalaryDay(buildingId, _detail.ID, year, month);
+                _detail.OvertimeHr = getPayWorkOvertimeHr(buildingId, _detail.ID, year, month);
+                _detail.OverOvertimeHr = getPayWorkOverOvertimeHr(buildingId, _detail.ID, year, month);
                 _detail.Salary *= _detail.SalaryDay;
                 _detail.OvertimeSal *= _detail.OvertimeHr;
                 _detail.OverOvertimeSal *= _detail.OverOvertimeHr;

@@ -32,7 +32,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="InsID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="InsName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PosOrNeg" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -115,9 +115,7 @@
           <Property Name="SerialNum" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SingleNum" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="date" Nullable="false" />
-          <Property Name="BuildName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ConPerson" Type="nvarchar" MaxLength="50" />
-          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="BuildingID" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ManpowerDBModelStoreContainer">
           <EntitySet Name="EmpInsurance" EntityType="Self.EmpInsurance" Schema="dbo" store:Type="Tables" />
@@ -257,9 +255,7 @@
           <Property Name="SerialNum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SingleNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="BuildName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OwnerID" Type="Int32" Nullable="false" />
+          <Property Name="BuildingID" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -381,9 +377,7 @@
           <EntitySetMapping Name="WorkList">
             <EntityTypeMapping TypeName="ManpowerDBModel.WorkList">
               <MappingFragment StoreEntitySet="WorkList">
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerId" />
-                <ScalarProperty Name="ConPerson" ColumnName="ConPerson" />
-                <ScalarProperty Name="BuildName" ColumnName="BuildName" />
+                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="SingleNum" ColumnName="SingleNum" />
                 <ScalarProperty Name="SerialNum" ColumnName="SerialNum" />

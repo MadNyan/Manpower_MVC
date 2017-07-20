@@ -244,6 +244,9 @@
     <Compile Include="ViewModels\ViewPrintMonthWork.cs" />
     <Compile Include="ViewModels\ViewOwnerPayment.cs" />
     <Compile Include="ViewModels\ViewOwnerPayWork.cs" />
+    <Compile Include="ViewModels\ViewPrintPayDetail.cs" />
+    <Compile Include="ViewModels\ViewPrintPayment.cs" />
+    <Compile Include="ViewModels\ViewPrintPayWork.cs" />
     <Compile Include="ViewModels\ViewWorker.cs" />
     <Compile Include="ViewModels\ViewWorkList.cs" />
   </ItemGroup>
@@ -541,8 +544,6 @@
     <Content Include="Views\OwnerPay\CreatePayWork.cshtml" />
     <Content Include="Views\OwnerPay\EditPayWork.cshtml" />
     <Content Include="Views\WorkList\Index.cshtml" />
-    <Content Include="Views\WorkList\CreateWorkList.cshtml" />
-    <Content Include="Views\WorkList\EditWorkList.cshtml" />
     <Content Include="Views\WorkList\ListWorker.cshtml" />
     <Content Include="Views\WorkList\CreateWorker.cshtml" />
     <Content Include="Views\WorkList\EditWorker.cshtml" />
@@ -558,6 +559,14 @@
     <Content Include="Views\PrintList\PrintMonthWork.cshtml" />
     <Content Include="Views\PrintList\EmpSal.cshtml" />
     <Content Include="Views\PrintList\PrintEmpSal.cshtml" />
+    <Content Include="Views\PrintList\Payment.cshtml" />
+    <Content Include="Views\PrintList\PayWork.cshtml" />
+    <Content Include="Views\PrintList\PayDetail.cshtml" />
+    <Content Include="Views\Owner\ListOwnerBuilding.cshtml" />
+    <Content Include="Views\Owner\CreateOwnerBuilding.cshtml" />
+    <Content Include="Views\Owner\EditOwnerBuilding.cshtml" />
+    <Content Include="Views\WorkList\CreateWorkList.cshtml" />
+    <Content Include="Views\WorkList\EditWorkList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
