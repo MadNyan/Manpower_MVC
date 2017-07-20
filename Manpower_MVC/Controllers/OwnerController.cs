@@ -53,5 +53,71 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        //for OwnerBuilding
+        /*************************************************************************************************/
+        public ActionResult ListOwnerBuilding(int? id)
+        {
+            if (id > 0)
+            {
+                ViewBag.ownerId = id;
+                return View(getSomeOwnerBuilding(id.Value));
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult CreateOwnerBuilding(int? id)
+        {
+            if (id > 0)
+            {
+                ViewBag.ownerId = id;
+                Session["ownerId"] = id.ToString();
+                return View();
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOwnerBuilding(OwnerBuilding ownerBuilding)
+        {
+            OwnerBuilding _ownerBuilding = new OwnerBuilding()
+            {
+                BuildingID = ownerBuilding.BuildingID,
+                BuildingName = ownerBuilding.BuildingName,
+                ConPerson = ownerBuilding.ConPerson,
+                ConPersonTel = ownerBuilding.ConPersonTel,
+                OwnerID = Convert.ToInt32(Session["ownerId"].ToString())
+            };
+            Session["ownerId"] = null;
+            db.OwnerBuilding.Add(_ownerBuilding);
+            db.SaveChanges();
+            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+        }
+        public ActionResult EditOwnerBuilding(int? id)
+        {
+            if (id > 0)
+            {
+                ViewBag.ownerId = id;
+                return View(getOneOwnerBuilding(id.Value));
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOwnerBuilding(int id, OwnerBuilding ownerBuilding)
+        {
+            OwnerBuilding _ownerBuilding = getOneOwnerBuilding(id);
+            _ownerBuilding.BuildingID = ownerBuilding.BuildingID;
+            _ownerBuilding.BuildingName = ownerBuilding.BuildingName;
+            _ownerBuilding.ConPerson = ownerBuilding.ConPerson;
+            _ownerBuilding.ConPersonTel = ownerBuilding.ConPersonTel;
+            db.SaveChanges();
+            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+        }
+        public ActionResult DeleteOwnerBuilding(int id)
+        {
+            OwnerBuilding _ownerBuilding = getOneOwnerBuilding(id);
+            db.OwnerBuilding.Remove(_ownerBuilding);
+            db.SaveChanges();
+            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+        }
     }
 }

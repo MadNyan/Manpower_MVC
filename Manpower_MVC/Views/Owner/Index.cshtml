@@ -69,6 +69,7 @@
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
+            @Html.ActionLink("Building", "ListOwnerBuilding", new { id = item.ID }) |
             @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
             @Html.ActionLink("刪除", "Delete", new { id=item.ID })
         </td>

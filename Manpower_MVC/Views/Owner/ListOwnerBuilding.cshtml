@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Manpower_MVC.Models.OwnerBuilding>
+
+@{
+    ViewBag.Title = "ListOwnerBuilding";
+}
+
+<h2>ListOwnerBuilding</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateOwnerBuilding", new { id = ViewBag.ownerId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BuildingID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BuildingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConPersonTel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuildingID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuildingName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConPersonTel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnerID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditOwnerBuilding", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "DeleteOwnerBuilding", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
