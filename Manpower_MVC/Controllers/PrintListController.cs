@@ -14,10 +14,10 @@ namespace Manpower_MVC.Controllers
         // PrintMonthWork
         public ActionResult MonthWork()
         {
-            DateTime _date = DateTime.Now;
-            ViewBag.year = _date.Year;
-            ViewBag.month = _date.Month;
-            return View(getViewPrintMonthWork(_date.Year, _date.Month));
+            DateTime date = DateTime.Now;
+            ViewBag.year = date.Year;
+            ViewBag.month = date.Month;
+            return View(getViewPrintMonthWork(date.Year, date.Month));
         }
         [HttpPost]
         public ActionResult MonthWork(DateTime? date)
@@ -44,7 +44,33 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult PrintEmpSal()
         {
-            return View(getViewPrintEmpSal());
+            List<ViewPrintEmpSal> print = getViewPrintEmpSal().ToList();
+            ViewPrintEmpSal sum = new ViewPrintEmpSal()
+            {
+                EmpID = "",
+                EmpName = "合計：",
+                ID = 0,
+                OverOvertimeHr = 0,
+                OverOvertimeSal = 0,
+                OvertimeHr = 0,
+                OvertimeSal = 0,
+                Salary = 0,
+                SalaryDay = 0,
+                WorkCate = "",
+                Sum = 0
+            };
+            foreach(ViewPrintEmpSal _print in print)
+            {
+                sum.OverOvertimeHr += _print.OverOvertimeHr;
+                sum.OverOvertimeSal += _print.OverOvertimeSal;
+                sum.OvertimeHr += _print.OvertimeHr;
+                sum.OvertimeSal += _print.OvertimeSal;
+                sum.Salary += _print.Salary;
+                sum.SalaryDay += _print.SalaryDay;
+                sum.Sum += _print.Sum;
+            }
+            print.Add(sum);
+            return View(print);
         }
 
         // PrintPay
@@ -78,14 +104,21 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult PrintPayWork(int? building, int? year, int? month)
         {
-            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Date = DateTime.Now.ToString("yyyy-MM-dd");
             if (building != null && year != null && month != null)
             {
-                List<ViewPrintPayWork> print = getViewPrintPayWork(building.Value, year.Value, month.Value);
+                List<ViewPrintPayWork> print = new List<ViewPrintPayWork>();
                 ViewBag.Building = getOneOwnerBuilding(building.Value);
                 ViewBag.Owner = getOneOwner(getOneOwnerBuilding(building.Value).OwnerID);
                 ViewBag.year = year;
                 ViewBag.month = month;
+                foreach (ViewPrintPayWork _print in getViewPrintPayWork(building.Value, year.Value, month.Value).ToList())
+                {
+                    if (_print.Sum != 0)
+                    {
+                        print.Add(_print);
+                    }
+                }
                 int sum = 0;
                 foreach (ViewPrintPayWork _print in print)
                 {
@@ -100,7 +133,7 @@ namespace Manpower_MVC.Controllers
         }
         public ActionResult PrintPayDetail(int? building, int? year, int? month)
         {
-            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Date = DateTime.Now.ToString("yyyy-MM-dd");
             if (building != null && year != null && month != null)
             {
                 List<ViewPrintPayDetail> print = getViewPrintPayDetail(building.Value, year.Value, month.Value);
@@ -108,12 +141,31 @@ namespace Manpower_MVC.Controllers
                 ViewBag.Owner = getOneOwner(getOneOwnerBuilding(building.Value).OwnerID);
                 ViewBag.year = year;
                 ViewBag.month = month;
-                int sum = 0;
+                ViewPrintPayDetail sum = new ViewPrintPayDetail()
+                {
+                    ID = 0,
+                    Date = null,
+                    WorkCate = "",
+                    SerialNum = "",
+                    OverOvertimeHr = 0,
+                    OverOvertimeSal = 0,
+                    OvertimeHr = 0,
+                    OvertimeSal = 0,
+                    Salary = 0,
+                    SalaryDay = 0,
+                    Sum = 0
+                };
                 foreach (ViewPrintPayDetail _print in print)
                 {
-                    sum += _print.Sum;
+                    sum.OverOvertimeHr += _print.OverOvertimeHr;
+                    sum.OverOvertimeSal += _print.OverOvertimeSal;
+                    sum.OvertimeHr += _print.OvertimeHr;
+                    sum.OvertimeSal += _print.OvertimeSal;
+                    sum.Salary += _print.Salary;
+                    sum.SalaryDay += _print.SalaryDay;
+                    sum.Sum += _print.Sum;
                 }
-                ViewBag.sum = sum;
+                print.Add(sum);
                 return View(print);
             }
             ViewBag.Building = new OwnerBuilding();

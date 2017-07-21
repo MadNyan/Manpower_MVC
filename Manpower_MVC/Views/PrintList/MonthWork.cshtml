@@ -14,10 +14,19 @@
 </form>
 
 <input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("PrintMonthWork", new { year = ViewBag.year, month = ViewBag.month})')" />
-
-<p>
-    <h2>@ViewBag.year/@ViewBag.month 出工月報表</h2>
-</p>
+@if (ViewBag.month < 10)
+{
+    string month = "0" + ViewBag.month;
+    <p>
+        <h2>@ViewBag.year/@month 出工月報表</h2>
+    </p>
+}
+else
+{
+    <p>
+        <h2>@ViewBag.year/@ViewBag.month 出工月報表</h2>
+    </p>
+}
 
 <table class="table">
     <tr>

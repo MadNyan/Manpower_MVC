@@ -9,7 +9,7 @@ namespace Manpower_MVC.ViewModels
 		public int ID { get; set; }
         [Display(Name = "日期")]
         [DisplayFormat(DataFormatString = "{0:MM/dd}")]
-        public DateTime Date { get; set; }
+        public Nullable<DateTime> Date { get; set; }
         [Display(Name = "單號")]
         public string SerialNum { get; set; }
         [Display(Name = "工種")]

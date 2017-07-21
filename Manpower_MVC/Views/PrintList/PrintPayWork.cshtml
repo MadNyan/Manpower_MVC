@@ -8,6 +8,10 @@
 
 <html>
 <head>
+    @if (ViewBag.month < 10)
+    {
+        ViewBag.month = "0" + ViewBag.month;
+    }
     <title>@ViewBag.year/@ViewBag.month 請款總表</title>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
@@ -15,132 +19,175 @@
     @Styles.Render("~/Bundles/css")
 </head>
 <body onload="window.print(); window.close();">
-    <p>
-        <h2>@ViewBag.year/@ViewBag.month 請款總表</h2>
-    </p>
-    <table class="table" width="100%">
-        <tr>
-            <td colspan="3">
-                客戶名稱：@ViewBag.Owner.OwnerName
-            </td>
-            <td>
-                頁數：
-            </td>
-        </tr>
-        <tr>
-            <td>
-                公司電話：@ViewBag.Owner.Tel
-            </td>
-            <td>
-                公司傳真：@ViewBag.Owner.Tel2
-            </td>
-            <td>
-                統一編號：@ViewBag.Owner.UnifiedNum
-            </td>
-            <td>
-                日期：@ViewBag.Date
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                公司地址：@ViewBag.Owner.Address
-            </td>
-            <td>
-                連絡人：@ViewBag.Owner.ConPerson
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                工程名稱：@ViewBag.Building.BuildingName
-            </td>
-            <td>
-                連絡人電話：@ViewBag.Owner.ConPersonPhone
-            </td>
-        </tr>
-    </table>
-    <table class="table">
-        <tr>
-            <th>
-            </th>
-            <th colspan="2">
-                日薪(天)
-            </th>
-            <th colspan="2">
-                加班時數(小時)
-            </th>
-            <th colspan="2">
-                超時時數(小時)
-            </th>
-            <th>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkCate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalaryDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OvertimeHr)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OvertimeSal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OverOvertimeHr)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OverOvertimeSal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sum)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <div style="text-align:center; font-weight:bolder;">
+        <p>
+            <h4>@ViewBag.year/@ViewBag.month 請款總表</h4>
+        </p>
+    </div>
+    <p> </p>
+    <p> </p>
+    <div style="font-size:small">
+        <table class="table" style="width:100%">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkCate)
+                <td align="right">
+                    客戶名稱：
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalaryDay)
+                <td colspan="5" style="border-bottom: 1px solid black" align="left">
+                    @ViewBag.Owner.OwnerName
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
+                <td align="right">
+                    頁數：
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OvertimeHr)
+                <td style="border-bottom: 1px solid black" align="left"></td>
+            </tr>
+            <tr>
+                <td width="12%" align="right">
+                    公司電話：
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OvertimeSal)
+                <td width="13%" align="left">
+                    @ViewBag.Owner.Tel
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OverOvertimeHr)
+                <td width="12%" align="right">
+                    公司傳真：
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OverOvertimeSal)
+                <td width="13%" align="left">
+                    @ViewBag.Owner.Tel2
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sum)
+                <td width="12%" align="right">
+                    統一編號：
+                </td>
+                <td width="13%" align="left">
+                    @ViewBag.Owner.UnifiedNum
+                </td>
+                <td width="14%" align="right">
+                    日期：
+                </td>
+                <td width="11%" align="left">
+                    @ViewBag.Date
                 </td>
             </tr>
-        }
-        <tr>
-            <td colspan="6">
-                
-            </td>
-            <td>
-                總計：
-            </td>
-            <td>
-                @ViewBag.sum
-            </td>
-        </tr>
-    </table>
+            <tr>
+                <td align="right">
+                    公司地址：
+                </td>
+                <td colspan="5" style="border-bottom: 1px solid black" align="left">
+                    @ViewBag.Owner.Address
+                </td>
+                <td align="right">
+                    連絡人：
+                </td>
+                <td style="border-bottom: 1px solid black" align="left">
+                    @ViewBag.Owner.ConPerson
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    工程名稱：
+                </td>
+                <td colspan="5" style="border-bottom: 1px solid black" align="left">
+                    @ViewBag.Building.BuildingName
+                </td>
+                <td align="right">
+                    連絡人電話：
+                </td>
+                <td style="border-bottom: 1px solid black" align="left">
+                    @ViewBag.Owner.ConPersonPhone
+                </td>
+            </tr>
+        </table>
+        <p>
+
+        </p>
+        <table class="table" style="width:100%">
+            <tr>
+                <td colspan="2">
+                </td>
+                <td colspan="2" align="center">
+                    日薪(天)
+                </td>
+                <td colspan="2" align="center">
+                    加班時數(小時)
+                </td>
+                <td colspan="2" align="center">
+                    超時時數(小時)
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" width="8%" style="border-bottom: 1px solid black">
+                    項次
+                </td>
+                <td align="left" width="16%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.WorkCate)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.SalaryDay)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.Salary)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.OvertimeHr)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.OvertimeSal)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.OverOvertimeHr)
+                </td>
+                <td align="right" width="11%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.OverOvertimeSal)
+                </td>
+                <td align="right" width="10%" style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.Sum)
+                </td>
+            </tr>
+
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var item = Model.ToList()[i];
+                int j = i + 1;
+                <tr>
+                    <td align="right">
+                        @j
+                    </td>
+                    <td align="left">
+                        @Html.DisplayFor(modelItem => item.WorkCate)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.SalaryDay)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.Salary)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.OvertimeHr)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.OvertimeSal)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.OverOvertimeHr)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.OverOvertimeSal)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.Sum)
+                    </td>
+                </tr>
+            }
+            <tr style="border-bottom: 1px solid black">
+                <td colspan="7"></td>
+                <td  align="right" style="border-top: 1px solid black">
+                    總計
+                </td>
+                <td  align="right" style="border-top: 1px solid black">
+                    @ViewBag.sum
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

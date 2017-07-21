@@ -4,7 +4,6 @@
     ViewBag.Title = "請款明細表";
 }
 
-<h2>請款明細表</h2>
 <table class="table">
     <tr>
         <th width="180px">
@@ -31,10 +30,19 @@
 <div style="overflow:auto; max-height: 168px">
     <table class="table">
         @foreach (var item in ViewBag.Pay)
+        {
+            string month = "";
+            if (item.Month < 10)
             {
+                month = "0" + item.Month;
+            }
+            else
+            {
+                month = "" + item.Month;
+            }
             <tr>
                 <td width="180px">
-                    @item.Date
+                    @item.Year / @month
                 </td>
                 <td width="180px">
                     @item.OwnerID

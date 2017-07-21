@@ -8,6 +8,10 @@
 
 <html>
 <head>
+    @if (ViewBag.month < 10)
+    {
+        ViewBag.month = "0" + ViewBag.month;
+    }
     <title>@ViewBag.year/@ViewBag.month 出工月報表</title>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
@@ -15,85 +19,90 @@
     @Styles.Render("~/Bundles/css")
 </head>
 <body onload="window.print(); window.close();">
-    <p>
-        <h2>@ViewBag.year/@ViewBag.month 出工月報表</h2>
-    </p>
-    <table class="table table-striped" style="width:100%">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmpID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmpName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Worktime)
-            </th>
-            @for (int i = 1; i <= 31; i++)
-            {
+    <div style="text-align:center; font-weight:bolder;">
+        <p>
+            <h4>@ViewBag.year/@ViewBag.month 出工月報表</h4>
+        </p>
+    </div>
+    <p> </p><p> </p>
+    <div style="font-size:xx-small">
+        <table class="table table-striped" style="width:100%">
+            <tr>
+                <td width="5%" align="left" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                    @Html.DisplayNameFor(model => model.EmpID)
+                </td>
+                <td width="15%" align="left" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                    @Html.DisplayNameFor(model => model.EmpName)
+                </td>
+                <td width="9%" align="left" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                    @Html.DisplayNameFor(model => model.Worktime)
+                </td>
+                @for (int i = 1; i <= 31; i++)
+                {
                 if (i < 10)
                 {
                     string str = "0" + i;
-                    <th>
-                        @str
-                    </th>
+                        <td width="2%" align="right" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                            @str
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="2%" align="right" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                            @i
+                        </td>
+                    }
+                }
+                <td width="9%" align="right" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                    @Html.DisplayNameFor(model => model.Sum)
+                </td>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (item.Worktime.ToString().Equals("正常"))
+                {
+                    <tr class="active">
+                        <td rowspan="2" valign="middle" align="left" style="border-bottom: 1px solid black;">
+                            @Html.DisplayFor(modelItem => item.EmpID)
+                        </td>
+                        <td rowspan="2" valign="middle" align="left" style="border-bottom: 1px solid black;">
+                            @Html.DisplayFor(modelItem => item.EmpName)
+                        </td>
+                        <td align="left">
+                            @Html.DisplayFor(modelItem => item.Worktime)
+                        </td>
+                        @foreach (var date in item.Date)
+                        {
+                            <td align="right">
+                                @Html.DisplayFor(modelItem => date)
+                            </td>
+                        }
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Sum)
+                        </td>
+                    </tr>
                 }
                 else
                 {
-                    <th>
-                        @i
-                    </th>
+                    <tr>
+                        <td align="left" style="border-bottom: 1px solid black;">
+                            @Html.DisplayFor(modelItem => item.Worktime)
+                        </td>
+                        @foreach (var date in item.Date)
+                        {
+                            <td align="right" style="border-bottom: 1px solid black;">
+                                @Html.DisplayFor(modelItem => date)
+                            </td>
+                        }
+                        <td align="right" style="border-bottom: 1px solid black;">
+                            @Html.DisplayFor(modelItem => item.Sum)
+                        </td>
+                    </tr>
                 }
-            }
-            <th>
-                @Html.DisplayNameFor(model => model.Sum)
-            </th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            if (item.Worktime.ToString().Equals("正常"))
-            {
-                <tr class="active">
-                    <td rowspan="2" valign="middle">
-                        @Html.DisplayFor(modelItem => item.EmpID)
-                    </td>
-                    <td rowspan="2" valign="middle">
-                        @Html.DisplayFor(modelItem => item.EmpName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Worktime)
-                    </td>
-                    @foreach (var date in item.Date)
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => date)
-                        </td>
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sum)
-                    </td>
-                </tr>
             }
-            else
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Worktime)
-                    </td>
-                    @foreach (var date in item.Date)
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => date)
-                        </td>
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sum)
-                    </td>
-                </tr>
-            }
-
-        }
-    </table>
+        </table>
+    </div>
 </body>
 </html>

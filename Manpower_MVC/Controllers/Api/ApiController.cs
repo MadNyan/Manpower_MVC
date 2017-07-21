@@ -515,7 +515,6 @@ namespace Manpower_MVC.Controllers.Api
             monthWork.Add(hrSum);
             return monthWork;
         }
-
         public int getSalaryDay(int id, int year, int month, int day)
         {
             int salDay = 0;
