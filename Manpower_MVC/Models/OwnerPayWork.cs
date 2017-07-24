@@ -24,5 +24,7 @@ namespace Manpower_MVC.Models
         public int OverOvertimeHr { get; set; }
         public int WorkCareID { get; set; }
         public int PayID { get; set; }
+        [Display(Name = "備註")]
+        public string Remark { get; set; }
     }
 }

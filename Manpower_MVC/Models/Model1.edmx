@@ -81,6 +81,7 @@
           <Property Name="OverOvertimeHr" Type="int" Nullable="false" />
           <Property Name="WorkCareID" Type="int" Nullable="false" />
           <Property Name="PayID" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -202,6 +203,7 @@
           <Property Name="OverOvertimeHr" Type="Int32" Nullable="false" />
           <Property Name="WorkCareID" Type="Int32" Nullable="false" />
           <Property Name="PayID" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -317,6 +319,7 @@
           <EntitySetMapping Name="OwnerPayWork">
             <EntityTypeMapping TypeName="ManpowerDBModel.OwnerPayWork">
               <MappingFragment StoreEntitySet="OwnerPayWork">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="PayID" ColumnName="PayID" />
                 <ScalarProperty Name="WorkCareID" ColumnName="WorkCareID" />
                 <ScalarProperty Name="OverOvertimeHr" ColumnName="OverOvertimeHr" />

@@ -25,6 +25,8 @@ namespace Manpower_MVC.ViewModels
         public int OvertimeSal { get; set; }
         [Display(Name = "超時時薪")]
         public int OverOvertimeSal { get; set; }
-        
+        [Display(Name = "備註")]
+        public string Remark { get; set; }
+
     }
 }

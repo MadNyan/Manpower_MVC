@@ -201,7 +201,8 @@ namespace Manpower_MVC.Controllers.Api
                           WorkCareName = e.WorkCareName,
                           Salary = e.Salary,
                           OvertimeSal = e.OvertimeSal,
-                          OverOvertimeSal = e.OverOvertimeSal
+                          OverOvertimeSal = e.OverOvertimeSal,
+                          Remark = p.Remark
                       };
             return Get.ToList();
         }

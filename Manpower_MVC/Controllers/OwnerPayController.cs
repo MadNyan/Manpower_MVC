@@ -87,7 +87,8 @@ namespace Manpower_MVC.Controllers
                 OvertimeHr = payWork.OvertimeHr,
                 PayID = Convert.ToInt32(Session["workId"].ToString()),
                 SalaryDay = payWork.SalaryDay,
-                WorkCareID = payWork.WorkCareID
+                WorkCareID = payWork.WorkCareID,
+                Remark = payWork.Remark
             };
             db.OwnerPayWork.Add(_payWork);
             db.SaveChanges();
@@ -112,6 +113,7 @@ namespace Manpower_MVC.Controllers
             _payWork.OvertimeHr = payWork.OvertimeHr;
             _payWork.OverOvertimeHr = payWork.OverOvertimeHr;
             _payWork.WorkCareID = payWork.WorkCareID;
+            _payWork.Remark = payWork.Remark;
             db.SaveChanges();
             return RedirectToAction("ListPayWork", new { id = _payWork.PayID });
         }

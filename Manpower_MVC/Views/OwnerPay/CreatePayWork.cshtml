@@ -53,6 +53,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", rows = "3", placeholder = "備註..." })
+                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="新增" class="btn btn-success" />
                 <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("ListPayWork", new { id = ViewBag.payId })')" />
