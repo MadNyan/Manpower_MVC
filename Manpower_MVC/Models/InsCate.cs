@@ -11,12 +11,16 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class InsCate
     {
         public int ID { get; set; }
+        [Display(Name = "項目代碼")]
         public string InsID { get; set; }
+        [Display(Name = "項目名稱")]
         public string InsName { get; set; }
+        [Display(Name = "加項/減項")]
         public string PosOrNeg { get; set; }
     }
 }
