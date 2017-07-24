@@ -4,7 +4,7 @@
     ViewBag.Title = "業主基本資料";
 }
 
-<h2>工程工地資料</h2>
+<h4>工程工地資料</h4>
 
 <p>
     <input type="button" value="建立工程工地資料" class="btn btn-primary" onclick="location.replace('@Url.Action("CreateOwnerBuilding", new { id = ViewBag.ownerId })')" />
@@ -57,3 +57,7 @@
 }
 
 </table>
+
+<p>
+    <input type="button" value="返回業主基本資料" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
+</p>

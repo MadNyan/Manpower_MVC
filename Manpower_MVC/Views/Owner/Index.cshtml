@@ -1,11 +1,14 @@
 ﻿@model IEnumerable<Manpower_MVC.Models.Owner>
 
 @{
-    ViewBag.Title = "業主資料";
+    ViewBag.Title = "業主基本資料";
 }
 
 <p>
     <h4>業主資料列表</h4>
+</p>
+<p>
+    <input type="button" value="建立業主資料" class="btn btn-primary" onclick="location.replace('@Url.Action("Create")')" />
 </p>
 <table class="table">
     <tr>
@@ -69,15 +72,11 @@
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.ActionLink("Building", "ListOwnerBuilding", new { id = item.ID }) |
-            @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "Delete", new { id=item.ID })
+            <input type="button" value="工程工地資料" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListOwnerBuilding", new { id = item.ID })')" />
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("Edit", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("Delete", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
-
-<p>
-    @Html.ActionLink("建立業主資料", "Create")
-</p>

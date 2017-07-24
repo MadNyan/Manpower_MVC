@@ -6,6 +6,9 @@
 
 <h4>工單工人列表</h4>
 
+<p>
+    <input type="button" value="建立工人" class="btn btn-primary" onclick="location.replace('@Url.Action("CreateWorker", new { listId = ViewBag.listId })')" />
+</p>
 
 <table class="table">
     <tr>
@@ -63,18 +66,14 @@
             @Html.DisplayFor(modelItem => item.Remark)
         </td>
         <td>
-            @Html.ActionLink("編輯", "EditWorker", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "DeleteWorker", new { id=item.ID })
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditWorker", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeleteWorker", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
 
-<p>
-    @Html.ActionLink("新增工人", "CreateWorker", new { listId = ViewBag.listId })
-</p>
-
 <div>
-    @Html.ActionLink("返回工單列表", "Index")
+    <input type="button" value="返回工單列表" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
 </div>

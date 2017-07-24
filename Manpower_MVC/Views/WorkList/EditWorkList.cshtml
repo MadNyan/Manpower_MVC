@@ -1,10 +1,10 @@
 ﻿@model Manpower_MVC.Models.WorkList
 
 @{
-    ViewBag.Title = "EditWorkList";
+    ViewBag.Title = "每日工單輸入";
 }
 
-<h2>EditWorkList</h2>
+<h2>編輯每日工單</h2>
 
 @using (Html.BeginForm())
 {
@@ -47,12 +47,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="更新" class="btn btn-success" />
+                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

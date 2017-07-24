@@ -1,11 +1,14 @@
 ﻿@model IEnumerable<Manpower_MVC.Models.Employee>
 
 @{
-    ViewBag.Title = "人事資料";
+    ViewBag.Title = "點工人事資料";
 }
 
 <p>
-    <h4>人事資料列表</h4>
+    <h4>點工人事資料列表</h4>
+</p>
+<p>
+    <input type="button" value="建立點工人事資料" class="btn btn-primary" onclick="location.replace('@Url.Action("Create")')" />
 </p>
 <table class="table">
     <tr>
@@ -56,16 +59,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.CreateDate)
         </td>
-        <td>
-            @Html.ActionLink("勞健加減項", "ListEmpIns", new { id = item.ID }) |
-            @Html.ActionLink("更新", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "Delete", new { id=item.ID })
+        <td>      
+            <input type="button" value="勞健加減項" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListEmpIns", new { id=item.ID })')" />
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("Edit", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("Delete", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
-
-<p>
-    @Html.ActionLink("建立員工資料", "Create")
-</p>

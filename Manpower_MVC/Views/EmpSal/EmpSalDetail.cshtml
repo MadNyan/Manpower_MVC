@@ -8,7 +8,7 @@
 
 <table class="table">
     <tr>
-        <th>
+        <th width="300px">
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -47,7 +47,7 @@
     </tr>
 }
     <tr>
-        <td>
+        <td colspan="2">
             應支金額：@ViewBag.pos |
             應扣金額：@ViewBag.neg |
             總金額：@ViewBag.sum
@@ -56,5 +56,5 @@
 </table>
 
 <p>
-    @Html.ActionLink("返回員工薪資列表", "Index")
+    <input type="button" value="返回員工薪資列表" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
 </p>

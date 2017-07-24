@@ -5,7 +5,9 @@
 }
 
 <h4>工單列表</h4>
-
+<p>
+    <input type="button" value="建立本日工單" class="btn btn-primary" onclick="location.replace('@Url.Action("CreateWorkList")')" />
+</p>
 <table class="table">
     <tr>
         <th>
@@ -50,14 +52,12 @@
             @Html.DisplayFor(modelItem => item.ConPerson)
         </td>
         <td>
-            @Html.ActionLink("工人列表", "ListWorker", new { listId = item.ID }) |
-            @Html.ActionLink("編輯", "EditWorkList", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "DeleteWorkList", new { id=item.ID })
+            <input type="button" value="工人列表" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListWorker", new { listId = item.ID })')" />
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditWorkList", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeleteWorkList", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
-<p>
-    @Html.ActionLink("新增本日工單", "CreateWorkList")
-</p>
+

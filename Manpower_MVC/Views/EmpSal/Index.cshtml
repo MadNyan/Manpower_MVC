@@ -17,14 +17,11 @@
 
 <table class="table">
     <tr>
-        <th>
+        <th width="200px">
             @Html.DisplayNameFor(model => model.EmpID)
         </th>
-        <th>
+        <th width="200px">
             @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th>
-            月份
         </th>
         <th></th>
     </tr>
@@ -38,10 +35,7 @@
             @Html.DisplayFor(modelItem => item.EmpName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Year)年 @Html.DisplayFor(modelItem => item.Month)月
-        </td>
-        <td>
-            @Html.ActionLink("員工薪資細項", "EmpSalDetail", new {id = item.ID , year = item.Year , month = item.Month })
+            <input type="button" value="薪資細項" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("EmpSalDetail", new {id = item.ID , year = item.Year , month = item.Month})')" />
         </td>
     </tr>
 }

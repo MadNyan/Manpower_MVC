@@ -15,112 +15,114 @@
     @Styles.Render("~/Bundles/css")
 </head>
 <body onload="window.print(); window.close();">
-    <div>
+    <div style="text-align:center; font-weight:bolder;">
         <p>
-            <h2>@ViewBag.year/@ViewBag.month  月份員工薪資總表</h2>
+            <h4>@ViewBag.year/@ViewBag.month  月份員工薪資總表</h4>
         </p>
-
-        <table class="table table-striped" style="width:100%">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.EmpID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EmpName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Salary)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Allowance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TraCost)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PosPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LaborIns)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HealIns)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PenStatute)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Tax)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GroupIns)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Other)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Borrowed)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NegPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SumPrice)
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+    </div>
+    <p> </p><p> </p>
+    <div style="font-size:xx-small">
+            <table class="table table-striped" style="width:100%">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmpID)
+                    <td width="8%" align="left" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.EmpID)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmpName)
+                    <td width="8%" align="left" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.EmpName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Salary)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.Salary)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Allowance)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.Allowance)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TraCost)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.TraCost)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PosPrice)
+                    <td width="8%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.PosPrice)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LaborIns)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.LaborIns)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HealIns)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.HealIns)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PenStatute)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.PenStatute)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tax)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.Tax)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GroupIns)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.GroupIns)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Other)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.Other)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Borrowed)
+                    <td width="6%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.Borrowed)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NegPrice)
+                    <td width="8%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.NegPrice)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SumPrice)
+                    <td width="8%" align="right" style="border-bottom: 1px solid black;">
+                        @Html.DisplayNameFor(model => model.SumPrice)
                     </td>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td align="left">
+                            @Html.DisplayFor(modelItem => item.EmpID)
+                        </td>
+                        <td align="left">
+                            @Html.DisplayFor(modelItem => item.EmpName)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Allowance)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.TraCost)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.PosPrice)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.LaborIns)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.HealIns)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.PenStatute)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Tax)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.GroupIns)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Other)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.Borrowed)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.NegPrice)
+                        </td>
+                        <td align="right">
+                            @Html.DisplayFor(modelItem => item.SumPrice)
+                        </td>
+                    </tr>
+                }
+
+            </table>
     </div>
 </body>
 </html>

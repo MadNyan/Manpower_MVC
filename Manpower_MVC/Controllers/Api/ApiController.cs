@@ -27,7 +27,7 @@ namespace Manpower_MVC.Controllers.Api
         /*************************************************************************************************/
         public List<EmpInsurance> getAllEmpIns(int id)
         {
-            var Get = from p in db.EmpInsurance where p.EmpID == id orderby p.ID ascending select p;
+            var Get = from p in db.EmpInsurance where p.EmpID == id orderby p.InsID ascending select p;
             return Get.ToList();
         }
         public EmpInsurance getOneEmpIns(int id)
@@ -138,7 +138,7 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.EmpInsurance
                       join e in db.InsCate on p.InsID equals e.ID
                       where p.EmpID == id
-                      orderby p.ID ascending
+                      orderby p.InsID ascending
                       select new ViewEmpIns()
                       {
                           ID = p.ID,
@@ -190,6 +190,7 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.OwnerPayWork
                       join e in db.WorkCategory on p.WorkCareID equals e.ID
                       where p.PayID == payId
+                      orderby e.ID ascending
                       select new ViewOwnerPayWork
                       {
                           ID = p.ID,

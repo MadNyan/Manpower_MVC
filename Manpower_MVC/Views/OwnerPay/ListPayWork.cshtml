@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewOwnerPayWork>
 
 @{
-    ViewBag.Title = "請款工種";
+    ViewBag.Title = "業主工種請款資料";
 }
 
 <h4>請款工種列表</h4>
+
+<p>
+    <input type="button" value="建立請款工種" class="btn btn-primary" onclick="location.replace('@Url.Action("CreatePayWork", new { id = ViewBag.payId })')" />
+</p>
 
 <table class="table">
     <tr>
@@ -62,18 +66,15 @@
             @Html.DisplayFor(modelItem => item.OverOvertimeSal)
         </td>
         <td>
-            @Html.ActionLink("更新", "EditPayWork", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "DeletePayWork", new { id=item.ID })
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditPayWork", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeletePayWork", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
 
-<p>
-    @Html.ActionLink("建立請款工種", "CreatePayWork", new { id = ViewBag.payId })
-</p>
 
 <p>
-    @Html.ActionLink("返回請款列表", "Index")
+    <input type="button" value="返回請款列表" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
 </p>

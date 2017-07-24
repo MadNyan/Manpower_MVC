@@ -1,13 +1,12 @@
 ﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewEmpIns>
 
 @{
-    ViewBag.Title = "勞健加減項";
+    ViewBag.Title = "點工人事資料";
 }
 
-<h2>ListEmpIns</h2>
-
+<h2>勞健加減項</h2>
 <p>
-    @Html.ActionLink("增新", "CreateEmpIns", new { id = ViewBag.empId })
+    <input type="button" value="建立勞健加減項" class="btn btn-primary" onclick="location.replace('@Url.Action("CreateEmpIns", new {id = ViewBag.empId })')" />
 </p>
 <table class="table">
     <tr>
@@ -47,10 +46,15 @@
             @Html.DisplayFor(modelItem => item.Remark)
         </td>
         <td>
-            @Html.ActionLink("更新", "EditEmpIns", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "DeleteEmpIns", new { id=item.ID })
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditEmpIns", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeleteEmpIns", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
+
+
+<div>
+    <input type="button" value="返回點工人事資料" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
+</div>

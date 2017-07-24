@@ -1,16 +1,15 @@
 ﻿@model Manpower_MVC.Models.OwnerPayment
 
 @{
-    ViewBag.Title = "業主工種請款";
+    ViewBag.Title = "業主工種請款資料";
 }
 
-<h4>編輯請款</h4>
+<h4>編輯業主工種請款資料</h4>
 
 <form method="post" action="@Url.Action("EditPayment")">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>OwnerPayment</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
@@ -40,12 +39,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="更新" class="btn btn-success" />
+                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
             </div>
         </div>
     </div>
 </form>
-
-    <div>
-        @Html.ActionLink("返回請款列表", "Index")
-    </div>

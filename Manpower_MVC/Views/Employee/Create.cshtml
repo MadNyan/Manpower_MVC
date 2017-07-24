@@ -1,7 +1,7 @@
 ﻿@model Manpower_MVC.Models.Employee
 
 @{
-    ViewBag.Title = "人事資料";
+    ViewBag.Title = "點工人事資料";
 }
 
 @using (Html.BeginForm()) 
@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>員工基本資料</h4>
+        <h4>建立點工人事資料</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -62,12 +62,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="建立" class="btn btn-default" />
+                <input type="submit" value="新增" class="btn btn-success" />
+                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("Index")')" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("返回人事資料列表", "Index")
-</div>

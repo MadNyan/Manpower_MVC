@@ -24,7 +24,7 @@
         @Html.Partial("_Header")
         @Html.Partial("_Sidebar")
 
-        <div class="content-wrapper" style="min-height: 600px;">
+        <div class="content-wrapper" style="min-height: 1080px;">
             <section class="content-header">
                 <h1>
                     @ViewBag.Title
@@ -44,53 +44,74 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <!--
     <script>
-        // Shift 的鍵盤代碼是 16，Ctrl 的鍵盤代碼是 17，Alt 的鍵盤代碼是 18
-        function keyFunction() {
+        // shift 的鍵盤代碼是 16，ctrl 的鍵盤代碼是 17，alt 的鍵盤代碼是 18
+        function keyfunction() {
             //// 若不加第二個條件，會印出兩次警告視窗
-            //// 一次是按 Shift，第二次是按其他鍵
-            //if ((event.shiftKey) && (event.keyCode != 16))
-            //    alert("Shift + " + event.keyCode);
-            //if ((event.ctrlKey) && (event.keyCode != 17))
-            //    alert("Ctrl + " + event.keyCode);
+            //// 一次是按 shift，第二次是按其他鍵
+            //if ((event.shiftkey) && (event.keycode != 16))
+            //    alert("shift + " + event.keycode);
+            //if ((event.ctrlkey) && (event.keycode != 17))
+            //    alert("ctrl + " + event.keycode);
 
 
-            if ((event.altKey) && (event.keyCode == 49)) {
-                window.location.href = '/Home/a01';
+            if ((event.altkey) && (event.keycode == 49)) {
+                window.location.href = '/home/a01';
             }
-            if ((event.altKey) && (event.keyCode == 50)) {
-                window.location.href = '/Home/a11';
+            if ((event.altkey) && (event.keycode == 50)) {
+                window.location.href = '/home/a11';
             }
-            if ((event.altKey) && (event.keyCode == 51)) {
-                window.location.href = '/Home/a21';
+            if ((event.altkey) && (event.keycode == 51)) {
+                window.location.href = '/home/a21';
             }
-            if ((event.altKey) && (event.keyCode == 52)) {
-                window.location.href = '/Home/a31';
+            if ((event.altkey) && (event.keycode == 52)) {
+                window.location.href = '/home/a31';
             }
-            if ((event.altKey) && (event.keyCode == 53)) {
-                window.location.href = '/Home/b01';
+            if ((event.altkey) && (event.keycode == 53)) {
+                window.location.href = '/home/b01';
             }
-            if ((event.altKey) && (event.keyCode == 54)) {
-                window.location.href = '/Home/b11';
+            if ((event.altkey) && (event.keycode == 54)) {
+                window.location.href = '/home/b11';
             }
-            if ((event.altKey) && (event.keyCode == 55)) {
-                window.location.href = '/Home/b21';
+            if ((event.altkey) && (event.keycode == 55)) {
+                window.location.href = '/home/b21';
             }
 
 
             // focus on search field
-            if ((event.altKey) && (event.keyCode == 83)) {
+            if ((event.altkey) && (event.keycode == 83)) {
                 $("input[type='search']").focus()
             }
 
-            if (event.keyCode == 13) // enter => focus 在Table的第一個Cell
+            if (event.keycode == 13) // enter => focus 在table的第一個cell
             {
                 if ($('table').find('td.focus').length == 0)
-                    $('table').DataTable().cell(':eq(0)').focus();
+                    $('table').datatable().cell(':eq(0)').focus();
             }
         }
 
-        document.onkeydown = keyFunction;
+        document.onkeydown = keyfunction;
+    </script>
+        -->
+    <script>
+        $(function () {
+            // 幫 #menu li 加上 hover 事件
+            $('.sidebar-menu li').click(function () {
+                var _this = $(this),
+                    _subnav = _this.children('ul');
+                if (_subnav.css("display") == "none") {
+                    _subnav.css('display', 'block');
+                } else {
+                    _subnav.css('display', 'none');
+                }
+            });
+
+            // 取消超連結的虛線框
+            $('a').focus(function () {
+                this.blur();
+            });
+        });
     </script>
 </body>
 </html>

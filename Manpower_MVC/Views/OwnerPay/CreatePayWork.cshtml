@@ -1,16 +1,15 @@
 ﻿@model Manpower_MVC.Models.OwnerPayWork
 
 @{
-    ViewBag.Title = "請款工種";
+    ViewBag.Title = "業主工種請款資料";
 }
 
-<h4>新增請款工種</h4>
+<h4>建立請款工種</h4>
 
 <form method="post" action="@Url.Action("CreatePayWork")">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>OwnerPayWork</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -55,12 +54,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="新增" class="btn btn-success" />
+                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("ListPayWork", new { id = ViewBag.payId })')" />
             </div>
         </div>
     </div>
 </form>
-
-    <div>
-        @Html.ActionLink("返回請款工種列表", "ListPayWork", new { id = ViewBag.payId })
-    </div>

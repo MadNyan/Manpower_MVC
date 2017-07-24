@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewOwnerPayment>
 
 @{
-    ViewBag.Title = "業主工種請款";
+    ViewBag.Title = "業主工種請款資料";
 }
 
-<h4>請款列表</h4>
+<h4>業主工種請款資料列表</h4>
+
+<p>
+    <input type="button" value="建立請款" class="btn btn-primary" onclick="location.replace('@Url.Action("CreatePayment")')" />
+</p>
 
 <table class="table">
     <tr>
@@ -44,15 +48,11 @@
             @Html.DisplayFor(modelItem => item.ConPersonTel)
         </td>
         <td>
-            @Html.ActionLink("請款工種列表", "ListPayWork", new { id=item.ID }) |
-            @Html.ActionLink("更新", "EditPayment", new { id=item.ID }) |
-            @Html.ActionLink("刪除", "DeletePayment", new { id=item.ID })
+            <input type="button" value="請款工種列表" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListPayWork", new { id=item.ID })')" />
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditPayment", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeletePayment", new { id=item.ID })')}" />
         </td>
     </tr>
 }
 
 </table>
-
-<p>
-    @Html.ActionLink("建立請款", "CreatePayment")
-</p>
