@@ -4,13 +4,12 @@
     ViewBag.Title = "點工工種薪資";
 }
 
-<h2>建立工種薪資</h2>
+<h4>建立工種薪資</h4>
 
 <form method="post" action="@Url.Action("Create")">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>WorkCategory</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
