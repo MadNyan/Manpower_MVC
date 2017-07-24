@@ -17,7 +17,7 @@ namespace Manpower_MVC.ViewModels
         public string OwnerTel { get; set; }
         [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
-        [Display(Name = "連絡人電話")]
+        [Display(Name = "連絡人手機")]
         public string ConPersonTel { get; set; }
 
     }

@@ -23,6 +23,7 @@ namespace Manpower_MVC.Models
         [Display(Name = "日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
+        [Display(Name = "工地")]
         public int BuildingID { get; set; }
     }
 }

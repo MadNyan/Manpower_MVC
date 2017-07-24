@@ -28,7 +28,7 @@ namespace Manpower_MVC.Models
         public string ConPerson { get; set; }
         [Display(Name = "緊急連絡電話")]
         public string ConPersonTel { get; set; }
-        [Display(Name = "建立時間")]
+        [Display(Name = "建立日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> CreateDate { get; set; }
     }

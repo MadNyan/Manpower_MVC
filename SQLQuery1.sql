@@ -37,6 +37,7 @@ CREATE TABLE [dbo].[OwnerPayWork] (
     [OverOvertimeHr] INT DEFAULT ((0)) NOT NULL,
     [WorkCareID]     INT NOT NULL,
     [PayID]          INT NOT NULL,
+	[Remark]         NVARCHAR (50) NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 

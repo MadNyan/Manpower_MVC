@@ -559,7 +559,6 @@
     <Content Include="Views\PrintList\PrintMonthWork.cshtml" />
     <Content Include="Views\PrintList\EmpSal.cshtml" />
     <Content Include="Views\PrintList\PrintEmpSal.cshtml" />
-    <Content Include="Views\PrintList\Payment.cshtml" />
     <Content Include="Views\PrintList\PayWork.cshtml" />
     <Content Include="Views\PrintList\PayDetail.cshtml" />
     <Content Include="Views\Owner\ListOwnerBuilding.cshtml" />
