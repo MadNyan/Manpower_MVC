@@ -24,9 +24,9 @@ namespace Manpower_MVC.Models
         public string Tel { get; set; }
         [Display(Name = "手機")]
         public string Phone { get; set; }
-        [Display(Name = "連絡人")]
+        [Display(Name = "緊急連絡人")]
         public string ConPerson { get; set; }
-        [Display(Name = "連絡人電話")]
+        [Display(Name = "緊急連絡電話")]
         public string ConPersonTel { get; set; }
         [Display(Name = "建立時間")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Manpower_MVC.Models.Owner>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>客戶資料一覽表</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/css/icheck/blue.min.css" rel="stylesheet">
+    @Styles.Render("~/Bundles/css")
+</head>
+<body onload="window.print(); window.close();">
+    <div style="text-align:center; font-weight:bolder;">
+        <p>
+            <h4>客戶資料一覽表</h4>
+        </p>
+    </div>
+    <div style="font-size:xx-small;text-align :left;">
+        <table class="table table-striped" style="width:100%">
+            <tr>
+                <td style="border-bottom: 1px solid black">
+                    編號
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    名稱
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    連絡電話
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    傳真
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.ConPerson)
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    電話
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    手機
+                </td>
+                <td style="border-bottom: 1px solid black">
+                    @Html.DisplayNameFor(model => model.UnifiedNum)
+                </td>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tel2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConPerson)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConPersonPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConPersonTel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnifiedNum)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>

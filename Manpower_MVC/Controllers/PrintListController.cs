@@ -74,10 +74,6 @@ namespace Manpower_MVC.Controllers
         }
 
         // PrintPay
-        public ActionResult Payment()
-        {
-            return View(getViewPrintPayment());
-        }
         public ActionResult PayWork(int? building, int? year, int? month)
         {
             ViewBag.Pay = getViewPrintPayment();

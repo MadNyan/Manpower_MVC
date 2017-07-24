@@ -64,6 +64,10 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Print()
+        {
+            return View(getAllEmp());
+        }
         // ViewEmpIns
         /*************************************************************************************************/
         public ActionResult ListEmpIns(int? id)

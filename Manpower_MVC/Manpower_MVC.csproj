@@ -569,6 +569,9 @@
     <Content Include="Views\WorkList\EditWorkList.cshtml" />
     <Content Include="Views\PrintList\PrintPayWork.cshtml" />
     <Content Include="Views\PrintList\PrintPayDetail.cshtml" />
+    <Content Include="Views\Employee\Print.cshtml" />
+    <Content Include="Views\WorkCare\Print.cshtml" />
+    <Content Include="Views\Owner\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

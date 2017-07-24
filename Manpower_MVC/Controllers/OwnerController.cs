@@ -58,6 +58,10 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Print()
+        {
+            return View(getAllOwner());
+        }
         //for OwnerBuilding
         /*************************************************************************************************/
         public ActionResult ListOwnerBuilding(int? id)
