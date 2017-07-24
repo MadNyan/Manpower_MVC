@@ -11,14 +11,19 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OwnerBuilding
     {
         public int ID { get; set; }
-        public string BuildingID { get; set; }
+        [Display(Name = "工程名稱")]
         public string BuildingName { get; set; }
+        [Display(Name = "連絡人")]
         public string ConPerson { get; set; }
+        [Display(Name = "連絡電話")]
         public string ConPersonTel { get; set; }
         public int OwnerID { get; set; }
+        [Display(Name = "地址")]
+        public string Address { get; set; }
     }
 }

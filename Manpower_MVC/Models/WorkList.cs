@@ -21,6 +21,7 @@ namespace Manpower_MVC.Models
         [Display(Name = "單號")]
         public string SingleNum { get; set; }
         [Display(Name = "日期")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
         public int BuildingID { get; set; }
     }

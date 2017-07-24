@@ -85,10 +85,10 @@ namespace Manpower_MVC.Controllers
         {
             OwnerBuilding _ownerBuilding = new OwnerBuilding()
             {
-                BuildingID = ownerBuilding.BuildingID,
                 BuildingName = ownerBuilding.BuildingName,
                 ConPerson = ownerBuilding.ConPerson,
                 ConPersonTel = ownerBuilding.ConPersonTel,
+                Address = ownerBuilding.Address,
                 OwnerID = Convert.ToInt32(Session["ownerId"].ToString())
             };
             Session["ownerId"] = null;
@@ -110,10 +110,10 @@ namespace Manpower_MVC.Controllers
         public ActionResult EditOwnerBuilding(int id, OwnerBuilding ownerBuilding)
         {
             OwnerBuilding _ownerBuilding = getOneOwnerBuilding(id);
-            _ownerBuilding.BuildingID = ownerBuilding.BuildingID;
             _ownerBuilding.BuildingName = ownerBuilding.BuildingName;
             _ownerBuilding.ConPerson = ownerBuilding.ConPerson;
             _ownerBuilding.ConPersonTel = ownerBuilding.ConPersonTel;
+            _ownerBuilding.Address = ownerBuilding.Address;
             db.SaveChanges();
             return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
         }

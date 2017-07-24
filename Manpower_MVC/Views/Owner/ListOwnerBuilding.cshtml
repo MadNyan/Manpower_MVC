@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Manpower_MVC.Models.OwnerBuilding>
 
 @{
-    ViewBag.Title = "ListOwnerBuilding";
+    ViewBag.Title = "業主基本資料";
 }
 
-<h2>ListOwnerBuilding</h2>
+<h2>工程工地資料</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateOwnerBuilding", new { id = ViewBag.ownerId })
+    <input type="button" value="建立工程工地資料" class="btn btn-primary" onclick="location.replace('@Url.Action("CreateOwnerBuilding", new { id = ViewBag.ownerId })')" />
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.BuildingID)
+            次項
         </th>
         <th>
             @Html.DisplayNameFor(model => model.BuildingName)
@@ -24,15 +24,18 @@
             @Html.DisplayNameFor(model => model.ConPersonTel)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OwnerID)
+            @Html.DisplayNameFor(model => model.Address)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@for (int i = 0; i < Model.Count(); i++)
+{
+    var item = Model.ToList()[i];
+    int j = i + 1;
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.BuildingID)
+            @j
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BuildingName)
@@ -44,11 +47,11 @@
             @Html.DisplayFor(modelItem => item.ConPersonTel)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OwnerID)
+            @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditOwnerBuilding", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "DeleteOwnerBuilding", new { id=item.ID })
+            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditOwnerBuilding", new { id=item.ID })')" />
+            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeleteOwnerBuilding", new { id=item.ID })')}" />
         </td>
     </tr>
 }

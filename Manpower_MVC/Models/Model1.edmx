@@ -57,10 +57,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BuildingID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="BuildingName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ConPerson" Type="nvarchar" MaxLength="50" />
           <Property Name="ConPersonTel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
           <Property Name="OwnerID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OwnerPayment">
@@ -178,11 +178,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BuildingID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BuildingName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConPersonTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OwnerPayment">
           <Key>
@@ -296,11 +296,11 @@
           <EntitySetMapping Name="OwnerBuilding">
             <EntityTypeMapping TypeName="ManpowerDBModel.OwnerBuilding">
               <MappingFragment StoreEntitySet="OwnerBuilding">
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="ConPersonTel" ColumnName="ConPersonTel" />
                 <ScalarProperty Name="ConPerson" ColumnName="ConPerson" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
-                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,10 +1,10 @@
 ﻿@model Manpower_MVC.Models.OwnerBuilding
 
 @{
-    ViewBag.Title = "EditOwnerBuilding";
+    ViewBag.Title = "業主基本資料";
 }
 
-<h2>EditOwnerBuilding</h2>
+<h2>編輯工程工地資料</h2>
 
 @using (Html.BeginForm())
 {
@@ -15,14 +15,6 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BuildingID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BuildingID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BuildingID, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.BuildingName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -49,13 +41,18 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="更新" class="btn btn-success" />
+                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("ListOwnerBuilding", new { id = ViewBag.ownerId })')" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "ListOwnerBuilding", new { id = ViewBag.ownerId })
-</div>
