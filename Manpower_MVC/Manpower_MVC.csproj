@@ -351,6 +351,7 @@
     <Content Include="Content\css\icheck\red.min.css" />
     <Content Include="Content\css\icheck\yellow.css" />
     <Content Include="Content\css\icheck\yellow.min.css" />
+    <Content Include="Content\css\jquery.dataTables.min.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\css\Site.css" />
@@ -453,6 +454,8 @@
     <Content Include="Content\js\DataTables\Select\dataTables.select.js" />
     <Content Include="Content\js\DataTables\Select\dataTables.select.min.js" />
     <Content Include="Content\js\init.js" />
+    <Content Include="Content\js\jquery-1.12.4.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
     <Content Include="Content\js\plugins\bootstrap\bootstrap.js" />
     <Content Include="Content\js\plugins\bootstrap\bootstrap.min.js" />
     <Content Include="Content\js\plugins\datepicker\bootstrap-datepicker.js" />

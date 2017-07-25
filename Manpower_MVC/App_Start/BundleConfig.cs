@@ -24,6 +24,7 @@ namespace Manpower_MVC
                 .Include("~/Content/css/DataTables/KeyTable/keyTable.dataTables.css")
                 .Include("~/Content/css/DataTables/DataTableEdit/editor.dataTables.css")
                 .Include("~/Content/css/DataTables/DataTables.Checkboxes-1.2.6/dataTables.checkboxes.css")
+                .Include("~/Content/css/jquery.dataTables.min.css")
                 );
 
             bundles.Add(new ScriptBundle("~/Bundles/js")
@@ -47,6 +48,8 @@ namespace Manpower_MVC
                 .Include("~/Content/js/DataTables/Buttons-1.3.1/buttons.print.js")
                 .Include("~/Content/js/DataTables/Buttons-1.3.1/buttons.bootstrap.js")
                 .Include("~/Content/js/DataTables/DataTables.Checkboxes-1.2.6/dataTables.checkboxes.js")
+                .Include("~/Content/js/jquery.dataTables.min.js")
+                .Include("~/Content/js/jquery-1.12.4.js")
                 );
 #if DEBUG
             BundleTable.EnableOptimizations = false;
