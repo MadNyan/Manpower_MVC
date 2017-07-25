@@ -21,27 +21,27 @@
             </li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-pencil-square-o"></i><span>基本資料</span></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li class="active"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> 點工人事資料</a></li>
-                    <li class="active"><a href="@Url.Action("Index", "WorkCare")"><i class="fa fa-circle-o"></i> 點工工種薪資</a></li>
-                    <li class="active"><a href="@Url.Action("Index", "Owner")"><i class="fa fa-circle-o"></i> 業主基本資料</a></li>
-                    <li class="active"><a href="@Url.Action("Index", "OwnerPay")"><i class="fa fa-circle-o"></i> 業主工種請款資料</a></li>
+                <ul id="base" class="treeview-menu">
+                    <li id="Employee"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> 點工人事資料</a></li>
+                    <li id="WorkCare"><a href="@Url.Action("Index", "WorkCare")"><i class="fa fa-circle-o"></i> 點工工種薪資</a></li>
+                    <li id="Owner"><a href="@Url.Action("Index", "Owner")"><i class="fa fa-circle-o"></i> 業主基本資料</a></li>
+                    <li id="OwnerPay"><a href="@Url.Action("Index", "OwnerPay")"><i class="fa fa-circle-o"></i> 業主工種請款資料</a></li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-suitcase"></i><span>例行作業</span></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li class="active"><a href="@Url.Action("Index", "WorkList")"><i class="fa fa-circle-o"></i> 每日工單輸入</a></li>
-                    <li class="active"><a href="@Url.Action("Index", "EmpSal")"><i class="fa fa-circle-o"></i> 點工薪資月結</a></li>
+                <ul id="work" class="treeview-menu">
+                    <li id="WorkList"><a href="@Url.Action("Index", "WorkList")"><i class="fa fa-circle-o"></i> 每日工單輸入</a></li>
+                    <li id="EmpSal"><a href="@Url.Action("Index", "EmpSal")"><i class="fa fa-circle-o"></i> 點工薪資月結</a></li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-bar-chart"></i><span>報表畫面</span></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li class="active"><a href="@Url.Action("MonthWork", "PrintList")"><i class="fa fa-circle-o"></i> 出工月報表</a></li>
-                    <li class="active"><a href="@Url.Action("EmpSal", "PrintList")"><i class="fa fa-circle-o"></i> 出工薪資總表</a></li>
-                    <li class="active"><a href="@Url.Action("PayWork", "PrintList")"><i class="fa fa-circle-o"></i> 請款總表</a></li>
-                    <li class="active"><a href="@Url.Action("PayDetail", "PrintList")"><i class="fa fa-circle-o"></i> 請款明細表</a></li>
+                <ul id="list" class="treeview-menu">
+                    <li id="MonthWork"><a href="@Url.Action("MonthWork", "PrintList")"><i class="fa fa-circle-o"></i> 出工月報表</a></li>
+                    <li id="EmpSal2"><a href="@Url.Action("EmpSal", "PrintList")"><i class="fa fa-circle-o"></i> 出工薪資總表</a></li>
+                    <li id="PayWork"><a href="@Url.Action("PayWork", "PrintList")"><i class="fa fa-circle-o"></i> 請款總表</a></li>
+                    <li id="PayDetail"><a href="@Url.Action("PayDetail", "PrintList")"><i class="fa fa-circle-o"></i> 請款明細表</a></li>
                 </ul>
             </li>
         </ul>

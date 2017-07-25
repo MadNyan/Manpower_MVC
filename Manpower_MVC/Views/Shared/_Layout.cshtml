@@ -101,17 +101,70 @@
                 var _this = $(this),
                     _subnav = _this.children('ul');
                 if (_subnav.css("display") == "none") {
+                    _this.addClass('active');
                     _subnav.css('display', 'block');
                 } else {
+                    _this.removeClass('active');
                     _subnav.css('display', 'none');
                 }
             });
-
+            
             // 取消超連結的虛線框
             $('a').focus(function () {
                 this.blur();
             });
         });
+    </script>
+    <script>
+        function setBase() {
+            document.getElementById("base").style.display = "block";
+            document.getElementById("work").style.display = "none";
+            document.getElementById("list").style.display = "none";
+            document.getElementById("base").parentElement.className += " active";
+        }
+        function setWork() {
+            document.getElementById("base").style.display = "none";
+            document.getElementById("work").style.display = "block";
+            document.getElementById("list").style.display = "none";
+            document.getElementById("work").parentElement.className += " active";
+        }
+        function setList() {
+            document.getElementById("base").style.display = "none";
+            document.getElementById("work").style.display = "none";
+            document.getElementById("list").style.display = "block";
+            document.getElementById("list").parentElement.className += " active";
+        }
+        if (location.pathname == "/Employee") {
+            setBase();
+            document.getElementById("Employee").className += "active";
+        } else if (location.pathname == "/WorkCare") {
+            setBase();
+            document.getElementById("WorkCare").className += "active";
+        } else if (location.pathname == "/Owner") {
+            setBase();
+            document.getElementById("Owner").className += "active";
+        } else if (location.pathname == "/OwnerPay") {
+            setBase();
+            document.getElementById("OwnerPay").className += "active";
+        } else if (location.pathname == "/WorkList"){
+            setWork();
+            document.getElementById("WorkList").className += "active";
+        } else if (location.pathname == "/EmpSal") {
+            setWork();
+            document.getElementById("EmpSal").className += "active";
+        } else if (location.pathname == "/PrintList/MonthWork"){
+            setList();
+            document.getElementById("MonthWork").className += "active";
+        } else if (location.pathname == "/PrintList/EmpSal") {
+            setList();
+            document.getElementById("EmpSal2").className += "active";
+        } else if (location.pathname == "/PrintList/PayWork") {
+            setList();
+            document.getElementById("PayWork").className += "active";
+        } else if (location.pathname == "/PrintList/PayDetail") {
+            setList();
+            document.getElementById("PayDetail").className += "active";
+        }
     </script>
 </body>
 </html>
