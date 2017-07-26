@@ -13,61 +13,134 @@
 <p>
     <input type="button" value="列印點工人事資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPersonTel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPersonTel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>      
-            <input type="button" value="勞健加減項" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListEmpIns", new { id=item.ID })')" />
-            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("Edit", new { id=item.ID })')" />
-            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("Delete", new { id=item.ID })')}" />
-        </td>
-    </tr>
-}
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConPersonTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConPersonTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr test ="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConPerson)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConPersonTel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+<input id="ins" disabled="disabled" type="button" value="勞健加減項" class="btn btn-info" />
+<input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" />
+<input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                "scrollY": "275px",
+                "paging": false
+            });
+
+            $('a.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                // Get the column API object
+                var column = table.column($(this).attr('data-column'));
+                // Toggle the visibility
+                column.visible(!column.visible());
+            });
+
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#ins').attr('disabled', true);
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#ins').attr('disabled', false);
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                }
+            });
+
+            $('#ins').click(function () {
+                location.replace('/Employee/ListEmpIns/' + $('.selected').attr('test'));
+            });
+            $('#edit').click(function () {
+                location.replace('/Employee/Edit/' + $('.selected').attr('test'));
+            });
+            $('#del').click(function () {
+                location.replace('/Employee/Delete/' + $('.selected').attr('test'));
+            });
+        });
+    </script>
+}

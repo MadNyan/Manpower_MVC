@@ -1,2 +1,67 @@
 ﻿<script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
 @Scripts.Render("~/Bundles/js")
+<script>
+    $(function () {
+        // 幫 #menu li 加上 hover 事件
+        $('.sidebar-menu li').click(function () {
+            var _this = $(this),
+                _subnav = _this.children('ul');
+            if (_subnav.hasClass('open')) {
+                _this.removeClass('active');
+            } else {
+                _this.addClass('active');
+            }
+        });
+
+        // 取消超連結的虛線框
+        $('a').focus(function () {
+            this.blur();
+        });
+    });
+</script>
+<!---->
+<script>
+    function setBase() {
+        document.getElementById("base").style.display = "block";
+        document.getElementById("base").parentElement.className += " active";
+    }
+    function setWork() {
+        document.getElementById("work").style.display = "block";
+        document.getElementById("work").parentElement.className += " active";
+    }
+    function setList() {
+        document.getElementById("list").style.display = "block";
+        document.getElementById("list").parentElement.className += " active";
+    }
+    if (location.pathname == "/Employee") {
+        setBase();
+        document.getElementById("Employee").className += "active";
+    } else if (location.pathname == "/WorkCare") {
+        setBase();
+        document.getElementById("WorkCare").className += "active";
+    } else if (location.pathname == "/Owner") {
+        setBase();
+        document.getElementById("Owner").className += "active";
+    } else if (location.pathname == "/OwnerPay") {
+        setBase();
+        document.getElementById("OwnerPay").className += "active";
+    } else if (location.pathname == "/WorkList") {
+        setWork();
+        document.getElementById("WorkList").className += "active";
+    } else if (location.pathname == "/EmpSal") {
+        setWork();
+        document.getElementById("EmpSal").className += "active";
+    } else if (location.pathname == "/PrintList/MonthWork") {
+        setList();
+        document.getElementById("MonthWork").className += "active";
+    } else if (location.pathname == "/PrintList/EmpSal") {
+        setList();
+        document.getElementById("EmpSal2").className += "active";
+    } else if (location.pathname == "/PrintList/PayWork") {
+        setList();
+        document.getElementById("PayWork").className += "active";
+    } else if (location.pathname == "/PrintList/PayDetail") {
+        setList();
+        document.getElementById("PayDetail").className += "active";
+    }
+</script>

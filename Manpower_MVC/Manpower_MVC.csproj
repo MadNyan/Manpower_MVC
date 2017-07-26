@@ -264,6 +264,7 @@
     <Compile Include="ViewModels\ViewWorkList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ajax\data\arrays.txt" />
     <Content Include="App_Data\ManpowerDB.mdf" />
     <Content Include="App_Data\ManpowerDB_log.ldf">
       <DependentUpon>ManpowerDB.mdf</DependentUpon>
@@ -274,6 +275,7 @@
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\css\DataTables\Buttons-1.3.1\buttons.bootstrap.css" />
     <Content Include="Content\css\DataTables\Buttons-1.3.1\buttons.bootstrap.min.css" />
     <Content Include="Content\css\DataTables\Buttons-1.3.1\buttons.bootstrap4.css" />
@@ -411,8 +413,10 @@
     <Content Include="Content\img\user.jpg" />
     <Content Include="Content\js\app.js" />
     <Content Include="Content\js\app.min.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\Custom.Print.Button.js" />
     <Content Include="Content\js\Custom.PrintPay.Button.js" />
+    <Content Include="Content\js\dataTables.bootstrap.min.js" />
     <Content Include="Content\js\DataTables\Buttons-1.3.1\buttons.bootstrap.js" />
     <Content Include="Content\js\DataTables\Buttons-1.3.1\buttons.bootstrap.min.js" />
     <Content Include="Content\js\DataTables\Buttons-1.3.1\buttons.bootstrap4.js" />
