@@ -1,66 +1,103 @@
-﻿@model IEnumerable<Manpower_MVC.Models.Employee>
-
+﻿
 @{
     ViewBag.Title = "點工人事資料";
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPersonTel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPersonTel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-    <p>
-        @Html.ActionLink("新增點工人事資料", "a01Ins")
-    </p>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                工號
+            </th>
+            <th>
+                姓名
+            </th>
+            <th>
+                電話
+            </th>
+            <th>
+                手機
+            </th>
+            <th>
+                緊急連絡人
+            </th>
+            <th>
+                緊急連絡電話
+            </th>
+            <th>
+                建立日期
+            </th>
+        </tr>
+    </thead>
 </table>
+
+@section pagesection{
+    <script charset="utf-8">
+        var editor; // use a global for the submit and return data rendering in the examples
+
+        $(document).ready(function () {
+            editor = new $.fn.dataTable.Editor({
+                ajax: {
+                    create: {
+                        type: 'POST',
+                        url: "api/rest/create",
+                    },
+                    edit: {
+                        type: 'PUT',
+                        url: "api/rest/edit",
+                    },
+                    remove: {
+                        type: 'POST',
+                        url: "api/rest/remove",
+                    }
+                },
+                table: "#example",
+                idSrc: "ID",
+                fields: [{
+                    label: "工號",
+                    name: "EmpID"
+                }, {
+                    label: "姓名",
+                    name: "EmpName"
+                }, {
+                    label: "電話",
+                    name: "Tel"
+                }, {
+                    label: "手機",
+                    name: "Phone"
+                }, {
+                    label: "緊急連絡人",
+                    name: "ConPerson"
+                }, {
+                    label: "緊急連絡電話",
+                    name: "ConPersonTel",
+                }, {
+                    label: "建立日期",
+                    name: "CreateDate",
+                    type: "datetime"
+                }
+                ]
+            });
+
+            $('#example').DataTable({
+                dom: "Bfrtip",
+                ajax: "api/rest/get",
+                columns: [
+                    { data: "EmpID" },
+                    { data: "EmpName" },
+                    { data: "Tel" },
+                    { data: "Phone" },
+                    { data: "ConPerson" },
+                    { data: "ConPersonTel" },
+                    { data: "CreateDate" }
+                ],
+                select: true,
+                buttons: [
+                    { extend: "create", editor: editor },
+                    { extend: "edit", editor: editor },
+                    { extend: "remove", editor: editor }
+                ]
+            });
+        });
+    </script>
+}

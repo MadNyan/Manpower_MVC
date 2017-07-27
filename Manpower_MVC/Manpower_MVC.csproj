@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ApiController.cs" />
+    <Compile Include="Controllers\Api\EmpController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmpSalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -264,7 +265,6 @@
     <Compile Include="ViewModels\ViewWorkList.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ajax\data\arrays.txt" />
     <Content Include="App_Data\ManpowerDB.mdf" />
     <Content Include="App_Data\ManpowerDB_log.ldf">
       <DependentUpon>ManpowerDB.mdf</DependentUpon>
@@ -557,7 +557,6 @@
     <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Home\a01.cshtml" />
-    <Content Include="Views\Home\a01Ins.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
@@ -611,6 +610,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Api\" />
+    <Folder Include="Views\Emp\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

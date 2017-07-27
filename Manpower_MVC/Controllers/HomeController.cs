@@ -17,29 +17,7 @@ namespace Manpower_MVC.Controllers
 
         public ActionResult a01()
         {
-            var Get = from p in db.Employee orderby p.ID descending select p;
-            return View(Get.ToList());
-        }
-        public ActionResult a01Ins()
-        {
             return View();
-        }
-        [HttpPost]
-        [ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult a01Ins(Employee emp)
-        {
-            Employee _emp = new Employee();
-            _emp.EmpID = emp.EmpID;
-            _emp.EmpName = emp.EmpName;
-            _emp.Tel = emp.Tel;
-            _emp.Phone = emp.Phone;
-            _emp.ConPerson = emp.ConPerson;
-            _emp.ConPersonTel = emp.ConPersonTel;
-            _emp.CreateDate = DateTime.Now;
-            db.Employee.Add(_emp);
-            db.SaveChanges();
-            return RedirectToAction("a01");
         }
     }
 }
