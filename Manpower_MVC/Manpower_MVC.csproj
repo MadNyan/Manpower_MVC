@@ -179,7 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ApiController.cs" />
-    <Compile Include="Controllers\Api\EmpController.cs" />
+    <Compile Include="Controllers\Api\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmpSalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -188,9 +188,11 @@
     <Compile Include="Controllers\PrintListController.cs" />
     <Compile Include="Controllers\WorkCareController.cs" />
     <Compile Include="Controllers\WorkListController.cs" />
+    <Compile Include="DAL\ManpowerDBEntitiesEditor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Emp.cs" />
     <Compile Include="Models\EmpInsurance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -598,6 +600,7 @@
     <Content Include="Views\Employee\Print.cshtml" />
     <Content Include="Views\WorkCare\Print.cshtml" />
     <Content Include="Views\Owner\Print.cshtml" />
+    <Content Include="Views\Home\a02.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -610,7 +613,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Api\" />
-    <Folder Include="Views\Emp\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

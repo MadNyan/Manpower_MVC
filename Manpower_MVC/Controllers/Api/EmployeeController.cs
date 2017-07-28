@@ -8,7 +8,7 @@ using Manpower_MVC.Models;
 
 namespace Manpower_MVC.Controllers.Api
 {
-    public class EmpController : System.Web.Http.ApiController
+    public class EmployeeController : System.Web.Http.ApiController
     {
         // GET: Emp
         public IHttpActionResult Rest(HttpRequest request)
@@ -26,11 +26,11 @@ namespace Manpower_MVC.Controllers.Api
                     .Field(new Field("ConPersonTel").Validator(Validation.Basic()))
                     .Field(new Field("CreateDate")
                         .Validator(Validation.DateFormat(
-                            Format.DATE_ISO_8601,
+                            "yyyy-MM-dd",
                             new ValidationOpts { Message = "Please enter a date in the format yyyy-mm-dd" }
                             ))
-                        .GetFormatter(Format.DateSqlToFormat(Format.DATE_ISO_8601))
-                        .SetFormatter(Format.DateFormatToSql(Format.DATE_ISO_8601))
+                        .GetFormatter(Format.DateSqlToFormat("yyyy-MM-dd"))
+                        .SetFormatter(Format.DateFormatToSql("yyyy-MM-dd"))
                     )
                     .Process(request)
                     .Data();
@@ -39,7 +39,7 @@ namespace Manpower_MVC.Controllers.Api
             }
         }
 
-        [Route("api/rest/get")]
+        [Route("api/emp/get")]
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -47,7 +47,7 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/rest/create")]
+        [Route("api/emp/create")]
         [HttpPost]
         public IHttpActionResult Create()
         {
@@ -55,7 +55,7 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/rest/edit")]
+        [Route("api/emp/edit")]
         [HttpPut]
         public IHttpActionResult Edit()
         {
@@ -63,8 +63,8 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/rest/remove")]
-        [HttpDelete]
+        [Route("api/emp/remove")]
+        [HttpPost]
         public IHttpActionResult Remove([FromBody] FormDataCollection formData)
         {
             var request = HttpContext.Current.Request;

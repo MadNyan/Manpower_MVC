@@ -36,20 +36,7 @@
         // use a global for the submit and return data rendering in the examples
         $(document).ready(function () {
             var editor = new $.fn.dataTable.Editor({
-                ajax: {
-                    create: {
-                        type: 'POST',
-                        url: '../api/emp/create',
-                    },
-                    edit: {
-                        type: 'PUT',
-                        url: '../api/emp/edit',
-                    },
-                    remove: {
-                        type: 'POST',
-                        url: '../api/emp/remove',
-                    }
-                },
+                ajax: {},
                 table: '#example',
                 idSrc: 'ID',
                 fields: [{
@@ -82,7 +69,7 @@
             $('#example').DataTable({
                 dom: 'Bfrtip',
                 ajax: {
-                    url: '../api/emp/get',
+                    url: '../emp/get',
                     type: 'GET',
                 },
                 columns: [
@@ -95,23 +82,6 @@
                     { data: 'CreateDate' }
                 ],
                 select: true,
-                buttons: [
-                    {
-                        extend: 'create',
-                        text: '新增',
-                        editor: editor
-                    },
-                    {
-                        extend: 'edit',
-                        text: '修改',
-                        editor: editor
-                    },
-                    {
-                        extend: 'remove',
-                        text: '刪除',
-                        editor: editor
-                    }
-                ]
             });
             editor.on('open', function () {
                 table.keys.disable();

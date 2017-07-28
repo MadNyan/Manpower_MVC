@@ -19,5 +19,18 @@ namespace Manpower_MVC.Controllers
         {
             return View();
         }
+
+        public ActionResult a02()
+        {
+            return View();
+        }
+
+        [Route("emp/get")]
+        [HttpGet]
+        public ActionResult Get()
+        {
+            var Get = from p in db.Employee orderby p.ID ascending select p;
+            return Json(Get.ToList());
+        }
     }
 }
