@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Manpower_MVC.Models;
+using Manpower_MVC.REST.Models;
 
 namespace Manpower_MVC.DAL
 {
@@ -12,7 +12,7 @@ namespace Manpower_MVC.DAL
 
         }
 
-        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Emp> Emp { get; set; }
         public DbSet<Owner> Owner { get; set; }
         public DbSet<OwnerBuilding> OwnerBuilding { get; set; }
         public DbSet<OwnerPayment> OwnerPayment { get; set; }

@@ -5,12 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
 using Manpower_MVC.Controllers.Api;
+using Manpower_MVC.DAL;
+using Manpower_MVC.REST.ViewModels;
 
 namespace Manpower_MVC.Controllers
 {
     public class HomeController : ApiController
     {
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult login()
         {
             return View();
         }
@@ -23,14 +30,6 @@ namespace Manpower_MVC.Controllers
         public ActionResult a02()
         {
             return View();
-        }
-
-        [Route("emp/get")]
-        [HttpGet]
-        public ActionResult Get()
-        {
-            var Get = from p in db.Employee orderby p.ID ascending select p;
-            return Json(Get.ToList());
         }
     }
 }

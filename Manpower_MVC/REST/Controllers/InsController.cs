@@ -4,11 +4,11 @@ using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 using DataTables;
-using Manpower_MVC.Models;
+using Manpower_MVC.REST.Models;
 
-namespace Manpower_MVC.Controllers.Api
+namespace Manpower_MVC.REST.Controllers
 {
-    public class EmployeeController : System.Web.Http.ApiController
+    public class InsController : ApiController
     {
         // GET: Emp
         public IHttpActionResult Rest(HttpRequest request)
@@ -16,22 +16,12 @@ namespace Manpower_MVC.Controllers.Api
 
             using (var db = new Database("sqlserver", System.Configuration.ConfigurationManager.ConnectionStrings["ManpowerDBEntitiesEditor"].ConnectionString))
             {
-                var response = new Editor(db, "Employee", "ID")
-                    .Model<Employee>()
+                var response = new Editor(db, "EmpInsurance", "ID")
+                    .Model<EmpInsurance>()
+                    .Field(new Field("Price").Validator(Validation.NotEmpty()))
+                    .Field(new Field("InsID").Validator(Validation.NotEmpty()))
                     .Field(new Field("EmpID").Validator(Validation.NotEmpty()))
-                    .Field(new Field("EmpName").Validator(Validation.NotEmpty()))
-                    .Field(new Field("Tel").Validator(Validation.Basic()))
-                    .Field(new Field("Phone").Validator(Validation.Basic()))
-                    .Field(new Field("ConPerson").Validator(Validation.Basic()))
-                    .Field(new Field("ConPersonTel").Validator(Validation.Basic()))
-                    .Field(new Field("CreateDate")
-                        .Validator(Validation.DateFormat(
-                            "yyyy-MM-dd",
-                            new ValidationOpts { Message = "Please enter a date in the format yyyy-mm-dd" }
-                            ))
-                        .GetFormatter(Format.DateSqlToFormat("yyyy-MM-dd"))
-                        .SetFormatter(Format.DateFormatToSql("yyyy-MM-dd"))
-                    )
+                    .Field(new Field("Remark").Validator(Validation.Basic()))
                     .Process(request)
                     .Data();
 
@@ -39,7 +29,7 @@ namespace Manpower_MVC.Controllers.Api
             }
         }
 
-        [Route("api/emp/get")]
+        [Route("ins/get")]
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -47,7 +37,7 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/emp/create")]
+        [Route("ins/create")]
         [HttpPost]
         public IHttpActionResult Create()
         {
@@ -55,7 +45,7 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/emp/edit")]
+        [Route("ins/edit")]
         [HttpPut]
         public IHttpActionResult Edit()
         {
@@ -63,7 +53,7 @@ namespace Manpower_MVC.Controllers.Api
             return Rest(request);
         }
 
-        [Route("api/emp/remove")]
+        [Route("ins/remove")]
         [HttpPost]
         public IHttpActionResult Remove([FromBody] FormDataCollection formData)
         {

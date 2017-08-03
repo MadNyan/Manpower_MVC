@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Manpower_MVC.Models
+namespace Manpower_MVC.REST.Models
 {
     public class Emp
     {
@@ -22,7 +22,7 @@ namespace Manpower_MVC.Models
         public string ConPerson { get; set; }
         [Display(Name = "緊急連絡電話")]
         public string ConPersonTel { get; set; }
-        [Display(Name = "建立日期")]
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        //[Display(Name = "建立日期")]
+        //public System.DateTime CreateDate { get; set; }
     }
 }
