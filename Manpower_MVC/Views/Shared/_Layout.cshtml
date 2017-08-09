@@ -14,6 +14,31 @@
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/css/icheck/blue.min.css" rel="stylesheet">
     @Styles.Render("~/Bundles/css")
+    <style>
+        .center {
+            margin-top: 50px;
+        }
+
+        .modal-header {
+            padding-bottom: 5px;
+        }
+
+        .modal-footer {
+            padding: 0;
+        }
+
+        .modal-footer .btn-group button {
+            height: 40px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border: none;
+            border-right: 1px solid #ddd;
+        }
+
+        .modal-footer .btn-group:last-child > button {
+            border-right: 0;
+        }
+    </style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -44,56 +69,5 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{ Html.RenderPartial("_Scripts"); }
     @RenderSection("pagesection", false)
-
-    <!--
-    <script>
-        // shift 的鍵盤代碼是 16，ctrl 的鍵盤代碼是 17，alt 的鍵盤代碼是 18
-        function keyfunction() {
-            //// 若不加第二個條件，會印出兩次警告視窗
-            //// 一次是按 shift，第二次是按其他鍵
-            //if ((event.shiftkey) && (event.keycode != 16))
-            //    alert("shift + " + event.keycode);
-            //if ((event.ctrlkey) && (event.keycode != 17))
-            //    alert("ctrl + " + event.keycode);
-
-
-            if ((event.altkey) && (event.keycode == 49)) {
-                window.location.href = '/home/a01';
-            }
-            if ((event.altkey) && (event.keycode == 50)) {
-                window.location.href = '/home/a11';
-            }
-            if ((event.altkey) && (event.keycode == 51)) {
-                window.location.href = '/home/a21';
-            }
-            if ((event.altkey) && (event.keycode == 52)) {
-                window.location.href = '/home/a31';
-            }
-            if ((event.altkey) && (event.keycode == 53)) {
-                window.location.href = '/home/b01';
-            }
-            if ((event.altkey) && (event.keycode == 54)) {
-                window.location.href = '/home/b11';
-            }
-            if ((event.altkey) && (event.keycode == 55)) {
-                window.location.href = '/home/b21';
-            }
-
-
-            // focus on search field
-            if ((event.altkey) && (event.keycode == 83)) {
-                $("input[type='search']").focus()
-            }
-
-            if (event.keycode == 13) // enter => focus 在table的第一個cell
-            {
-                if ($('table').find('td.focus').length == 0)
-                    $('table').datatable().cell(':eq(0)').focus();
-            }
-        }
-
-        document.onkeydown = keyfunction;
-    </script>
-        -->
 </body>
 </html>

@@ -4,10 +4,9 @@
     ViewBag.Title = "點工人事資料";
 }
 
-@using (Html.BeginForm()) 
-{
+<form method="post" action="@Url.Action("Create")">
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>建立點工人事資料</h4>
         <hr />
@@ -67,4 +66,4 @@
             </div>
         </div>
     </div>
-}
+</form>

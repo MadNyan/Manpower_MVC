@@ -4,7 +4,7 @@ using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 using DataTables;
-using Manpower_MVC.REST.Models;
+using Manpower_MVC.Models;
 
 namespace Manpower_MVC.REST.Controllers
 {

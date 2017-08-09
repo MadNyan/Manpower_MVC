@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Manpower_MVC.Models;
+using Manpower_MVC.ViewModels;
 using Manpower_MVC.Controllers.Api;
 
 namespace Manpower_MVC.Controllers
@@ -13,15 +14,20 @@ namespace Manpower_MVC.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            return View(getAllEmp());
+            return View();
         }
+
+        public ActionResult Emp()
+        {
+            return Json(getAllEmp(), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Employee emp)
         {
             Employee _emp = new Employee();
@@ -72,12 +78,11 @@ namespace Manpower_MVC.Controllers
         /*************************************************************************************************/
         public ActionResult ListEmpIns(int? id)
         {
-            if (id > 0)
+            if(id == null)
             {
-                ViewBag.empId = id.Value;
-                return View(getAllViewEmpIns(id.Value));
+                return Json(new List<ViewEmpIns>());
             }
-            return RedirectToAction("Index");
+            return Json(getAllViewEmpIns(id.Value), JsonRequestBehavior.AllowGet);
         }
         public ActionResult CreateEmpIns(int? id)
         {

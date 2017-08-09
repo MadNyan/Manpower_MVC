@@ -19,8 +19,10 @@ namespace Manpower_MVC.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+        [Required]
         [Display(Name = "工號")]
         public string EmpID { get; set; }
+        [Required]
         [Display(Name = "姓名")]
         public string EmpName { get; set; }
         [Display(Name = "電話")]

@@ -35,44 +35,10 @@
     <script charset='utf-8'>
         // use a global for the submit and return data rendering in the examples
         $(document).ready(function () {
-            var editor = new $.fn.dataTable.Editor({
-                ajax: {},
-                table: '#example',
-                idSrc: 'ID',
-                fields: [{
-                    label: '工號',
-                    name: 'EmpID'
-                }, {
-                    label: '姓名',
-                    name: 'EmpName'
-                }, {
-                    label: '電話',
-                    name: 'Tel'
-                }, {
-                    label: '手機',
-                    name: 'Phone'
-                }, {
-                    label: '緊急連絡人',
-                    name: 'ConPerson'
-                }, {
-                    label: '緊急連絡電話',
-                    name: 'ConPersonTel',
-                }, {
-                    label: '建立日期',
-                    name: 'CreateDate',
-                    type: 'datetime',
-                    def: function () { return new Date(); }
-                }
-                ]
-            });
-
             $('#example').DataTable({
-                dom: 'Bfrtip',
-                ajax: {
-                    url: '../emp/get',
-                    type: 'GET',
-                },
+                ajax: @Url.Action("Emp"),
                 columns: [
+                    { data: 'ID' },
                     { data: 'EmpID' },
                     { data: 'EmpName' },
                     { data: 'Tel' },
@@ -82,21 +48,6 @@
                     { data: 'CreateDate' }
                 ],
                 select: true,
-            });
-            editor.on('open', function () {
-                table.keys.disable();
-            });
-
-            editor.on('close', function () {
-                table.keys.enable();
-            });
-
-            $('a.toggle-vis').on('click', function (e) {
-                e.preventDefault();
-                // Get the column API object
-                var column = table.column($(this).attr('data-column'));
-                // Toggle the visibility
-                column.visible(!column.visible());
             });
         });
     </script>

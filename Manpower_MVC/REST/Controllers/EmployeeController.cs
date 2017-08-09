@@ -4,7 +4,7 @@ using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 using DataTables;
-using Manpower_MVC.REST.Models;
+using Manpower_MVC.Models;
 
 namespace Manpower_MVC.REST.Controllers
 {
@@ -17,7 +17,7 @@ namespace Manpower_MVC.REST.Controllers
             using (var db = new Database("sqlserver", System.Configuration.ConfigurationManager.ConnectionStrings["ManpowerDBEntitiesEditor"].ConnectionString))
             {
                 var response = new Editor(db, "Employee", "ID")
-                    .Model<Emp>()
+                    .Model<Employee>()
                     .Field(new Field("EmpID").Validator(Validation.NotEmpty()))
                     .Field(new Field("EmpName").Validator(Validation.NotEmpty()))
                     .Field(new Field("Tel").Validator(Validation.Basic()))
