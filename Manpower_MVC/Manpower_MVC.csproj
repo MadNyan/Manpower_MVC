@@ -255,6 +255,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ViewEmp.cs" />
     <Compile Include="ViewModels\ViewEmpIns.cs" />
     <Compile Include="ViewModels\ViewEmpSal.cs" />
     <Compile Include="ViewModels\ViewEmpSalDetail.cs" />
@@ -607,6 +608,7 @@
     <Content Include="Views\Owner\Print.cshtml" />
     <Content Include="Views\Home\a02.cshtml" />
     <Content Include="Views\Home\a03.cshtml" />
+    <Content Include="Views\Employee\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

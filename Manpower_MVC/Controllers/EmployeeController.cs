@@ -11,15 +11,34 @@ namespace Manpower_MVC.Controllers
 {
     public class EmployeeController : ApiController
     {
-        // GET: Employee
+
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Emp()
+        public ActionResult getEmp()
         {
             return Json(getAllEmp(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getEmpIns(int? id)
+        {
+            if (id == null)
+            {
+                return Json(new List<ViewEmpIns>());
+            }
+            return Json(getAllViewEmpIns(id.Value), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getInsCate()
+        {
+            return Json(getAllInsCate(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -28,7 +47,7 @@ namespace Manpower_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Employee emp)
+        public ActionResult Create(Employee emp, List<EmpInsurance> ins)
         {
             Employee _emp = new Employee();
             _emp.EmpID = emp.EmpID;
@@ -40,14 +59,26 @@ namespace Manpower_MVC.Controllers
             _emp.CreateDate = DateTime.Now;
             db.Employee.Add(_emp);
             db.SaveChanges();
+            foreach (EmpInsurance _ins in ins)
+            {
+                EmpInsurance _empIns = new EmpInsurance()
+                {
+                    EmpID = _emp.ID,
+                    InsID = _ins.InsID,
+                    Price = _ins.Price,
+                    Remark = _ins.Remark
+                };
+                db.EmpInsurance.Add(_empIns);
+            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
-            return View(getOneEmp(id));
+            return Json(getOneEmp(id), JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Employee emp)
         {
             Employee _emp = getOneEmp(id);
@@ -76,14 +107,7 @@ namespace Manpower_MVC.Controllers
         }
         // ViewEmpIns
         /*************************************************************************************************/
-        public ActionResult ListEmpIns(int? id)
-        {
-            if(id == null)
-            {
-                return Json(new List<ViewEmpIns>());
-            }
-            return Json(getAllViewEmpIns(id.Value), JsonRequestBehavior.AllowGet);
-        }
+        
         public ActionResult CreateEmpIns(int? id)
         {
             if (id > 0)
