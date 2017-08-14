@@ -13,30 +13,31 @@ namespace Manpower_MVC.Controllers
         // GET: WorkCategory
         public ActionResult Index()
         {
-            return View(getAllWorkCate());
-        }
-        public ActionResult Create()
-        {
             return View();
         }
 
+        public ActionResult getWorkCate()
+        {
+            return Json(getAllWorkCate(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(WorkCategory care)
         {
             db.WorkCategory.Add(care);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public ActionResult Edit(int id)
         {
-            return View(getOneWorkCate(id));
+            return Json(getOneWorkCate(id), JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, WorkCategory care)
+        public ActionResult Edit(WorkCategory care)
         {
-            WorkCategory _care = getOneWorkCate(id);
+            WorkCategory _care = getOneWorkCate(care.ID);
             _care.WorkCareID = care.WorkCareID;
             _care.WorkCareName = care.WorkCareName;
             _care.Salary = care.Salary;

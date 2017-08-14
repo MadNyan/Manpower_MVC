@@ -3,67 +3,188 @@
 @{
     ViewBag.Title = "點工工種薪資";
 }
+<style>
+    tr.selected > td {
+        background-color: #CCCCCC;
+    }
+</style>
 
-<p>
-    <h4>點工工種薪資列表</h4>
-</p>
-<p>
-    <input type="button" value="建立工種薪資" class="btn btn-primary" onclick="location.replace('@Url.Action("Create")')" />
-</p>
 <p>
     <input type="button" value="列印工種薪資" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.WorkCareID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WorkCareName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Salary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remark)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.WorkCareID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WorkCareName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salary)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OvertimeSal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeSal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remark)
-        </td>
-        <td>
-            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("Edit", new { id=item.ID })')" />
-            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("Delete", new { id=item.ID })')}" />
-        </td>
-    </tr>
-}
-
+<table id="tWorkCate" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>
+                代碼
+            </th>
+            <th>
+                工種
+            </th>
+            <th>
+                日薪
+            </th>
+            <th>
+                加班時薪
+            </th>
+            <th>
+                超時時薪
+            </th>
+            <th>
+                備註
+            </th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>
+                代碼
+            </th>
+            <th>
+                工種
+            </th>
+            <th>
+                日薪
+            </th>
+            <th>
+                加班時薪
+            </th>
+            <th>
+                超時時薪
+            </th>
+            <th>
+                備註
+            </th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
-<!--
-    <input type="button" value="整頁列印" onclick="print()">
--->
+
+<input id="create" type="button" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
+<input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
+
+@section pagesection{
+    <script src="~/Content/js/modalForm.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            loadWorkCateList();
+
+            $('#tWorkCate tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                }
+                else {
+                    $('#tWorkCate tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                }
+            });
+
+            $('#create').click(function () {
+                $('#lineModalLabel').html('新增工種類別');
+		        $('#form div div').remove();
+                $('#form div').append(workCateForm);
+                createSubmit();
+		        $('#form').attr('action', '@Url.Action("Create")');
+            });
+
+            $('#edit').click(function () {
+                $('#lineModalLabel').html('編輯工種類別');
+		        $('#form div div').remove();
+                $('#form div').append(workCateForm);
+                editSubmit();
+		        $.ajax({
+			        url: '@Url.Action("Edit")',
+			        type: 'GET',
+                    data: { id: $('#tWorkCate tbody tr.selected').attr('id') },
+			        dataType: "json",
+			        success: function (data) {
+				        $('#form').attr('action', '@Url.Action("Edit")');
+                        $('#form div div').children('#ID').val(data.ID);
+                        $('#form div div').children('#WorkCareID').val(data.WorkCareID);
+                        $('#form div div').children('#WorkCareName').val(data.WorkCareName);
+                        $('#form div div').children('#Salary').val(data.Salary);
+                        $('#form div div').children('#OvertimeSal').val(data.OvertimeSal);
+                        $('#form div div').children('#OverOvertimeSal').val(data.OverOvertimeSal);
+                        $('#form div div').children('#Remark').val(data.Remark);
+			        },
+			        error: function () {
+				        $('#form').attr('action', '');
+				        $('#form div div').children('input:text').val('');
+			        }
+		        });
+            });
+
+            $('#del').click(function () {
+                if (window.confirm('確定要刪除?')) {
+                    location.replace('/WorkCare/Delete/' + $('.selected').attr('id'));
+                }
+            });
+        });
+
+        var workCateForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='WorkCareID'>代碼</label>" +
+            "<input type='text' class='form-control' id='WorkCareID' name='WorkCareID' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='WorkCareName'>工種</label>" +
+            "<input type='text' class='form-control' id='WorkCareName' name='WorkCareName' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Salary'>日薪</label>" +
+            "<input type='text' class='form-control' id='Salary' name='Salary' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='OvertimeSal'>加班時薪</label>" +
+            "<input type='text' class='form-control' id='OvertimeSal' name='OvertimeSal' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='OverOvertimeSal'>超時時薪</label>" +
+            "<input type='text' class='form-control' id='OverOvertimeSal' name='OverOvertimeSal' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Remark'>備註</label>" +
+            "<textarea class='form-control' cols='20' id='Remark' name='Remark' placeholder='備註...' rows='3'></textarea>" +
+            "</div>";
+
+        function loadWorkCateList() {
+            $.ajax({
+		        url: '@Url.Action("getWorkCate")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tWorkCate tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.Remark == null) {
+                            item.Remark = '';
+                        }
+                        $('#tWorkCate tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.WorkCareID + "</td>" +
+                            "<td>" + item.WorkCareName + "</td>" +
+                            "<td>" + item.Salary + "</td>" +
+                            "<td>" + item.OvertimeSal + "</td>" +
+                            "<td>" + item.OverOvertimeSal + "</td>" +
+                            "<td>" + item.Remark + "</td></tr>"
+                        );
+                    })
+                    $('#tWorkCate').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+        }
+    </script>
+}

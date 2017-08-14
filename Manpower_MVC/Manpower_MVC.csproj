@@ -567,8 +567,6 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Home\a01.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\Create.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\WorkCare\Index.cshtml" />
     <Content Include="Views\WorkCare\Create.cshtml" />
     <Content Include="Views\WorkCare\Edit.cshtml" />
@@ -587,9 +585,6 @@
     <Content Include="Views\OwnerPay\ListPayWork.cshtml" />
     <Content Include="Views\EmpSal\Index.cshtml" />
     <Content Include="Views\EmpSal\EmpSalDetail.cshtml" />
-    <Content Include="Views\Employee\ListEmpIns.cshtml" />
-    <Content Include="Views\Employee\CreateEmpIns.cshtml" />
-    <Content Include="Views\Employee\EditEmpIns.cshtml" />
     <Content Include="Views\EmpSal\Print.cshtml" />
     <Content Include="Views\PrintList\MonthWork.cshtml" />
     <Content Include="Views\PrintList\PrintMonthWork.cshtml" />
@@ -609,7 +604,6 @@
     <Content Include="Views\Owner\Print.cshtml" />
     <Content Include="Views\Home\a02.cshtml" />
     <Content Include="Views\Home\a03.cshtml" />
-    <Content Include="Views\Employee\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

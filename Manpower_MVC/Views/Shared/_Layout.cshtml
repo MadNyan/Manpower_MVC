@@ -69,5 +69,22 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{ Html.RenderPartial("_Scripts"); }
     @RenderSection("pagesection", false)
+
+    <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <label class="modal-title h3" id="lineModalLabel"></label>
+                </div>
+                <div class="modal-body">
+                    <form id="form" method="post" action="">
+                        <div></div>
+                        <input id='submit' type='submit' class='btn' value='' />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -7,17 +7,12 @@
         background-color: #CCCCCC;
     }
 </style>
+
 <p>
-    <h4>點工人事資料列表</h4>
-</p>
-<p>
-    
-</p>
-<p>
-    <input type="button" value="列印點工人事資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
+    <input type="button" value="列印點工資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
 
-<table id="tEmp" class="table table-bordered" cellspacing="0" width="100%">
+<table id="tEmp" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
             <th>
@@ -75,9 +70,11 @@
 <input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
 <input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
 
-<div></div>
+<div>
+    <label class="h4"></label>
+</div>
 
-<table id="tIns" class="table table-bordered" cellspacing="0" width="100%">
+<table id="tIns" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
             <th>
@@ -98,6 +95,7 @@
             <th>
                 備註
             </th>
+            <th></th><th></th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -131,7 +129,8 @@
 	        });
 
 	        $('#create').click(function () {
-		        j = 0;
+                j = 0;
+                $('#lineModalLabel').html('新增點工資料');
 		        $('#form div div').remove();
 		        $('#form div').append(
 			        empForm + "<div class='form-group'>" +
@@ -147,7 +146,8 @@
 		        $('#form').attr('action', '@Url.Action("Create")');
 	        });
 
-	        $('#edit').click(function () {
+            $('#edit').click(function () {
+                $('#lineModalLabel').html('編輯點工資料');
 		        $('#form div div').remove();
 		        $('#form div').append(empForm);
                 editSubmit();
@@ -179,7 +179,8 @@
 		        }
 	        });
 
-	        $('#insCreate').click(function () {
+            $('#insCreate').click(function () {
+                $('#lineModalLabel').html('新增勞保加減項');
                 $('#form div div').remove();
                 $('#form div').append(insForm);
                 createSubmit();
@@ -314,7 +315,14 @@
 					        "<td>" + item.ConPersonTel + "</td>" +
 					        "<td>" + (JSON.parseWithDate(JSON.stringifyWcf(item.CreateDate))).f("yyyy-MM-dd") + "</td></tr>"
 				        );
-			        })
+                    })
+                    $('#tEmp').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
 		        }
 	        });
         }
@@ -340,8 +348,8 @@
 						    "<td>" + item.PosOrNeg + "</td>" +
 						    "<td>" + item.Price + "</td>" +
 						    "<td>" + item.Remark + "</td>" +
-                            "<td>" + "<input id='insEdit' type='button' value='編輯' class='btn btn-warning' data-toggle='modal' data-target='#modalDiv' />" + "</td>" +
-                            "<td>" + "<input id='insDel' type='button' value='刪除' class='btn btn-danger' />" + "</td></tr>"
+                            "<td>" + "<input id='insEdit' type='button' value='編輯' class='btn btn-xs btn-warning' data-toggle='modal' data-target='#modalDiv' />" + "</td>" +
+                            "<td>" + "<input id='insDel' type='button' value='刪除' class='btn btn-xs btn-danger' />" + "</td></tr>"
 					    );
 				    })
 			    }
@@ -349,6 +357,7 @@
         }
 
         $('#tIns').on('click', '#insEdit', function () {
+            $('#lineModalLabel').html('編輯勞保加減項');
             $('#form div div').remove();
             $('#form div').append(insForm);
             createSubmit();
@@ -388,19 +397,3 @@
     </script>
 }
 
-<div class="modal fade" id="modalDiv" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <label class="modal-title" id="lineModalLabel"></label>
-            </div>
-            <div class="modal-body">
-                <form id="form" method="post" action="">
-                    <div></div>
-                    <input id='submit' type='submit' class='btn' value='' />
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
