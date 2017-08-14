@@ -12,11 +12,6 @@ namespace Manpower_MVC.Controllers
     public class EmployeeController : ApiController
     {
 
-        public ActionResult Test()
-        {
-            return View();
-        }
-
         public ActionResult Index()
         {
             return View();
@@ -39,11 +34,6 @@ namespace Manpower_MVC.Controllers
         public ActionResult getInsCate()
         {
             return Json(getAllInsCate(), JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -79,9 +69,9 @@ namespace Manpower_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, Employee emp)
+        public ActionResult Edit(Employee emp)
         {
-            Employee _emp = getOneEmp(id);
+            Employee _emp = getOneEmp(emp.ID);
             _emp.EmpID = emp.EmpID;
             _emp.EmpName = emp.EmpName;
             _emp.Tel = emp.Tel;
@@ -107,58 +97,40 @@ namespace Manpower_MVC.Controllers
         }
         // ViewEmpIns
         /*************************************************************************************************/
-        
-        public ActionResult CreateEmpIns(int? id)
-        {
-            if (id > 0)
-            {
-                Session["empID"] = id.ToString();
-                ViewBag.empId = id.Value;
-                ViewBag.InsCate = getAllInsCate();
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult CreateEmpIns(EmpInsurance empIns)
         {
             EmpInsurance _empIns = new EmpInsurance() {
-                EmpID = Convert.ToInt32(Session["empID"].ToString()),
+                EmpID = empIns.EmpID,
                 InsID = empIns.InsID,
                 Price = empIns.Price,
                 Remark = empIns.Remark
             };
-            Session["empID"] = null;
             db.EmpInsurance.Add(_empIns);
             db.SaveChanges();
-            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+            return RedirectToAction("Index");
         }
         public ActionResult EditEmpIns(int id)
         {
-            EmpInsurance _empIns = getOneEmpIns(id);
-            ViewBag.empId = _empIns.EmpID;
-            ViewBag.InsCate = getAllInsCate();
-            return View(_empIns);
+            return Json(getOneEmpIns(id), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditEmpIns(int id, EmpInsurance empIns)
+        public ActionResult EditEmpIns(EmpInsurance empIns)
         {
-            EmpInsurance _empIns = getOneEmpIns(id);
+            EmpInsurance _empIns = getOneEmpIns(empIns.ID);
             _empIns.InsID = empIns.InsID;
             _empIns.Price = empIns.Price;
             _empIns.Remark = empIns.Remark;
             db.SaveChanges();
-            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+            return RedirectToAction("Index");
         }
         public ActionResult DeleteEmpIns(int id)
         {
             EmpInsurance _empIns = getOneEmpIns(id);
             db.EmpInsurance.Remove(_empIns);
             db.SaveChanges();
-            return RedirectToAction("ListEmpIns", new { id = _empIns.EmpID });
+            return RedirectToAction("Index");
         }
     }
 }

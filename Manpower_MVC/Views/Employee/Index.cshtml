@@ -103,277 +103,287 @@
     <tbody></tbody>
 </table>
 
-<input id="insCreate" type="button" value="建立" class="btn btn-primary" />
+<input id="insCreate" type="hidden" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
 
 
 @section pagesection{
+    <script src="~/Content/js/modalForm.js"></script>
     <script>
         $(document).ready(function () {
 
-            $.ajax({
-                url: '@Url.Action("getEmp")',
-                type: 'GET',
-                dataType: "json",
-                success: function (data) {
-                    $('#tEmp tbody tr').remove();
-                    $.each(data, function (index, item) {
-                        if (item.Tel == null){
-                            item.Tel = '';
-                        }
-                        if (item.Phone == null) {
-                            item.Phone = '';
-                        }
-                        if (item.ConPerson == null) {
-                            item.ConPerson = '';
-                        }
-                        if (item.ConPersonTel == null) {
-                            item.ConPersonTel = '';
-                        }
-                        $('#tEmp tbody').append(
-                            "<tr id='" + item.ID + "'><td>" + item.EmpID + "</td>" +
-                            "<td>" + item.EmpName + "</td>" +
-                            "<td>" + item.Tel + "</td>" +
-                            "<td>" + item.Phone + "</td>" +
-                            "<td>" + item.ConPerson + "</td>" +
-                            "<td>" + item.ConPersonTel + "</td>" +
-                            "<td>" + (JSON.parseWithDate(JSON.stringifyWcf(item.CreateDate))).f("yyyy-MM-dd") + "</td></tr>"
-                        );
-                    })
-                }
-            });
+            loadEmpList();
 
-            $('#tEmp tbody').on('click', 'tr', function () {
-                $.ajax({
-                    url: '@Url.Action("getEmpIns")',
-                    type: 'GET',
-                    data: { id: $(this).attr('id') },
-                    dataType: "json",
-                    success: function (data) {
-                        $('#tIns tbody tr').remove();
-                        var i = 0;
-                        $.each(data, function (index, item) {
-                            i++;
-                            if (item.Remark == null) {
-                                item.Remark = '';
-                            }
-                            $('#tIns tbody').append(
-                                "<tr id='" + item.ID + "'><td>" + i + "</td>" +
-                                "<td>" + item.InsID + "</td>" +
-                                "<td>" + item.InsName + "</td>" +
-                                "<td>" + item.PosOrNeg + "</td>" +
-                                "<td>" + item.Price + "</td>" +
-                                "<td>" + item.Remark + "</td>" +
-                                "<td>" + "<input id='insEdit' disabled='disabled' type='button' value='編輯' class='btn btn-warning' />" + "</td>" +
-                                "<td>" + "<input id='insDel' disabled='disabled' type='button' value='刪除' class='btn btn-danger ' />" + "</td></tr>"
-                            );
-                        })
-                    }
-                });
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                    $('#edit').attr('disabled', true);
+	        $('#tEmp tbody').on('click', 'tr', function () {
+		        if ($(this).hasClass('selected')) {
+			        $(this).removeClass('selected');
+			        $('#edit').attr('disabled', true);
                     $('#del').attr('disabled', true);
-                }
-                else {
-                    $('#tEmp tbody').children('.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                    $('#edit').attr('disabled', false);
+                    $('#insCreate').attr('type', 'hidden');
+		        }
+		        else {
+			        $('#tEmp tbody').children('.selected').removeClass('selected');
+			        $(this).addClass('selected');
+			        $('#edit').attr('disabled', false);
                     $('#del').attr('disabled', false);
+                    $('#insCreate').attr('type', 'button');
                 }
-            });
+                loadInsList();
+	        });
 
-            //$('#tIns tbody').on('click', 'tr', function () {
-            //    if ($(this).hasClass('selected')) {
-            //        $(this).removeClass('selected');
-            //        $('#insEdit').attr('disabled', true);
-            //        $('#insDel').attr('disabled', true);
-            //    }
-            //    else {
-            //        $('#tIns tbody').children('.selected').removeClass('selected');
-            //        $(this).addClass('selected');
-            //        $('#insEdit').attr('disabled', false);
-            //        $('#insDel').attr('disabled', false);
-            //    }
-            //});
+	        $('#create').click(function () {
+		        j = 0;
+		        $('#form div div').remove();
+		        $('#form div').append(
+			        empForm + "<div class='form-group'>" +
+			        "<input id='addIns' type='button' value='新增加減項' class='btn btn-default' onclick='addOneIns()' />" +
+			        "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='DelEmpIns()' />" +
+			        "</div>" + "<div class='form-group'>" +
+			        "<table><thead><tr><th>項目</th><th>金額</th><th>備註</th></tr></thead>" +
+			        "<tbody></tbody></table>" +
+			        "</div>"
+		        );
+                createSubmit();
+		        addOneIns();
+		        $('#form').attr('action', '@Url.Action("Create")');
+	        });
 
-            var i = 0;
+	        $('#edit').click(function () {
+		        $('#form div div').remove();
+		        $('#form div').append(empForm);
+                editSubmit();
+		        $.ajax({
+			        url: '@Url.Action("Edit")',
+			        type: 'GET',
+			        data: { id: $('#tEmp tbody tr.selected').attr('id') },
+			        dataType: "json",
+			        success: function (data) {
+				        $('#form').attr('action', '@Url.Action("Edit")');
+                        $('#form div div').children('#ID').val(data.ID);
+				        $('#form div div').children('#EmpID').val(data.EmpID);
+				        $('#form div div').children('#EmpName').val(data.EmpName);
+				        $('#form div div').children('#Tel').val(data.Tel);
+				        $('#form div div').children('#Phone').val(data.Phone);
+				        $('#form div div').children('#ConPerson').val(data.ConPerson);
+				        $('#form div div').children('#ConPersonTel').val(data.ConPersonTel);
+			        },
+			        error: function () {
+				        $('#form').attr('action', '');
+				        $('#form div div').children('input:text').val('');
+			        }
+		        });
+	        });
 
-            $('#create').click(function () {
-                i = 0;
+	        $('#del').click(function () {
+		        if (window.confirm('確定要刪除?')) {
+			        location.replace('/Employee/Delete/' + $('.selected').attr('id'));
+		        }
+	        });
+
+	        $('#insCreate').click(function () {
                 $('#form div div').remove();
-                $('#form div').append(
-                    "<div class='form-group'>" +
-                    "<input data-val='true' id='ID' name='ID' type='hidden' />" +
-                    "</div>" +
-                    "<div class='form- group'>" +
-                    "<label for='EmpID'>工號</label>" +
-                    "<input type='text' class='form-control' id='EmpID' name='EmpID' required='required' />" +
-                    "</div >" +
-                    "<div class='form-group'>" +
-                    "<label for='EmpName'>姓名</label>" +
-                    "<input type='text' class='form-control' id='EmpName' name='EmpName' required='required' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='Tel'>電話</label>" +
-                    "<input type='text' class='form-control' id='Tel' name='Tel' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='Phone'>手機</label>" +
-                    "<input type='text' class='form-control' id='Phone' name='Phone' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='ConPerson'>緊急連絡人</label>" +
-                    "<input type='text' class='form-control' id='ConPerson' name='ConPerson' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='ConPersonTel'>緊急連絡電話</label>" +
-                    "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<table><thead><tr><th>項目</th><th>金額</th><th>備註</th><th></th></tr></thead>" +
-                    "<tbody></tbody></table>" +
-                    "</div>"
-                );
-                $('#form').children('#submit').val('新增');
-                $('#form').children('#submit').addClass('btn-primary');
-                $('#form').children('#submit').removeClass('btn-warning');
-                $('#form').children('#addIns').attr('type', 'button');
+                $('#form div').append(insForm);
+                createSubmit();
                 $.ajax({
-                    url: '@Url.Action("getInsCate")',
-                    type: 'GET',
-                    dataType: "json",
+			        url: '@Url.Action("getInsCate")',
+			        type: 'GET',
+			        dataType: "json",
                     success: function (data) {
-                        $('#form div div table tbody tr').remove();
-                        $('#form div div table tbody').append(
-                            "<tr id='" + i + "'><td>" +
-                            "<select class='form-control' id='InsID' name='ins[" + i + "].InsID'></select>" +
-                            "</td><td>" +
-                            "<input type='text' class='form-control' id='Price' name='ins[" + i + "].Price' required='required'/>" +
-                            "</td><td>" +
-                            "<input type='text' class='form-control' id='Remark' name='ins[" + i + "].Remark' />" +
-                            "</td><td></td></tr>"
-                        );
-                        $.each(data, function (index, item) {
-                            $('#form div div table tbody select').append(
-                                "<option value='" + item.ID + "'>" + item.InsName + "</option>"
-                            );
+                        $('#form').attr('action', 'CreateEmpIns');
+				        $.each(data, function (index, item) {
+					        $('#form div div select').append(
+						        "<option value='" + item.ID + "'>" + item.InsName + "</option>"
+					        );
                         });
-                    }
-                });
-                $('#form').attr('action', '@Url.Action("Create")');
-            });
-
-            $('#form').children('#addIns').click(function () {
-                i++;
-                $.ajax({
-                    url: '@Url.Action("getInsCate")',
-                    type: 'GET',
-                    dataType: "json",
-                    success: function (data) {
-                        $('#form div div table tbody').append(
-                            "<tr id='" + i + "'><td>" +
-                            "<select class='form-control' id='InsID' name='ins[" + i + "].InsID'></select>" +
-                            "</td><td>" +
-                            "<input type='text' class='form-control' id='Price' name='ins[" + i + "].Price' required='required'/>" +
-                            "</td><td>" +
-                            "<input type='text' class='form-control' id='Remark' name='ins[" + i + "].Remark' />" +
-                            "</td><td>" +
-                            "<input id='celIns' type='button' value='刪除' class='btn btn-danger' />" +
-                            "</td></tr>"
-                        );
-                        $.each(data, function (index, item) {
-                            $('#form div div table tbody select').append(
-                                "<option value='" + item.ID + "'>" + item.InsName + "</option>"
-                            );
-                        });
-                    }
-                });
-            });
-
-            $('#form div div table tbody tr td').children('#celIns').click(function () {
-                console.log('Test');
-                //$(this).parent().parent().remove();
-            });
-
-            $('#edit').click(function () {
-                $('#form div div').remove();
-                $('#form div').append(
-                    "<div class='form-group'>" +
-                    "<input data-val='true' id='ID' name='ID' type='hidden' />" +
-                    "</div>" +
-                    "<div class='form- group'>" +
-                    "<label for='EmpID'>工號</label>" +
-                    "<input type='text' class='form-control' id='EmpID' name='EmpID' required='required' />" +
-                    "</div >" +
-                    "<div class='form-group'>" +
-                    "<label for='EmpName'>姓名</label>" +
-                    "<input type='text' class='form-control' id='EmpName' name='EmpName' required='required' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='Tel'>電話</label>" +
-                    "<input type='text' class='form-control' id='Tel' name='Tel' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='Phone'>手機</label>" +
-                    "<input type='text' class='form-control' id='Phone' name='Phone' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='ConPerson'>緊急連絡人</label>" +
-                    "<input type='text' class='form-control' id='ConPerson' name='ConPerson' />" +
-                    "</div>" +
-                    "<div class='form-group'>" +
-                    "<label for='ConPersonTel'>緊急連絡電話</label>" +
-                    "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
-                    "</div>"
-                );
-                $('#form').children('#submit').val('更新');
-                $('#form').children('#submit').addClass('btn-warning');
-                $('#form').children('#submit').removeClass('btn-primary');
-                $('#form').children('#addIns').attr('type', 'hidden');
-                $.ajax({
-                    url: '@Url.Action("Edit")',
-                    type: 'GET',
-                    data: { id: $('#tEmp tbody tr.selected').attr('id') },
-                    dataType: "json",
-                    success: function (data) {
-                        $('#form').attr('action', '@Url.Action("Edit")');
-                        $('#form').children('#ID').val(data.ID);
-                        $('#form div div').children('#EmpID').val(data.EmpID);
-                        $('#form div div').children('#EmpName').val(data.EmpName);
-                        $('#form div div').children('#Tel').val(data.Tel);
-                        $('#form div div').children('#Phone').val(data.Phone);
-                        $('#form div div').children('#ConPerson').val(data.ConPerson);
-                        $('#form div div').children('#ConPersonTel').val(data.ConPersonTel);
                     },
                     error: function () {
                         $('#form').attr('action', '');
                         $('#form div div').children('input:text').val('');
                     }
                 });
-            });
-
-            $('#del').click(function () {
-                if (window.confirm('確定要刪除?')) {
-                    location.replace('/Employee/Delete/' + $('.selected').attr('id'));
-                }
-            });
-
-            $('#insCreate').click(function () {
-                location.replace('/Employee/Edit/' + $('.selected').attr('test'));
-            });
-
-            $('#insEdit').click(function () {
-                location.replace('/Employee/Edit/' + $('.selected').attr('test'));
-            });
-
-            $('#insDel').click(function () {
-                if (window.confirm('確定要刪除?')) {
-                    location.replace('/Employee/DeleteEmpIns/' + $('.selected').attr('test'));
-                }
-            });
+                $('#form div div').children('#EmpID').val($('#tEmp tbody tr.selected').attr('id'));
+	        });
         });
-        $('#form div div table tbody tr').ready(function () {
-            
+
+        var empForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form- group'>" +
+            "<label for='EmpID'>工號</label>" +
+            "<input type='text' class='form-control' id='EmpID' name='EmpID' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='EmpName'>姓名</label>" +
+            "<input type='text' class='form-control' id='EmpName' name='EmpName' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Tel'>電話</label>" +
+            "<input type='text' class='form-control' id='Tel' name='Tel' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Phone'>手機</label>" +
+            "<input type='text' class='form-control' id='Phone' name='Phone' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='ConPerson'>緊急連絡人</label>" +
+            "<input type='text' class='form-control' id='ConPerson' name='ConPerson' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='ConPersonTel'>緊急連絡電話</label>" +
+            "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
+            "</div>";
+
+        var insForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<input data-val='true' id='EmpID' name='EmpID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='InsID'>項目</label>" +
+            "<select class='form-control' id='InsID' name='InsID'></select>" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='Price'>金額</label>" +
+            "<input type='text' class='form-control' id='Price' name='Price' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Remark'>備註</label>" +
+            "<textarea class='form-control' cols='20' id='Remark' name='Remark' placeholder='備註...' rows='3'></textarea>" +
+            "</div>";
+
+        var j = 0;
+
+        function DelEmpIns() {
+		    if(j!=1){
+			    j--;
+			    $('#form div div table tbody tr#' + j).remove();
+		    }
+	    }
+
+	    function addOneIns() {
+		    $.ajax({
+			    url: '@Url.Action("getInsCate")',
+			    type: 'GET',
+			    dataType: "json",
+			    success: function (data) {
+				    $('#form div div table tbody').append(
+					    "<tr id='" + j + "'><td>" +
+					    "<select id='" + j + "' class='form-control' id='InsID' name='ins[" + j + "].InsID'></select>" +
+					    "</td><td>" +
+					    "<input type='text' class='form-control' id='Price' name='ins[" + j + "].Price' required='required'/>" +
+					    "</td><td>" +
+					    "<input type='text' class='form-control' id='Remark' name='ins[" + j + "].Remark' />" +
+					    "</td></tr>"
+				    );
+				    $.each(data, function (index, item) {
+					    $('#form div div table tbody select#' + j).append(
+						    "<option value='" + item.ID + "'>" + item.InsName + "</option>"
+					    );
+                    });
+                    j++;
+			    }
+		    });
+        }
+
+        function loadEmpList() {
+            $.ajax({
+		        url: '@Url.Action("getEmp")',
+		        type: 'GET',
+		        dataType: "json",
+		        success: function (data) {
+			        $('#tEmp tbody tr').remove();
+			        $.each(data, function (index, item) {
+				        if (item.Tel == null){
+					        item.Tel = '';
+				        }
+				        if (item.Phone == null) {
+					        item.Phone = '';
+				        }
+				        if (item.ConPerson == null) {
+					        item.ConPerson = '';
+				        }
+				        if (item.ConPersonTel == null) {
+					        item.ConPersonTel = '';
+				        }
+				        $('#tEmp tbody').append(
+					        "<tr id='" + item.ID + "'><td>" + item.EmpID + "</td>" +
+					        "<td>" + item.EmpName + "</td>" +
+					        "<td>" + item.Tel + "</td>" +
+					        "<td>" + item.Phone + "</td>" +
+					        "<td>" + item.ConPerson + "</td>" +
+					        "<td>" + item.ConPersonTel + "</td>" +
+					        "<td>" + (JSON.parseWithDate(JSON.stringifyWcf(item.CreateDate))).f("yyyy-MM-dd") + "</td></tr>"
+				        );
+			        })
+		        }
+	        });
+        }
+
+        function loadInsList() {
+            $.ajax({
+			    url: '@Url.Action("getEmpIns")',
+			    type: 'GET',
+                data: { id: $('#tEmp tbody tr.selected').attr('id') },
+			    dataType: "json",
+			    success: function (data) {
+				    $('#tIns tbody tr').remove();
+				    var i = 0;
+				    $.each(data, function (index, item) {
+					    i++;
+					    if (item.Remark == null) {
+						    item.Remark = '';
+					    }
+					    $('#tIns tbody').append(
+						    "<tr id='" + item.ID + "'><td>" + i + "</td>" +
+						    "<td>" + item.InsID + "</td>" +
+						    "<td>" + item.InsName + "</td>" +
+						    "<td>" + item.PosOrNeg + "</td>" +
+						    "<td>" + item.Price + "</td>" +
+						    "<td>" + item.Remark + "</td>" +
+                            "<td>" + "<input id='insEdit' type='button' value='編輯' class='btn btn-warning' data-toggle='modal' data-target='#modalDiv' />" + "</td>" +
+                            "<td>" + "<input id='insDel' type='button' value='刪除' class='btn btn-danger' />" + "</td></tr>"
+					    );
+				    })
+			    }
+		    });
+        }
+
+        $('#tIns').on('click', '#insEdit', function () {
+            $('#form div div').remove();
+            $('#form div').append(insForm);
+            createSubmit();
+            $.ajax({
+                url: '@Url.Action("getInsCate")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $('#form div div select').append(
+                            "<option value='" + item.ID + "'>" + item.InsName + "</option>"
+                        );
+                    });
+                },
+            });
+            $.ajax({
+                url: '@Url.Action("EditEmpIns")',
+                type: 'GET',
+                data: { id: $(this).parent('td').parent('tr').attr('id') },
+                dataType: "json",
+                success: function (data) {
+                    $('#form').attr('action', 'EditEmpIns');
+                    $('#form div div').children('#ID').val(data.ID);
+                    $('#form div div').children('#InsID').val(data.InsID);
+                    $('#form div div').children('#Price').val(data.Price);
+                    $('#form div div').children('#Remark').val(data.Remark);
+                },
+            });
+            editSubmit();
+        });
+
+        $('#tIns').on('click', '#insDel', function () {
+            if (window.confirm('確定要刪除?')) {
+                location.replace('/Employee/DeleteEmpIns/' + $(this).parent().parent().attr('id'));
+            }
         });
     </script>
 }
@@ -388,7 +398,6 @@
             <div class="modal-body">
                 <form id="form" method="post" action="">
                     <div></div>
-                    <input id='addIns' type='hidden' value='新增加減項' class='btn btn-default' />
                     <input id='submit' type='submit' class='btn' value='' />
                 </form>
             </div>
