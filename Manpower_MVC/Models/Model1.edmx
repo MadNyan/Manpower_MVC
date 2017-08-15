@@ -32,7 +32,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="InsID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="InsName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PosOrNeg" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -83,6 +83,15 @@
           <Property Name="PayID" Type="int" Nullable="false" />
           <Property Name="Remark" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nchar" MaxLength="16" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="16" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
             <PropertyRef Name="ID" />
@@ -110,13 +119,21 @@
         </EntityType>
         <EntityType Name="WorkList">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SerialNum" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SingleNum" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="date" Nullable="false" />
           <Property Name="BuildingID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkRight">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="WorkCateID" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ManpowerDBModelStoreContainer">
           <EntitySet Name="EmpInsurance" EntityType="Self.EmpInsurance" Schema="dbo" store:Type="Tables" />
@@ -126,26 +143,40 @@
           <EntitySet Name="OwnerBuilding" EntityType="Self.OwnerBuilding" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OwnerPayment" EntityType="Self.OwnerPayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OwnerPayWork" EntityType="Self.OwnerPayWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkCategory" EntityType="Self.WorkCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkList" EntityType="Self.WorkList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkRight" EntityType="Self.WorkRight" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ManpowerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ManpowerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmpInsurance" EntityType="ManpowerDBModel.EmpInsurance" />
           <EntitySet Name="Employee" EntityType="ManpowerDBModel.Employee" />
+          <EntitySet Name="InsCate" EntityType="ManpowerDBModel.InsCate" />
           <EntitySet Name="Owner" EntityType="ManpowerDBModel.Owner" />
           <EntitySet Name="OwnerBuilding" EntityType="ManpowerDBModel.OwnerBuilding" />
           <EntitySet Name="OwnerPayment" EntityType="ManpowerDBModel.OwnerPayment" />
           <EntitySet Name="OwnerPayWork" EntityType="ManpowerDBModel.OwnerPayWork" />
+          <EntitySet Name="User" EntityType="ManpowerDBModel.User" />
           <EntitySet Name="WorkCategory" EntityType="ManpowerDBModel.WorkCategory" />
           <EntitySet Name="Worker" EntityType="ManpowerDBModel.Worker" />
-          <EntitySet Name="InsCate" EntityType="ManpowerDBModel.InsCate" />
-          <EntitySet Name="EmpInsurance" EntityType="ManpowerDBModel.EmpInsurance" />
+          <EntitySet Name="WorkRight" EntityType="ManpowerDBModel.WorkRight" />
           <EntitySet Name="WorkList" EntityType="ManpowerDBModel.WorkList" />
-          </EntityContainer>
+        </EntityContainer>
+        <EntityType Name="EmpInsurance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="InsID" Type="Int32" Nullable="false" />
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="ID" />
@@ -158,6 +189,15 @@
           <Property Name="ConPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConPersonTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="InsCate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="InsID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PosOrNeg" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -182,8 +222,8 @@
           <Property Name="BuildingName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConPersonTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OwnerID" Type="Int32" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OwnerPayment">
           <Key>
@@ -204,6 +244,15 @@
           <Property Name="WorkCareID" Type="Int32" Nullable="false" />
           <Property Name="PayID" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -230,24 +279,13 @@
           <Property Name="WorkCareID" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="InsCate">
+        <EntityType Name="WorkRight">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InsID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InsName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PosOrNeg" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="EmpInsurance">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Int32" Nullable="false" />
-          <Property Name="InsID" Type="Int32" Nullable="false" />
           <Property Name="EmpID" Type="Int32" Nullable="false" />
-          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkCateID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkList">
           <Key>
@@ -265,6 +303,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ManpowerDBModelStoreContainer" CdmEntityContainer="ManpowerDBEntities">
+          <EntitySetMapping Name="EmpInsurance">
+            <EntityTypeMapping TypeName="ManpowerDBModel.EmpInsurance">
+              <MappingFragment StoreEntitySet="EmpInsurance">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="InsID" ColumnName="InsID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Employee">
             <EntityTypeMapping TypeName="ManpowerDBModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
@@ -275,6 +324,16 @@
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="EmpName" ColumnName="EmpName" />
                 <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InsCate">
+            <EntityTypeMapping TypeName="ManpowerDBModel.InsCate">
+              <MappingFragment StoreEntitySet="InsCate">
+                <ScalarProperty Name="PosOrNeg" ColumnName="PosOrNeg" />
+                <ScalarProperty Name="InsName" ColumnName="InsName" />
+                <ScalarProperty Name="InsID" ColumnName="InsID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -298,8 +357,8 @@
           <EntitySetMapping Name="OwnerBuilding">
             <EntityTypeMapping TypeName="ManpowerDBModel.OwnerBuilding">
               <MappingFragment StoreEntitySet="OwnerBuilding">
-                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="ConPersonTel" ColumnName="ConPersonTel" />
                 <ScalarProperty Name="ConPerson" ColumnName="ConPerson" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
@@ -325,6 +384,16 @@
                 <ScalarProperty Name="OverOvertimeHr" ColumnName="OverOvertimeHr" />
                 <ScalarProperty Name="OvertimeHr" ColumnName="OvertimeHr" />
                 <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="ManpowerDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -356,23 +425,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="InsCate">
-            <EntityTypeMapping TypeName="ManpowerDBModel.InsCate">
-              <MappingFragment StoreEntitySet="InsCate">
-                <ScalarProperty Name="PosOrNeg" ColumnName="PosOrNeg" />
-                <ScalarProperty Name="InsName" ColumnName="InsName" />
-                <ScalarProperty Name="InsID" ColumnName="InsID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmpInsurance">
-            <EntityTypeMapping TypeName="ManpowerDBModel.EmpInsurance">
-              <MappingFragment StoreEntitySet="EmpInsurance">
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <EntitySetMapping Name="WorkRight">
+            <EntityTypeMapping TypeName="ManpowerDBModel.WorkRight">
+              <MappingFragment StoreEntitySet="WorkRight">
+                <ScalarProperty Name="WorkCateID" ColumnName="WorkCateID" />
                 <ScalarProperty Name="EmpID" ColumnName="EmpID" />
-                <ScalarProperty Name="InsID" ColumnName="InsID" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -384,7 +441,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="SingleNum" ColumnName="SingleNum" />
                 <ScalarProperty Name="SerialNum" ColumnName="SerialNum" />
-                <ScalarProperty Name="ID" ColumnName="Id" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

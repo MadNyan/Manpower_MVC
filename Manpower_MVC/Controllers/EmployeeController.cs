@@ -22,6 +22,11 @@ namespace Manpower_MVC.Controllers
             return Json(getAllEmp(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult getWorkCate()
+        {
+            return Json(getAllWorkCate(), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult getEmpIns(int? id)
         {
             if (id == null)
@@ -37,7 +42,7 @@ namespace Manpower_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Employee emp, List<EmpInsurance> ins)
+        public ActionResult Create(Employee emp, List<EmpInsurance> ins, int[] workCateID)
         {
             Employee _emp = new Employee();
             _emp.EmpID = emp.EmpID;
@@ -60,17 +65,35 @@ namespace Manpower_MVC.Controllers
                 };
                 db.EmpInsurance.Add(_empIns);
             }
+            foreach (int _workCateID in workCateID)
+            {
+                WorkRight _workRight = new WorkRight()
+                {
+                    EmpID = _emp.ID,
+                    WorkCateID = _workCateID
+                };
+                db.WorkRight.Add(_workRight);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
-            return Json(getOneEmp(id), JsonRequestBehavior.AllowGet);
+            ViewEmp viewEmp = new ViewEmp()
+            {
+                Emp = getOneEmp(id),
+                WorkRight = getAllWorkRight(id)
+            };
+            return Json(viewEmp, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult Edit(Employee emp)
+        public ActionResult Edit(Employee emp, int[] workCateID)
         {
+            foreach (WorkRight _workRight in getAllWorkRight(emp.ID))
+            {
+                db.WorkRight.Remove(_workRight);
+            }
             Employee _emp = getOneEmp(emp.ID);
             _emp.EmpID = emp.EmpID;
             _emp.EmpName = emp.EmpName;
@@ -78,6 +101,15 @@ namespace Manpower_MVC.Controllers
             _emp.Phone = emp.Phone;
             _emp.ConPerson = emp.ConPerson;
             _emp.ConPersonTel = emp.ConPersonTel;
+            foreach (int _workCateID in workCateID)
+            {
+                WorkRight _workRight = new WorkRight()
+                {
+                    EmpID = emp.ID,
+                    WorkCateID = _workCateID
+                };
+                db.WorkRight.Add(_workRight);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -87,6 +119,10 @@ namespace Manpower_MVC.Controllers
             foreach(EmpInsurance _empIns in getAllEmpIns(id))
             {
                 db.EmpInsurance.Remove(_empIns);
+            }
+            foreach (WorkRight _workRight in getAllWorkRight(id))
+            {
+                db.WorkRight.Remove(_workRight);
             }
             db.SaveChanges();
             return RedirectToAction("Index");

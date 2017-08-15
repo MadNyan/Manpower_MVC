@@ -23,6 +23,16 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.Employee where p.ID == id select p;
             return Get.FirstOrDefault();
         }
+        public List<WorkRight> getAllWorkRight(int EmpID)
+        {
+            var Get = from p in db.WorkRight where p.EmpID == EmpID select p;
+            return Get.ToList();
+        }
+        public WorkRight getOneWorkRight(int id)
+        {
+            var Get = from p in db.WorkRight where p.ID == id select p;
+            return Get.FirstOrDefault();
+        }
         //select EmpInsurance
         /*************************************************************************************************/
         public List<EmpInsurance> getAllEmpIns(int id)

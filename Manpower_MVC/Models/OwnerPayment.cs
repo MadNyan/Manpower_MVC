@@ -11,12 +11,10 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OwnerPayment
     {
         public int ID { get; set; }
-        [Display(Name = "單號")]
         public string PayID { get; set; }
         public int OwnerID { get; set; }
     }

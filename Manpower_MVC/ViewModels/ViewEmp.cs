@@ -8,7 +8,6 @@ namespace Manpower_MVC.ViewModels
     public partial class ViewEmp
     {
         public Employee Emp { get; set; }
-        public List<EmpInsurance> EmpIns { get; set; }
-        public List<InsCate> InsCate { get; set; }
+        public List<WorkRight> WorkRight { get; set; }
     }
 }

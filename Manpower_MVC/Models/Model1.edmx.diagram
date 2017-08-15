@@ -4,18 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="766c3b25e0aa45718067439b3f47b3a9" Name="Diagram1">
+      <Diagram DiagramId="766c3b25e0aa45718067439b3f47b3a9" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="ManpowerDBModel.EmpInsurance" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ManpowerDBModel.Employee" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.Owner" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.OwnerBuilding" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.OwnerPayment" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.OwnerPayWork" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.WorkCategory" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.Worker" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.InsCate" Width="1.5" PointX="6.625" PointY="4.75" />
-        <EntityTypeShape EntityType="ManpowerDBModel.EmpInsurance" Width="1.5" PointX="0.875" PointY="1" />
-        <EntityTypeShape EntityType="ManpowerDBModel.WorkList" Width="1.5" PointX="3.375" PointY="7.75" />
-        </Diagram>
+        <EntityTypeShape EntityType="ManpowerDBModel.InsCate" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.Owner" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.OwnerBuilding" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.OwnerPayment" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.OwnerPayWork" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.User" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.WorkCategory" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.Worker" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.WorkRight" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ManpowerDBModel.WorkList" Width="1.5" PointX="7.375" PointY="7.75" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

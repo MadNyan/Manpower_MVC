@@ -12,14 +12,21 @@ namespace Manpower_MVC.Controllers
     {
         public ActionResult Index()
         {
-            return View(getAllOwner());
-        }
-        public ActionResult Create()
-        {
             return View();
         }
+        public ActionResult getOwner()
+        {
+            return Json(getAllOwner(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getBuilding(int? id)
+        {
+            if (id == null)
+            {
+                return Json(new List<OwnerBuilding>());
+            }
+            return Json(getSomeOwnerBuilding(id.Value), JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Owner owner)
         {
             db.Owner.Add(owner);
@@ -64,15 +71,7 @@ namespace Manpower_MVC.Controllers
         }
         //for OwnerBuilding
         /*************************************************************************************************/
-        public ActionResult ListOwnerBuilding(int? id)
-        {
-            if (id > 0)
-            {
-                ViewBag.ownerId = id;
-                return View(getSomeOwnerBuilding(id.Value));
-            }
-            return RedirectToAction("Index");
-        }
+        
         public ActionResult CreateOwnerBuilding(int? id)
         {
             if (id > 0)

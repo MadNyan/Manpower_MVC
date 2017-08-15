@@ -56,6 +56,7 @@ namespace Manpower_MVC
                 //.Include("~/Content/js/jquery-1.12.4.js")
                 //.Include("~/Content/js/bootstrap.min.js")
                 .Include("~/Content/js/dataTables.bootstrap.min.js")
+                .Include("~/Content/js/modalForm.js")
                 );
 #if DEBUG
             BundleTable.EnableOptimizations = false;

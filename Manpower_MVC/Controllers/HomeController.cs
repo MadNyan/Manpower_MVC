@@ -19,25 +19,5 @@ namespace Manpower_MVC.Controllers
         {
             return View();
         }
-
-        public ActionResult a01()
-        {
-            return View();
-        }
-
-        public ActionResult a02()
-        {
-            return View();
-        }
-
-        public ActionResult a03()
-        {
-            return View();
-        }
-
-        public ActionResult Emp()
-        {
-            return Json(getAllEmp(),JsonRequestBehavior.AllowGet);
-        }
     }
 }

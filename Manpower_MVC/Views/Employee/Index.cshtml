@@ -105,7 +105,7 @@
 
 
 @section pagesection{
-    <script src="~/Content/js/modalForm.js"></script>
+    
     <script>
         $(document).ready(function () {
 
@@ -131,25 +131,64 @@
 	        $('#create').click(function () {
                 j = 0;
                 $('#lineModalLabel').html('新增點工資料');
-		        $('#form div div').remove();
-		        $('#form div').append(
-			        empForm + "<div class='form-group'>" +
-			        "<input id='addIns' type='button' value='新增加減項' class='btn btn-default' onclick='addOneIns()' />" +
-			        "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='DelEmpIns()' />" +
-			        "</div>" + "<div class='form-group'>" +
-			        "<table><thead><tr><th>項目</th><th>金額</th><th>備註</th></tr></thead>" +
-			        "<tbody></tbody></table>" +
-			        "</div>"
-		        );
+                $('#form div div').remove();
+                $('#form div').append(
+                    empForm + "<div class='form-group'>" +
+                    "<input id='addIns' type='button' value='新增加減項' class='btn btn-default' onclick='addOneIns()' />" +
+                    "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='DelEmpIns()' />" +
+                    "</div>" + "<div class='form-group'>" +
+                    "<table id='ins' width='100%'><thead><tr><th>項目</th><th>金額</th><th>備註</th></tr></thead>" +
+                    "<tbody></tbody></table>" +
+                    "</div>"
+                );
+                $.ajax({
+			        url: '@Url.Action("getWorkCate")',
+			        type: 'GET',
+			        dataType: "json",
+                    success: function (data) {
+                        $('#form').attr('action', '@Url.Action("Create")');
+                        var i = 0;
+                        $.each(data, function (index, item) {
+                            if (index % 3 == 0) {
+                                i++
+                                $('#form div div table#workCate tbody tr').append(
+                                    "<td id='" + i + "'></td>"
+                                );
+                            }
+                            $('#form div div table#workCate tbody tr td#' + i).append(
+                                "<input type='checkbox' id='" + item.ID + "' name='workCateID' value='" + item.ID + "'>" + item.WorkCareName + "<br>"
+                            );
+                        });
+			        }
+		        });
                 createSubmit();
 		        addOneIns();
-		        $('#form').attr('action', '@Url.Action("Create")');
 	        });
 
             $('#edit').click(function () {
                 $('#lineModalLabel').html('編輯點工資料');
 		        $('#form div div').remove();
-		        $('#form div').append(empForm);
+                $('#form div').append(empForm);
+                $.ajax({
+			        url: '@Url.Action("getWorkCate")',
+			        type: 'GET',
+			        dataType: "json",
+                    success: function (data) {
+                        $('#form').attr('action', '@Url.Action("Create")');
+                        var i = 0;
+                        $.each(data, function (index, item) {
+                            if (index % 3 == 0) {
+                                i++
+                                $('#form div div table#workCate tbody tr').append(
+                                    "<td id='" + i + "'></td>"
+                                );
+                            }
+                            $('#form div div table#workCate tbody tr td#' + i).append(
+                                "<input type='checkbox' id='" + item.ID + "' name='workCateID' value='" + item.ID + "'>" + item.WorkCareName + "<br>"
+                            );
+                        });
+			        }
+		        });
                 editSubmit();
 		        $.ajax({
 			        url: '@Url.Action("Edit")',
@@ -158,13 +197,16 @@
 			        dataType: "json",
 			        success: function (data) {
 				        $('#form').attr('action', '@Url.Action("Edit")');
-                        $('#form div div').children('#ID').val(data.ID);
-				        $('#form div div').children('#EmpID').val(data.EmpID);
-				        $('#form div div').children('#EmpName').val(data.EmpName);
-				        $('#form div div').children('#Tel').val(data.Tel);
-				        $('#form div div').children('#Phone').val(data.Phone);
-				        $('#form div div').children('#ConPerson').val(data.ConPerson);
-				        $('#form div div').children('#ConPersonTel').val(data.ConPersonTel);
+                        $('#form div div').children('#ID').val(data.Emp.ID);
+                        $('#form div div').children('#EmpID').val(data.Emp.EmpID);
+                        $('#form div div').children('#EmpName').val(data.Emp.EmpName);
+                        $('#form div div').children('#Tel').val(data.Emp.Tel);
+                        $('#form div div').children('#Phone').val(data.Emp.Phone);
+                        $('#form div div').children('#ConPerson').val(data.Emp.ConPerson);
+                        $('#form div div').children('#ConPersonTel').val(data.Emp.ConPersonTel);
+                        $.each(data.WorkRight, function (index, item) {
+                            $('#form div div table#workCate tbody tr td').children('#' + item.WorkCateID).attr('checked','checked');
+                        });
 			        },
 			        error: function () {
 				        $('#form').attr('action', '');
@@ -231,7 +273,11 @@
             "<div class='form-group'>" +
             "<label for='ConPersonTel'>緊急連絡電話</label>" +
             "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
-            "</div>";
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='workCate'>工種權限</label>" +
+            "<table id='workCate' width='100%'><tbody><tr></tr></tbody></table>" +
+            "</div>" ;
 
         var insForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
@@ -258,8 +304,8 @@
 		    if(j!=1){
 			    j--;
 			    $('#form div div table tbody tr#' + j).remove();
-		    }
-	    }
+            }
+        }
 
 	    function addOneIns() {
 		    $.ajax({
@@ -267,7 +313,7 @@
 			    type: 'GET',
 			    dataType: "json",
 			    success: function (data) {
-				    $('#form div div table tbody').append(
+                    $('#form div div table#ins tbody').append(
 					    "<tr id='" + j + "'><td>" +
 					    "<select id='" + j + "' class='form-control' id='InsID' name='ins[" + j + "].InsID'></select>" +
 					    "</td><td>" +
@@ -277,7 +323,7 @@
 					    "</td></tr>"
 				    );
 				    $.each(data, function (index, item) {
-					    $('#form div div table tbody select#' + j).append(
+                        $('#form div div table#ins tbody select#' + j).append(
 						    "<option value='" + item.ID + "'>" + item.InsName + "</option>"
 					    );
                     });
@@ -335,14 +381,13 @@
 			    dataType: "json",
 			    success: function (data) {
 				    $('#tIns tbody tr').remove();
-				    var i = 0;
-				    $.each(data, function (index, item) {
-					    i++;
+                    $.each(data, function (index, item) {
+                        var i = 1;
 					    if (item.Remark == null) {
 						    item.Remark = '';
 					    }
 					    $('#tIns tbody').append(
-						    "<tr id='" + item.ID + "'><td>" + i + "</td>" +
+                            "<tr id='" + item.ID + "'><td>" + i + "</td>" +
 						    "<td>" + item.InsID + "</td>" +
 						    "<td>" + item.InsName + "</td>" +
 						    "<td>" + item.PosOrNeg + "</td>" +
@@ -351,6 +396,7 @@
                             "<td>" + "<input id='insEdit' type='button' value='編輯' class='btn btn-xs btn-warning' data-toggle='modal' data-target='#modalDiv' />" + "</td>" +
                             "<td>" + "<input id='insDel' type='button' value='刪除' class='btn btn-xs btn-danger' />" + "</td></tr>"
 					    );
+                        i++;
 				    })
 			    }
 		    });
@@ -396,4 +442,3 @@
         });
     </script>
 }
-

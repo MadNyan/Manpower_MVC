@@ -11,20 +11,15 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OwnerPayWork
     {
         public int ID { get; set; }
-        [Display(Name = "天數")]
         public int SalaryDay { get; set; }
-        [Display(Name = "加班(小時)")]
         public int OvertimeHr { get; set; }
-        [Display(Name = "超時(小時)")]
         public int OverOvertimeHr { get; set; }
         public int WorkCareID { get; set; }
         public int PayID { get; set; }
-        [Display(Name = "備註")]
         public string Remark { get; set; }
     }
 }

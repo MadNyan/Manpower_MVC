@@ -1,85 +1,131 @@
-﻿@model IEnumerable<Manpower_MVC.Models.Owner>
-
+﻿
 @{
     ViewBag.Title = "業主基本資料";
 }
 
-<p>
-    <h4>業主資料列表</h4>
-</p>
-<p>
-    <input type="button" value="建立業主資料" class="btn btn-primary" onclick="location.replace('@Url.Action("Create")')" />
-</p>
+<style>
+    tr.selected > td {
+        background-color: #CCCCCC;
+    }
+</style>
+
 <p>
     <input type="button" value="列印業主資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tel2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPersonPhone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPersonTel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UnifiedNum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tel2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPersonPhone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPersonTel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UnifiedNum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            <input type="button" value="工程工地資料" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListOwnerBuilding", new { id = item.ID })')" />
-            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("Edit", new { id=item.ID })')" />
-            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("Delete", new { id=item.ID })')}" />
-        </td>
-    </tr>
-}
-
+<table id="tOwner" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>編號</th>
+            <th>名稱</th>
+            <th>連絡電話</th>
+            <th>傳真</th>
+            <th>連絡人</th>
+            <th>電話</th>
+            <th>手機</th>
+            <th>統一編號</th>
+            <th>地址</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>編號</th>
+            <th>名稱</th>
+            <th>連絡電話</th>
+            <th>傳真</th>
+            <th>連絡人</th>
+            <th>電話</th>
+            <th>手機</th>
+            <th>統一編號</th>
+            <th>地址</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
+
+<input id="create" type="button" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
+<input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
+
+<div>
+    <label class="h4"></label>
+</div>
+
+<table id="tBuilding" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>工地名稱</th>
+            <th>連絡人</th>
+            <th>電話</th>
+            <th>地址</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+		        url: '@Url.Action("getOwner")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tOwner tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.Tel == null) {
+                            item.Tel = '';
+                        }
+                        if (item.Tel2 == null) {
+                            item.Tel2 = '';
+                        }
+                        if (item.ConPerson == null) {
+                            item.ConPerson = '';
+                        }
+                        if (item.ConPersonPhone == null) {
+                            item.ConPersonPhone = '';
+                        }
+                        if (item.ConPersonTel == null) {
+                            item.ConPersonTel = '';
+                        }
+                        if (item.Address == null) {
+                            item.Address = '';
+                        }
+                        $('#tOwner tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.OwnerID + "</td>" +
+                            "<td>" + item.OwnerName + "</td>" +
+                            "<td>" + item.Tel + "</td>" +
+                            "<td>" + item.Tel2 + "</td>" +
+                            "<td>" + item.ConPerson + "</td>" +
+                            "<td>" + item.ConPersonPhone + "</td>" +
+                            "<td>" + item.ConPersonTel + "</td>" +
+                            "<td>" + item.UnifiedNum + "</td>" +
+                            "<td>" + item.Address + "</td></tr>"
+                        );
+                    })
+                    $('#tOwner').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+
+            $('#tOwner tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                }
+                else {
+                    $('#tOwner tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                }
+            });
+        });
+    </script>
+}

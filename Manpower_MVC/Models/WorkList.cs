@@ -11,19 +11,13 @@ namespace Manpower_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class WorkList
     {
         public int ID { get; set; }
-        [Display(Name = "流水號")]
         public string SerialNum { get; set; }
-        [Display(Name = "單號")]
         public string SingleNum { get; set; }
-        [Display(Name = "日期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public System.DateTime CreateDate { get; set; }
-        [Display(Name = "工地")]
         public int BuildingID { get; set; }
     }
 }
