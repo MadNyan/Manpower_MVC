@@ -54,29 +54,25 @@ namespace Manpower_MVC.Controllers
             _emp.CreateDate = DateTime.Now;
             db.Employee.Add(_emp);
             db.SaveChanges();
-            foreach (EmpInsurance _ins in ins)
+            for (int i=0; i<ins.Count; i++)
             {
-                EmpInsurance _empIns = new EmpInsurance()
+                if (i != 0)
                 {
-                    EmpID = _emp.ID,
-                    InsID = _ins.InsID,
-                    Price = _ins.Price,
-                    Remark = _ins.Remark
-                };
-                db.EmpInsurance.Add(_empIns);
+                    EmpInsurance _empIns = new EmpInsurance()
+                    {
+                        EmpID = _emp.ID,
+                        InsID = ins[i].InsID,
+                        Price = ins[i].Price,
+                        Remark = ins[i].Remark
+                    };
+                    db.EmpInsurance.Add(_empIns);
+                }
             }
-            foreach (int _workCateID in workCateID)
-            {
-                WorkRight _workRight = new WorkRight()
-                {
-                    EmpID = _emp.ID,
-                    WorkCateID = _workCateID
-                };
-                db.WorkRight.Add(_workRight);
-            }
+            createWorkRight(workCateID, _emp.ID);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public ActionResult Edit(int id)
         {
             ViewEmp viewEmp = new ViewEmp()
@@ -101,18 +97,11 @@ namespace Manpower_MVC.Controllers
             _emp.Phone = emp.Phone;
             _emp.ConPerson = emp.ConPerson;
             _emp.ConPersonTel = emp.ConPersonTel;
-            foreach (int _workCateID in workCateID)
-            {
-                WorkRight _workRight = new WorkRight()
-                {
-                    EmpID = emp.ID,
-                    WorkCateID = _workCateID
-                };
-                db.WorkRight.Add(_workRight);
-            }
+            createWorkRight(workCateID, emp.ID);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public ActionResult Delete(int id)
         {
             db.Employee.Remove(getOneEmp(id));
@@ -127,6 +116,7 @@ namespace Manpower_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public ActionResult Print()
         {
             return View(getAllEmp());
@@ -167,6 +157,23 @@ namespace Manpower_MVC.Controllers
             db.EmpInsurance.Remove(_empIns);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public void createWorkRight(int[] workCateID, int empID)
+        {
+            foreach (int _workCateID in workCateID)
+            {
+                if (_workCateID != 0)
+                {
+                    WorkRight _workRight = new WorkRight()
+                    {
+                        EmpID = empID,
+                        WorkCateID = _workCateID
+                    };
+                    db.WorkRight.Add(_workRight);
+                }
+                db.SaveChanges();
+            }
         }
     }
 }

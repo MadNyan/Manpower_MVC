@@ -110,7 +110,7 @@
         $(document).ready(function () {
 
             loadEmpList();
-
+            //點工表格欄位點擊選擇事件
 	        $('#tEmp tbody').on('click', 'tr', function () {
 		        if ($(this).hasClass('selected')) {
 			        $(this).removeClass('selected');
@@ -127,7 +127,7 @@
                 }
                 loadInsList();
 	        });
-
+            //建立新增點工表單事件
 	        $('#create').click(function () {
                 j = 0;
                 $('#lineModalLabel').html('新增點工資料');
@@ -159,12 +159,15 @@
                                 "<input type='checkbox' id='" + item.ID + "' name='workCateID' value='" + item.ID + "'>" + item.WorkCareName + "<br>"
                             );
                         });
+                        $('#form div div table#workCate tbody tr td#' + i).append(
+                            "<input type='hidden' id='hidden' name='workCateID' value='0' />"
+                        );
 			        }
 		        });
                 createSubmit();
 		        addOneIns();
 	        });
-
+            //建立編輯點工表單事件
             $('#edit').click(function () {
                 $('#lineModalLabel').html('編輯點工資料');
 		        $('#form div div').remove();
@@ -187,6 +190,9 @@
                                 "<input type='checkbox' id='" + item.ID + "' name='workCateID' value='" + item.ID + "'>" + item.WorkCareName + "<br>"
                             );
                         });
+                        $('#form div div table#workCate tbody tr td#' + i).append(
+                            "<input type='hidden' id='hidden' name='workCateID' value='0' />"
+                        );
 			        }
 		        });
                 editSubmit();
@@ -214,13 +220,13 @@
 			        }
 		        });
 	        });
-
+            //刪除點工事件
 	        $('#del').click(function () {
 		        if (window.confirm('確定要刪除?')) {
 			        location.replace('/Employee/Delete/' + $('.selected').attr('id'));
 		        }
 	        });
-
+            //建立新增加減項表單事件
             $('#insCreate').click(function () {
                 $('#lineModalLabel').html('新增勞保加減項');
                 $('#form div div').remove();
@@ -246,7 +252,7 @@
                 $('#form div div').children('#EmpID').val($('#tEmp tbody tr.selected').attr('id'));
 	        });
         });
-
+        //點工表單
         var empForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
@@ -278,7 +284,7 @@
             "<label for='workCate'>工種權限</label>" +
             "<table id='workCate' width='100%'><tbody><tr></tr></tbody></table>" +
             "</div>" ;
-
+        //加減項表單
         var insForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
@@ -299,39 +305,48 @@
             "</div>";
 
         var j = 0;
-
+        //減少加減項項目
         function DelEmpIns() {
-		    if(j!=1){
-			    j--;
-			    $('#form div div table tbody tr#' + j).remove();
+            if (j != 0) {
+                j--;
+                $('#form div div table tbody tr#' + j).remove();
             }
         }
-
+        //增加加減項項目
 	    function addOneIns() {
-		    $.ajax({
-			    url: '@Url.Action("getInsCate")',
-			    type: 'GET',
-			    dataType: "json",
-			    success: function (data) {
-                    $('#form div div table#ins tbody').append(
-					    "<tr id='" + j + "'><td>" +
-					    "<select id='" + j + "' class='form-control' id='InsID' name='ins[" + j + "].InsID'></select>" +
-					    "</td><td>" +
-					    "<input type='text' class='form-control' id='Price' name='ins[" + j + "].Price' required='required'/>" +
-					    "</td><td>" +
-					    "<input type='text' class='form-control' id='Remark' name='ins[" + j + "].Remark' />" +
-					    "</td></tr>"
-				    );
-				    $.each(data, function (index, item) {
-                        $('#form div div table#ins tbody select#' + j).append(
-						    "<option value='" + item.ID + "'>" + item.InsName + "</option>"
-					    );
-                    });
-                    j++;
-			    }
-		    });
+            if (j==0){
+                $('#form div div table#ins').append(
+                    "<input type='hidden' id='InsID' name='ins[" + j + "].InsID' value='0' />" +
+                    "<input type='hidden' id='Price' name='ins[" + j + "].Price' value='0' />" +
+                    "<input type='hidden' id='Remark' name='ins[" + j + "].Remark' value='0' />"
+                );
+                j++;
+            } else {
+                $.ajax({
+			        url: '@Url.Action("getInsCate")',
+			        type: 'GET',
+			        dataType: "json",
+			        success: function (data) {
+                        $('#form div div table#ins tbody').append(
+					        "<tr id='" + j + "'><td>" +
+					        "<select id='" + j + "' class='form-control' name='ins[" + j + "].InsID'></select>" +
+					        "</td><td>" +
+					        "<input type='text' class='form-control' id='Price' name='ins[" + j + "].Price' required='required'/>" +
+					        "</td><td>" +
+					        "<input type='text' class='form-control' id='Remark' name='ins[" + j + "].Remark' />" +
+					        "</td></tr>"
+				        );
+				        $.each(data, function (index, item) {
+                            $('#form div div table#ins tbody select#' + j).append(
+						        "<option value='" + item.ID + "'>" + item.InsName + "</option>"
+					        );
+                        });
+                        j++;
+			        }
+		        });
+            }
         }
-
+        //讀取點工資料
         function loadEmpList() {
             $.ajax({
 		        url: '@Url.Action("getEmp")',
@@ -372,7 +387,7 @@
 		        }
 	        });
         }
-
+        //讀取加減項資料
         function loadInsList() {
             $.ajax({
 			    url: '@Url.Action("getEmpIns")',
@@ -401,7 +416,7 @@
 			    }
 		    });
         }
-
+        //建立編輯加減項表單事件
         $('#tIns').on('click', '#insEdit', function () {
             $('#lineModalLabel').html('編輯勞保加減項');
             $('#form div div').remove();
@@ -434,7 +449,7 @@
             });
             editSubmit();
         });
-
+        //刪除加減項事件
         $('#tIns').on('click', '#insDel', function () {
             if (window.confirm('確定要刪除?')) {
                 location.replace('/Employee/DeleteEmpIns/' + $(this).parent().parent().attr('id'));

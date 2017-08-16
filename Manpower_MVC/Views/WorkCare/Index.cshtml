@@ -65,12 +65,10 @@
 <input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
 
 @section pagesection{
-
     <script>
         $(document).ready(function () {
-
             loadWorkCateList();
-
+            //欄位點擊選擇事件
             $('#tWorkCate tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
@@ -84,7 +82,7 @@
                     $('#del').attr('disabled', false);
                 }
             });
-
+            //建立新增表單事件
             $('#create').click(function () {
                 $('#lineModalLabel').html('新增工種類別');
 		        $('#form div div').remove();
@@ -92,7 +90,7 @@
                 createSubmit();
 		        $('#form').attr('action', '@Url.Action("Create")');
             });
-
+            //建立編輯表單事件
             $('#edit').click(function () {
                 $('#lineModalLabel').html('編輯工種類別');
 		        $('#form div div').remove();
@@ -119,14 +117,14 @@
 			        }
 		        });
             });
-
+            //刪除事件
             $('#del').click(function () {
                 if (window.confirm('確定要刪除?')) {
                     location.replace('/WorkCare/Delete/' + $('.selected').attr('id'));
                 }
             });
         });
-
+        //工種表單
         var workCateForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
@@ -154,7 +152,7 @@
             "<label for='Remark'>備註</label>" +
             "<textarea class='form-control' cols='20' id='Remark' name='Remark' placeholder='備註...' rows='3'></textarea>" +
             "</div>";
-
+        //讀取工種資料
         function loadWorkCateList() {
             $.ajax({
 		        url: '@Url.Action("getWorkCate")',
