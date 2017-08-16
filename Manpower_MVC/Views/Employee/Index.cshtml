@@ -12,61 +12,33 @@
     <input type="button" value="列印點工資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
 
-<table id="tEmp" class="table table-hover" cellspacing="0" width="100%">
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
-            <th>
-                工號
-            </th>
-            <th>
-                姓名
-            </th>
-            <th>
-                電話
-            </th>
-            <th>
-                手機
-            </th>
-            <th>
-                緊急連絡人
-            </th>
-            <th>
-                緊急連絡電話
-            </th>
-            <th>
-                建立日期
-            </th>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>電話</th>
+            <th>手機</th>
+            <th>緊急連絡人</th>
+            <th>緊急連絡電話</th>
+            <th>建立日期</th>
         </tr>
     </thead>
     <tfoot class="thead-inverse">
         <tr>
-            <th>
-                工號
-            </th>
-            <th>
-                姓名
-            </th>
-            <th>
-                電話
-            </th>
-            <th>
-                手機
-            </th>
-            <th>
-                緊急連絡人
-            </th>
-            <th>
-                緊急連絡電話
-            </th>
-            <th>
-                建立日期
-            </th>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>電話</th>
+            <th>手機</th>
+            <th>緊急連絡人</th>
+            <th>緊急連絡電話</th>
+            <th>建立日期</th>
         </tr>
     </tfoot>
     <tbody></tbody>
 </table>
 
-<input id="create" type="button" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="create" type="button" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
 <input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
 <input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
 
@@ -74,58 +46,45 @@
     <label class="h4"></label>
 </div>
 
-<table id="tIns" class="table table-hover" cellspacing="0" width="100%">
+<table id="tSecond" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
-            <th>
-                次號
-            </th>
-            <th>
-                項目代號
-            </th>
-            <th>
-                項目名稱
-            </th>
-            <th>
-                加項/減項
-            </th>
-            <th>
-                金額
-            </th>
-            <th>
-                備註
-            </th>
-            <th></th><th></th>
+            <th width="12.5%">次號</th>
+            <th width="12.5%">項目代號</th>
+            <th width="12.5%">項目名稱</th>
+            <th width="12.5%">加項/減項</th>
+            <th width="12.5%">金額</th>
+            <th width="17.5%">備註</th>
+            <th width="10%"></th><th width="10%"></th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
 
-<input id="insCreate" type="hidden" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="secondCreate" type="hidden" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
 
 
 @section pagesection{
-    
     <script>
         $(document).ready(function () {
-
-            loadEmpList();
+            loadMainTable();
             //點工表格欄位點擊選擇事件
-	        $('#tEmp tbody').on('click', 'tr', function () {
+	        $('#tMain tbody').on('click', 'tr', function () {
 		        if ($(this).hasClass('selected')) {
 			        $(this).removeClass('selected');
 			        $('#edit').attr('disabled', true);
                     $('#del').attr('disabled', true);
-                    $('#insCreate').attr('type', 'hidden');
+                    $('#secondCreate').attr('type', 'hidden');
+                    $('#tSecond tbody tr').remove();
 		        }
 		        else {
-			        $('#tEmp tbody').children('.selected').removeClass('selected');
+			        $('#tMain tbody').children('.selected').removeClass('selected');
 			        $(this).addClass('selected');
 			        $('#edit').attr('disabled', false);
                     $('#del').attr('disabled', false);
-                    $('#insCreate').attr('type', 'button');
+                    $('#secondCreate').attr('type', 'button');
                 }
-                loadInsList();
+                loadSecondTable();
 	        });
             //建立新增點工表單事件
 	        $('#create').click(function () {
@@ -133,9 +92,9 @@
                 $('#lineModalLabel').html('新增點工資料');
                 $('#form div div').remove();
                 $('#form div').append(
-                    empForm + "<div class='form-group'>" +
-                    "<input id='addIns' type='button' value='新增加減項' class='btn btn-default' onclick='addOneIns()' />" +
-                    "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='DelEmpIns()' />" +
+                    mainForm + "<div class='form-group'>" +
+                    "<input id='addIns' type='button' value='新增加減項' class='btn btn-default' onclick='addOne()' />" +
+                    "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='delOne()' />" +
                     "</div>" + "<div class='form-group'>" +
                     "<table id='ins' width='100%'><thead><tr><th>項目</th><th>金額</th><th>備註</th></tr></thead>" +
                     "<tbody></tbody></table>" +
@@ -165,13 +124,13 @@
 			        }
 		        });
                 createSubmit();
-		        addOneIns();
+		        addOne();
 	        });
             //建立編輯點工表單事件
             $('#edit').click(function () {
                 $('#lineModalLabel').html('編輯點工資料');
 		        $('#form div div').remove();
-                $('#form div').append(empForm);
+                $('#form div').append(mainForm);
                 $.ajax({
 			        url: '@Url.Action("getWorkCate")',
 			        type: 'GET',
@@ -199,7 +158,7 @@
 		        $.ajax({
 			        url: '@Url.Action("Edit")',
 			        type: 'GET',
-			        data: { id: $('#tEmp tbody tr.selected').attr('id') },
+			        data: { id: $('#tMain tbody tr.selected').attr('id') },
 			        dataType: "json",
 			        success: function (data) {
 				        $('#form').attr('action', '@Url.Action("Edit")');
@@ -227,10 +186,10 @@
 		        }
 	        });
             //建立新增加減項表單事件
-            $('#insCreate').click(function () {
+            $('#secondCreate').click(function () {
                 $('#lineModalLabel').html('新增勞保加減項');
                 $('#form div div').remove();
-                $('#form div').append(insForm);
+                $('#form div').append(secondForm);
                 createSubmit();
                 $.ajax({
 			        url: '@Url.Action("getInsCate")',
@@ -249,11 +208,11 @@
                         $('#form div div').children('input:text').val('');
                     }
                 });
-                $('#form div div').children('#EmpID').val($('#tEmp tbody tr.selected').attr('id'));
+                $('#form div div').children('#EmpID').val($('#tMain tbody tr.selected').attr('id'));
 	        });
         });
         //點工表單
-        var empForm = "<div class='form-group'>" +
+        var mainForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
             "<div class='form- group'>" +
@@ -285,7 +244,7 @@
             "<table id='workCate' width='100%'><tbody><tr></tr></tbody></table>" +
             "</div>" ;
         //加減項表單
-        var insForm = "<div class='form-group'>" +
+        var secondForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
             "<div class='form-group'>" +
@@ -306,14 +265,14 @@
 
         var j = 0;
         //減少加減項項目
-        function DelEmpIns() {
+        function delOne() {
             if (j != 0) {
                 j--;
                 $('#form div div table tbody tr#' + j).remove();
             }
         }
         //增加加減項項目
-	    function addOneIns() {
+	    function addOne() {
             if (j==0){
                 $('#form div div table#ins').append(
                     "<input type='hidden' id='InsID' name='ins[" + j + "].InsID' value='0' />" +
@@ -347,13 +306,13 @@
             }
         }
         //讀取點工資料
-        function loadEmpList() {
+        function loadMainTable() {
             $.ajax({
 		        url: '@Url.Action("getEmp")',
 		        type: 'GET',
 		        dataType: "json",
 		        success: function (data) {
-			        $('#tEmp tbody tr').remove();
+			        $('#tMain tbody tr').remove();
 			        $.each(data, function (index, item) {
 				        if (item.Tel == null){
 					        item.Tel = '';
@@ -367,7 +326,7 @@
 				        if (item.ConPersonTel == null) {
 					        item.ConPersonTel = '';
 				        }
-				        $('#tEmp tbody').append(
+				        $('#tMain tbody').append(
 					        "<tr id='" + item.ID + "'><td>" + item.EmpID + "</td>" +
 					        "<td>" + item.EmpName + "</td>" +
 					        "<td>" + item.Tel + "</td>" +
@@ -377,7 +336,7 @@
 					        "<td>" + (JSON.parseWithDate(JSON.stringifyWcf(item.CreateDate))).f("yyyy-MM-dd") + "</td></tr>"
 				        );
                     })
-                    $('#tEmp').DataTable({
+                    $('#tMain').DataTable({
                         language: {
                             url: "../Content/dataTables.Chinese.traditional.txt"
                         },
@@ -388,20 +347,20 @@
 	        });
         }
         //讀取加減項資料
-        function loadInsList() {
+        function loadSecondTable() {
             $.ajax({
-			    url: '@Url.Action("getEmpIns")',
+			    url: '@Url.Action("getViewEmpIns")',
 			    type: 'GET',
-                data: { id: $('#tEmp tbody tr.selected').attr('id') },
+                data: { id: $('#tMain tbody tr.selected').attr('id') },
 			    dataType: "json",
 			    success: function (data) {
-				    $('#tIns tbody tr').remove();
+                    $('#tSecond tbody tr').remove();
+                    var i = 1;
                     $.each(data, function (index, item) {
-                        var i = 1;
 					    if (item.Remark == null) {
 						    item.Remark = '';
 					    }
-					    $('#tIns tbody').append(
+					    $('#tSecond tbody').append(
                             "<tr id='" + item.ID + "'><td>" + i + "</td>" +
 						    "<td>" + item.InsID + "</td>" +
 						    "<td>" + item.InsName + "</td>" +
@@ -417,11 +376,10 @@
 		    });
         }
         //建立編輯加減項表單事件
-        $('#tIns').on('click', '#insEdit', function () {
+        $('#tSecond').on('click', '#insEdit', function () {
             $('#lineModalLabel').html('編輯勞保加減項');
             $('#form div div').remove();
-            $('#form div').append(insForm);
-            createSubmit();
+            $('#form div').append(secondForm);
             $.ajax({
                 url: '@Url.Action("getInsCate")',
                 type: 'GET',
@@ -450,7 +408,7 @@
             editSubmit();
         });
         //刪除加減項事件
-        $('#tIns').on('click', '#insDel', function () {
+        $('#tSecond').on('click', '#insDel', function () {
             if (window.confirm('確定要刪除?')) {
                 location.replace('/Employee/DeleteEmpIns/' + $(this).parent().parent().attr('id'));
             }

@@ -27,18 +27,33 @@ namespace Manpower_MVC.Controllers
             return Json(getSomeOwnerBuilding(id.Value), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult Create(Owner owner)
+        public ActionResult Create(Owner owner, List<OwnerBuilding> building)
         {
             db.Owner.Add(owner);
+            db.SaveChanges();
+            for (int i = 0; i < building.Count; i++)
+            {
+                if (i != 0)
+                {
+                    OwnerBuilding _building = new OwnerBuilding()
+                    {
+                        OwnerID = owner.ID,
+                        BuildingName = building[i].BuildingName,
+                        ConPerson = building[i].ConPerson,
+                        ConPersonTel = building[i].ConPersonTel,
+                        Address = building[i].Address
+                    };
+                    db.OwnerBuilding.Add(_building);
+                }
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
-            return View(getOneOwner(id));
+            return Json(getOneOwner(id), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Owner owner)
         {
             Owner _owner = getOneOwner(id);
@@ -83,7 +98,6 @@ namespace Manpower_MVC.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult CreateOwnerBuilding(OwnerBuilding ownerBuilding)
         {
             OwnerBuilding _ownerBuilding = new OwnerBuilding()
@@ -92,40 +106,37 @@ namespace Manpower_MVC.Controllers
                 ConPerson = ownerBuilding.ConPerson,
                 ConPersonTel = ownerBuilding.ConPersonTel,
                 Address = ownerBuilding.Address,
-                OwnerID = Convert.ToInt32(Session["ownerId"].ToString())
+                OwnerID = ownerBuilding.OwnerID
             };
-            Session["ownerId"] = null;
             db.OwnerBuilding.Add(_ownerBuilding);
             db.SaveChanges();
-            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+            return RedirectToAction("Index");
         }
         public ActionResult EditOwnerBuilding(int? id)
         {
-            if (id > 0)
+            if (id == null)
             {
-                ViewBag.ownerId = id;
-                return View(getOneOwnerBuilding(id.Value));
+                return Json(new OwnerBuilding());
             }
-            return RedirectToAction("Index");
+            return Json(getOneOwnerBuilding(id.Value), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditOwnerBuilding(int id, OwnerBuilding ownerBuilding)
+        public ActionResult EditOwnerBuilding(OwnerBuilding ownerBuilding)
         {
-            OwnerBuilding _ownerBuilding = getOneOwnerBuilding(id);
+            OwnerBuilding _ownerBuilding = getOneOwnerBuilding(ownerBuilding.ID);
             _ownerBuilding.BuildingName = ownerBuilding.BuildingName;
             _ownerBuilding.ConPerson = ownerBuilding.ConPerson;
             _ownerBuilding.ConPersonTel = ownerBuilding.ConPersonTel;
             _ownerBuilding.Address = ownerBuilding.Address;
             db.SaveChanges();
-            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+            return RedirectToAction("Index");
         }
         public ActionResult DeleteOwnerBuilding(int id)
         {
             OwnerBuilding _ownerBuilding = getOneOwnerBuilding(id);
             db.OwnerBuilding.Remove(_ownerBuilding);
             db.SaveChanges();
-            return RedirectToAction("ListOwnerBuilding", new { id = _ownerBuilding.OwnerID });
+            return RedirectToAction("Index");
         }
     }
 }

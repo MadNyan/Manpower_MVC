@@ -27,7 +27,7 @@ namespace Manpower_MVC.Controllers
             return Json(getAllWorkCate(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult getEmpIns(int? id)
+        public ActionResult getViewEmpIns(int? id)
         {
             if (id == null)
             {
@@ -127,13 +127,7 @@ namespace Manpower_MVC.Controllers
         [HttpPost]
         public ActionResult CreateEmpIns(EmpInsurance empIns)
         {
-            EmpInsurance _empIns = new EmpInsurance() {
-                EmpID = empIns.EmpID,
-                InsID = empIns.InsID,
-                Price = empIns.Price,
-                Remark = empIns.Remark
-            };
-            db.EmpInsurance.Add(_empIns);
+            db.EmpInsurance.Add(empIns);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

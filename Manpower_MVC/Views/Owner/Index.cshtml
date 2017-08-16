@@ -13,7 +13,7 @@
     <input type="button" value="列印業主資料" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
 
-<table id="tOwner" class="table table-hover" cellspacing="0" width="100%">
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
             <th>編號</th>
@@ -43,7 +43,7 @@
     <tbody></tbody>
 </table>
 
-<input id="create" type="button" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="create" type="button" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
 <input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
 <input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
 
@@ -51,27 +51,116 @@
     <label class="h4"></label>
 </div>
 
-<table id="tBuilding" class="table table-hover" cellspacing="0" width="100%">
+<table id="tSecond" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
-            <th>工地名稱</th>
-            <th>連絡人</th>
-            <th>電話</th>
-            <th>地址</th>
+            <th width="20%">工地名稱</th>
+            <th width="20%">連絡人</th>
+            <th width="20%">電話</th>
+            <th width="20%">地址</th>
+            <th width="10%"></th>
+            <th width="10%"></th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
 
+<input id="secondCreate" type="hidden" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+
 @section pagesection{
     <script>
         $(document).ready(function () {
+            loadMainTable();
+            //業主表格欄位點擊選擇事件
+            $('#tMain tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                    $('#secondCreate').attr('type', 'hidden');
+                    $('#tSecond tbody tr').remove();
+                }
+                else {
+                    $('#tMain tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                    $('#secondCreate').attr('type', 'button');
+                }
+                loadSecondTable();
+            });
+            //建立新增業主表單事件
+	        $('#create').click(function () {
+                j = 0;
+                $('#lineModalLabel').html('新增業主資料');
+                $('#form div div').remove();
+                $('#form div').append(
+                    mainForm + "<div class='form-group'>" +
+                    "<input id='addIns' type='button' value='新增工地' class='btn btn-default' onclick='addOne()' />" +
+                    "<input id='celIns' type='button' value='刪除' class='btn btn-danger' onclick='delOne()' />" +
+                    "</div>" + "<div class='form-group'>" +
+                    "<table width='100%'><thead><tr><th>工地名稱</th><th>連絡人</th><th>電話</th><th>地址</th></tr></thead>" +
+                    "<tbody></tbody></table>" +
+                    "</div>"
+                );
+                $('#form').attr('action', '@Url.Action("Create")');
+                createSubmit();
+                addOne();
+	        });
+            //建立編輯業主表單事件
+            $('#edit').click(function () {
+                $('#lineModalLabel').html('編輯業主資料');
+		        $('#form div div').remove();
+                $('#form div').append(mainForm);
+                editSubmit();
+		        $.ajax({
+			        url: '@Url.Action("Edit")',
+			        type: 'GET',
+			        data: { id: $('#tMain tbody tr.selected').attr('id') },
+			        dataType: "json",
+			        success: function (data) {
+				        $('#form').attr('action', '@Url.Action("Edit")');
+                        $('#form div div').children('#ID').val(data.ID);
+                        $('#form div div').children('#OwnerID').val(data.OwnerID);
+                        $('#form div div').children('#OwnerName').val(data.OwnerName);
+                        $('#form div div').children('#Tel').val(data.Tel);
+                        $('#form div div').children('#Tel2').val(data.Tel2);
+                        $('#form div div').children('#ConPerson').val(data.ConPerson);
+                        $('#form div div').children('#ConPersonPhone').val(data.ConPersonPhone);
+                        $('#form div div').children('#ConPersonTel').val(data.ConPersonTel);
+                        $('#form div div').children('#UnifiedNum').val(data.UnifiedNum);
+                        $('#form div div').children('#Address').val(data.Address);
+			        },
+			        error: function () {
+				        $('#form').attr('action', '');
+				        $('#form div div').children('input:text').val('');
+			        }
+		        });
+	        });
+            //刪除業主事件
+	        $('#del').click(function () {
+		        if (window.confirm('確定要刪除?')) {
+			        location.replace('/Owner/Delete/' + $('.selected').attr('id'));
+		        }
+            });
+            //建立新增工地表單事件
+            $('#secondCreate').click(function () {
+                $('#lineModalLabel').html('新增工地資料');
+                $('#form div div').remove();
+                $('#form div').append(secondForm);
+                $('#form').attr('action', 'CreateOwnerBuilding');
+                createSubmit();
+                $('#form div div').children('#OwnerID').val($('#tMain tbody tr.selected').attr('id'));
+	        });
+        });
+        //讀取業主資料
+        function loadMainTable() {
             $.ajax({
-		        url: '@Url.Action("getOwner")',
+                url: '@Url.Action("getOwner")',
                 type: 'GET',
                 dataType: "json",
                 success: function (data) {
-                    $('#tOwner tbody tr').remove();
+                    $('#tMain tbody tr').remove();
                     $.each(data, function (index, item) {
                         if (item.Tel == null) {
                             item.Tel = '';
@@ -91,7 +180,7 @@
                         if (item.Address == null) {
                             item.Address = '';
                         }
-                        $('#tOwner tbody').append(
+                        $('#tMain tbody').append(
                             "<tr id='" + item.ID + "'><td>" + item.OwnerID + "</td>" +
                             "<td>" + item.OwnerName + "</td>" +
                             "<td>" + item.Tel + "</td>" +
@@ -103,7 +192,7 @@
                             "<td>" + item.Address + "</td></tr>"
                         );
                     })
-                    $('#tOwner').DataTable({
+                    $('#tMain').DataTable({
                         language: {
                             url: "../Content/dataTables.Chinese.traditional.txt"
                         },
@@ -112,20 +201,160 @@
                     });
                 }
             });
-
-            $('#tOwner tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                    $('#edit').attr('disabled', true);
-                    $('#del').attr('disabled', true);
-                }
-                else {
-                    $('#tOwner tbody').children('.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                    $('#edit').attr('disabled', false);
-                    $('#del').attr('disabled', false);
+        }
+        //讀取工地資料
+        function loadSecondTable() {
+            $.ajax({
+		        url: '@Url.Action("getBuilding")',
+                type: 'GET',
+                data: { id: $('#tMain tbody tr.selected').attr('id')},
+                dataType: "json",
+                success: function (data) {
+                    $('#tSecond tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.ConPerson == null) {
+                            item.ConPerson = '';
+                        }
+                        if (item.ConPersonTel == null) {
+                            item.ConPersonTel = '';
+                        }
+                        if (item.Address == null) {
+                            item.Address = '';
+                        }
+                        $('#tSecond tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.BuildingName + "</td>" +
+                            "<td>" + item.ConPerson + "</td>" +
+                            "<td>" + item.ConPersonTel + "</td>" +
+                            "<td>" + item.Address + "</td>" +
+                            "<td><input id='buildingEdit' type='button' value='編輯' class='btn btn-xs btn-warning' data-toggle='modal' data-target='#modalDiv' /></td>" +
+                            "<td><input id='buildingDel' type='button' value='刪除' class='btn btn-xs btn-danger' /></td></tr>"
+                        );
+                    })
                 }
             });
+        }
+        var j = 0;
+        //減少加減項項目
+        function delOne() {
+		    if(j!=0){
+			    j--;
+			    $('#form div div table tbody tr#' + j).remove();
+            }
+        }
+        //增加加減項項目
+        function addOne() {
+            if (j == 0) {
+                $('#form div div table').append(
+                    "<input type='hidden' id='BuildingName' name='building[" + j + "].BuildingName' value='0' />" +
+                    "<input type='hidden' id='ConPerson' name='building[" + j + "].ConPerson' value='0' />" +
+                    "<input type='hidden' id='ConPersonTel' name='building[" + j + "].ConPersonTel' value='0' />" +
+                    "<input type='hidden' id='Address' name='building[" + j + "].Address' value='0' />"
+                );
+                j++;
+            } else {
+                $('#form div div table tbody').append(
+                    "<tr id='" + j + "'><td>" +
+                    "<input type='text' class='form-control' id='BuildingName' name='building[" + j + "].BuildingName' required='required'/>" +
+                    "</td><td>" +
+                    "<input type='text' class='form-control' id='ConPerson' name='building[" + j + "].ConPerson' />" +
+                    "</td><td>" +
+                    "<input type='text' class='form-control' id='ConPersonTel' name='building[" + j + "].ConPersonTel' />" +
+                    "</td><td>" +
+                    "<input type='text' class='form-control' id='Address' name='building[" + j + "].Address' />" +
+                    "</td></tr>"
+                );
+                j++;
+            }
+        }
+        //業主表單
+        var mainForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form- group'>" +
+            "<label for='OwnerID'>編號</label>" +
+            "<input type='text' class='form-control' id='OwnerID' name='OwnerID' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='OwnerName'>名稱</label>" +
+            "<input type='text' class='form-control' id='OwnerName' name='OwnerName' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Tel'>連絡電話</label>" +
+            "<input type='text' class='form-control' id='Tel' name='Tel' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Tel2'>傳真</label>" +
+            "<input type='text' class='form-control' id='Tel2' name='Tel2' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='ConPerson'>連絡人</label>" +
+            "<input type='text' class='form-control' id='ConPerson' name='ConPerson' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='ConPersonPhone'>電話</label>" +
+            "<input type='text' class='form-control' id='ConPersonPhone' name='ConPersonPhone' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='ConPersonTel'>手機</label>" +
+            "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='UnifiedNum'>統一編號</label>" +
+            "<input type='text' class='form-control' id='UnifiedNum' name='UnifiedNum' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Address'>地址</label>" +
+            "<input type='text' class='form-control' id='Address' name='Address' />" +
+            "</div>";
+        //工地表單
+        var secondForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<input data-val='true' id='OwnerID' name='OwnerID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='BuildingName'>工地名稱</label>" +
+            "<input type='text' class='form-control' id='BuildingName' name='BuildingName' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='ConPerson'>連絡人</label>" +
+            "<input type='text' class='form-control' id='ConPerson' name='ConPerson' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='ConPersonTel'>電話</label>" +
+            "<input type='text' class='form-control' id='ConPersonTel' name='ConPersonTel' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Address'>地址</label>" +
+            "<input type='text' class='form-control' id='Address' name='Address' />" +
+            "</div>";
+        //建立編輯工地表單事件
+        $('#tSecond').on('click', '#buildingEdit', function () {
+            $('#lineModalLabel').html('編輯工地資料');
+            $('#form div div').remove();
+            $('#form div').append(secondForm);
+            $.ajax({
+                url: '@Url.Action("EditOwnerBuilding")',
+                type: 'GET',
+                data: { id: $(this).parent('td').parent('tr').attr('id') },
+                dataType: "json",
+                success: function (data) {
+                    $('#form').attr('action', 'EditOwnerBuilding');
+                    $('#form div div').children('#ID').val(data.ID);
+                    $('#form div div').children('#BuildingName').val(data.BuildingName);
+                    $('#form div div').children('#ConPerson').val(data.ConPerson);
+                    $('#form div div').children('#ConPersonTel').val(data.ConPersonTel);
+                    $('#form div div').children('#Address').val(data.Address);
+                },
+            });
+            editSubmit();
+        });
+        //刪除工地事件
+        $('#tSecond').on('click', '#buildingDel', function () {
+            if (window.confirm('確定要刪除?')) {
+                location.replace('/Owner/DeleteOwnerBuilding/' + $(this).parent().parent().attr('id'));
+            }
         });
     </script>
 }

@@ -12,77 +12,53 @@
     <input type="button" value="列印工種薪資" class="btn btn-success" onclick="window.open('@Url.Action("Print")')" />
 </p>
 
-<table id="tWorkCate" class="table table-hover" cellspacing="0" width="100%">
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
-            <th>
-                代碼
-            </th>
-            <th>
-                工種
-            </th>
-            <th>
-                日薪
-            </th>
-            <th>
-                加班時薪
-            </th>
-            <th>
-                超時時薪
-            </th>
-            <th>
-                備註
-            </th>
+            <th>代碼</th>
+            <th>工種</th>
+            <th>日薪</th>
+            <th>加班時薪</th>
+            <th>超時時薪</th>
+            <th>備註</th>
         </tr>
     </thead>
     <tfoot class="thead-inverse">
         <tr>
-            <th>
-                代碼
-            </th>
-            <th>
-                工種
-            </th>
-            <th>
-                日薪
-            </th>
-            <th>
-                加班時薪
-            </th>
-            <th>
-                超時時薪
-            </th>
-            <th>
-                備註
-            </th>
+            <th>代碼</th>
+            <th>工種</th>
+            <th>日薪</th>
+            <th>加班時薪</th>
+            <th>超時時薪</th>
+            <th>備註</th>
         </tr>
     </tfoot>
     <tbody></tbody>
 </table>
 
-<input id="create" type="button" value="建立" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="create" type="button" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
 <input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
 <input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
 
 @section pagesection{
     <script>
         $(document).ready(function () {
-            loadWorkCateList();
+            loadMainTable();
             //欄位點擊選擇事件
-            $('#tWorkCate tbody').on('click', 'tr', function () {
+            $('#tMain tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                     $('#edit').attr('disabled', true);
                     $('#del').attr('disabled', true);
                 }
                 else {
-                    $('#tWorkCate tbody').children('.selected').removeClass('selected');
+                    $('#tMain tbody').children('.selected').removeClass('selected');
                     $(this).addClass('selected');
                     $('#edit').attr('disabled', false);
                     $('#del').attr('disabled', false);
                 }
             });
-            //建立新增表單事件
+            //新增新增表單事件
             $('#create').click(function () {
                 $('#lineModalLabel').html('新增工種類別');
 		        $('#form div div').remove();
@@ -99,7 +75,7 @@
 		        $.ajax({
 			        url: '@Url.Action("Edit")',
 			        type: 'GET',
-                    data: { id: $('#tWorkCate tbody tr.selected').attr('id') },
+                    data: { id: $('#tMain tbody tr.selected').attr('id') },
 			        dataType: "json",
 			        success: function (data) {
 				        $('#form').attr('action', '@Url.Action("Edit")');
@@ -153,18 +129,18 @@
             "<textarea class='form-control' cols='20' id='Remark' name='Remark' placeholder='備註...' rows='3'></textarea>" +
             "</div>";
         //讀取工種資料
-        function loadWorkCateList() {
+        function loadMainTable() {
             $.ajax({
 		        url: '@Url.Action("getWorkCate")',
                 type: 'GET',
                 dataType: "json",
                 success: function (data) {
-                    $('#tWorkCate tbody tr').remove();
+                    $('#tMain tbody tr').remove();
                     $.each(data, function (index, item) {
                         if (item.Remark == null) {
                             item.Remark = '';
                         }
-                        $('#tWorkCate tbody').append(
+                        $('#tMain tbody').append(
                             "<tr id='" + item.ID + "'><td>" + item.WorkCareID + "</td>" +
                             "<td>" + item.WorkCareName + "</td>" +
                             "<td>" + item.Salary + "</td>" +
@@ -173,7 +149,7 @@
                             "<td>" + item.Remark + "</td></tr>"
                         );
                     })
-                    $('#tWorkCate').DataTable({
+                    $('#tMain').DataTable({
                         language: {
                             url: "../Content/dataTables.Chinese.traditional.txt"
                         },
