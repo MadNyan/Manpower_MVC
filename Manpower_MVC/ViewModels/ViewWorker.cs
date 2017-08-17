@@ -13,8 +13,6 @@ namespace Manpower_MVC.ViewModels
         public int OvertimeHr { get; set; }
         [Display(Name = "超時(小時)")]
         public int OverOvertimeHr { get; set; }
-        [Display(Name = "流水編號")]
-        public string ListSerialNum { get; set; }
         [Display(Name = "工號")]
         public string EmpID { get; set; }
         [Display(Name = "姓名")]

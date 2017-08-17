@@ -141,6 +141,18 @@ namespace Manpower_MVC.Controllers.Api
             var Get = from p in db.Worker where p.ListID == id select p;
             return Get.ToList();
         }
+        public List<ViewEmpWorkRight> getEmpWorkRight(int EmpID)
+        {
+            var Get = from p in db.WorkRight
+                      join e in db.WorkCategory on p.WorkCateID equals e.ID
+                      where p.EmpID == EmpID
+                      select new ViewEmpWorkRight()
+                      {
+                          WorkCateID = p.WorkCateID,
+                          WorkCateName = e.WorkCareID + " - " + e.WorkCareName
+                      };
+            return Get.ToList();
+        }
         //select ViewEmpIns
         /*************************************************************************************************/
         public List<ViewEmpIns> getAllViewEmpIns(int id)
@@ -250,7 +262,6 @@ namespace Manpower_MVC.Controllers.Api
                           ID = p.ID,
                           EmpID = q.EmpID,
                           EmpName = q.EmpName,
-                          ListSerialNum = e.SerialNum,
                           OverOvertimeHr = p.OverOvertimeHr,
                           OvertimeHr = p.OvertimeHr,
                           Remark = p.Remark,

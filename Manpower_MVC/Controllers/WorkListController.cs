@@ -11,19 +11,36 @@ namespace Manpower_MVC.Controllers
 {
     public class WorkListController : ApiController
     {
-        // GET: WorkList
         public ActionResult Index()
         {
-            return View(getAllViewWorkList());
-        }
-        public ActionResult CreateWorkList()
-        {
-            ViewBag.building = getAllOwnerBuilding();
             return View();
         }
+        public ActionResult getViewWorkList()
+        {
+            return Json(getAllViewWorkList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getViewWorker(int? id)
+        {
+            if (id == null)
+            {
+                return Json(new List<ViewWorker>());
+            }
+            return Json(getSomeViewWorker(id.Value), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getEmp()
+        {
+            return Json(getAllEmp(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getWorkRight(int id)
+        {
+            return Json(getEmpWorkRight(id), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getBuilding()
+        {
+            return Json(getAllOwnerBuilding(), JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateWorkList(WorkList list)
+        public ActionResult Create(WorkList list, List<Worker> worker)
         {
             WorkList _list = new WorkList()
             {
@@ -34,25 +51,41 @@ namespace Manpower_MVC.Controllers
             };
             db.WorkList.Add(_list);
             db.SaveChanges();
+            for (int i = 0; i < worker.Count; i++)
+            {
+                if (i != 0)
+                {
+                    Worker _worker = new Worker()
+                    {
+                        ListID = _list.ID,
+                        EmpID = worker[i].EmpID,
+                        SalaryDay = worker[i].SalaryDay,
+                        OvertimeHr = worker[i].OvertimeHr,
+                        OverOvertimeHr = worker[i].OverOvertimeHr,
+                        Remark = worker[i].Remark,
+                        WorkCareID = worker[i].WorkCareID
+                    };
+                    db.Worker.Add(_worker);
+                }
+            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult EditWorkList(int id)
+        public ActionResult Edit(int id)
         {
-            ViewBag.building = getAllOwnerBuilding();
-            return View(getOneWorkList(id));
+            return Json(getOneWorkList(id), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditWorkList(int id, WorkList list)
+        public ActionResult Edit(WorkList list)
         {
-            WorkList _list = getOneWorkList(id);
+            WorkList _list = getOneWorkList(list.ID);
             _list.BuildingID = list.BuildingID;
             _list.SerialNum = list.SerialNum;
             _list.SingleNum = list.SingleNum;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteWorkList(int id)
+        public ActionResult Delete(int id)
         {
             WorkList _list = getOneWorkList(id);
             List<Worker> _someWorker = getSomeWorker(id);
@@ -65,58 +98,19 @@ namespace Manpower_MVC.Controllers
             return RedirectToAction("Index");
         }
         /****************************************************************************************************/
-        public ActionResult ListWorker(int? listId)
-        {
-            if(listId > 0)
-            {
-                ViewBag.listId = listId.Value;
-                return View(getSomeViewWorker(listId.Value));
-            }
-            return RedirectToAction("Index");
-        }
-        public ActionResult CreateWorker(int? listId)
-        {
-            if (listId > 0)
-            {
-                Session["listId"] = listId.ToString();
-                ViewBag.serialNum = getOneWorkList(listId.Value).SerialNum;
-                ViewBag.emp = getAllEmp();
-                ViewBag.cate = getAllWorkCate();
-                ViewBag.listId = listId.Value;
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult CreateWorker(Worker worker)
         {
-            Worker _worker = new Worker()
-            {
-                EmpID = worker.EmpID,
-                ListID = Convert.ToInt32(Session["listId"].ToString()),
-                OverOvertimeHr = worker.OverOvertimeHr,
-                OvertimeHr = worker.OvertimeHr,
-                Remark = worker.Remark,
-                SalaryDay = worker.SalaryDay,
-                WorkCareID = worker.WorkCareID
-            };
-            Session["listId"] = null;
-            db.Worker.Add(_worker);
+            db.Worker.Add(worker);
             db.SaveChanges();
-            return RedirectToAction("ListWorker", new {ListId = _worker.ListID });
+            return RedirectToAction("Index");
         }
         public ActionResult EditWorker(int id)
         {
-            Worker _worker = getOneWorker(id);
-            ViewBag.serialNum = getOneWorkList(_worker.ListID).SerialNum;
-            ViewBag.emp = getAllEmp();
-            ViewBag.cate = getAllWorkCate();
-            ViewBag.listId = _worker.ListID;
-            return View(_worker);
+            return Json(getOneWorker(id), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult EditWorker(int id, Worker worker)
         {
             Worker _worker = getOneWorker(id);
@@ -127,14 +121,14 @@ namespace Manpower_MVC.Controllers
             _worker.SalaryDay = worker.SalaryDay;
             _worker.WorkCareID = worker.WorkCareID;
             db.SaveChanges();
-            return RedirectToAction("ListWorker", new { ListId = _worker.ListID });
+            return RedirectToAction("Index");
         }
         public ActionResult DeleteWorker(int id)
         {
             Worker _worker = getOneWorker(id);
             db.Worker.Remove(_worker);
             db.SaveChanges();
-            return RedirectToAction("ListWorker", new { ListId = _worker.ListID });
+            return RedirectToAction("Index");
         }
     }
 }

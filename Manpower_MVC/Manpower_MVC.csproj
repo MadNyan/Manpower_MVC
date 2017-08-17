@@ -261,6 +261,7 @@
     <Compile Include="ViewModels\ViewEmpIns.cs" />
     <Compile Include="ViewModels\ViewEmpSal.cs" />
     <Compile Include="ViewModels\ViewEmpSalDetail.cs" />
+    <Compile Include="ViewModels\ViewEmpWorkRight.cs" />
     <Compile Include="ViewModels\ViewPrintEmpSal.cs" />
     <Compile Include="ViewModels\ViewPrintMonthSal.cs" />
     <Compile Include="ViewModels\ViewPrintMonthWork.cs" />
@@ -535,6 +536,19 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -591,6 +605,7 @@
     <Content Include="Views\Employee\EditEmpIns.cshtml" />
     <Content Include="Views\OwnerPay\Create.cshtml" />
     <Content Include="Views\OwnerPay\Edit.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
