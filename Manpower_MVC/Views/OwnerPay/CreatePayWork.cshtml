@@ -1,70 +1,7 @@
-﻿@model Manpower_MVC.Models.OwnerPayWork
-
+﻿
 @{
-    ViewBag.Title = "業主工種請款資料";
+    ViewBag.Title = "CreatePayWork";
 }
 
-<h4>建立請款工種</h4>
+<h2>CreatePayWork</h2>
 
-<form method="post" action="@Url.Action("CreatePayWork")">
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SalaryDay, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SalaryDay, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SalaryDay, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OvertimeHr, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OvertimeHr, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OvertimeHr, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OverOvertimeHr, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OverOvertimeHr, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OverOvertimeHr, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <p class="control-label col-md-2">
-                工種
-            </p>
-            <div class="col-md-10">
-                <select name="WorkCareID" id="WorkCareID" class="form-control">
-                    @foreach (var item in ViewBag.cate)
-                    {
-                        <option value="@item.ID">@item.WorkCareName</option>
-                    }
-                </select>
-                @Html.ValidationMessageFor(model => model.WorkCareID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", rows = "3", placeholder = "備註..." })
-                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="新增" class="btn btn-success" />
-                <input type="button" value="取消" class="btn btn-default" onclick="location.replace('@Url.Action("ListPayWork", new { id = ViewBag.payId })')" />
-            </div>
-        </div>
-    </div>
-</form>

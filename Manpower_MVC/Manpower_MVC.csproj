@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -559,8 +560,6 @@
     <Content Include="Views\Owner\Index.cshtml" />
     <Content Include="Views\Owner\Create.cshtml" />
     <Content Include="Views\Owner\Edit.cshtml" />
-    <Content Include="Views\OwnerPay\CreatePayment.cshtml" />
-    <Content Include="Views\OwnerPay\EditPayment.cshtml" />
     <Content Include="Views\OwnerPay\CreatePayWork.cshtml" />
     <Content Include="Views\OwnerPay\EditPayWork.cshtml" />
     <Content Include="Views\WorkList\Index.cshtml" />
@@ -568,7 +567,6 @@
     <Content Include="Views\WorkList\CreateWorker.cshtml" />
     <Content Include="Views\WorkList\EditWorker.cshtml" />
     <Content Include="Views\OwnerPay\Index.cshtml" />
-    <Content Include="Views\OwnerPay\ListPayWork.cshtml" />
     <Content Include="Views\EmpSal\Index.cshtml" />
     <Content Include="Views\EmpSal\EmpSalDetail.cshtml" />
     <Content Include="Views\EmpSal\Print.cshtml" />
@@ -578,7 +576,6 @@
     <Content Include="Views\PrintList\PrintEmpSal.cshtml" />
     <Content Include="Views\PrintList\PayWork.cshtml" />
     <Content Include="Views\PrintList\PayDetail.cshtml" />
-    <Content Include="Views\Owner\ListOwnerBuilding.cshtml" />
     <Content Include="Views\Owner\CreateOwnerBuilding.cshtml" />
     <Content Include="Views\Owner\EditOwnerBuilding.cshtml" />
     <Content Include="Views\WorkList\CreateWorkList.cshtml" />
@@ -592,6 +589,8 @@
     <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\Employee\CreateEmpIns.cshtml" />
     <Content Include="Views\Employee\EditEmpIns.cshtml" />
+    <Content Include="Views\OwnerPay\Create.cshtml" />
+    <Content Include="Views\OwnerPay\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

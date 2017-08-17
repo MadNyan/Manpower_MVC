@@ -9,6 +9,7 @@ namespace Manpower_MVC.ViewModels
     public partial class ViewOwnerPayment
     {
         public int ID { get; set; }
+        public string PayID { get; set; }
         [Display(Name = "業主代碼")]
         public string OwnerID { get; set; }
         [Display(Name = "業主名稱")]

@@ -4,55 +4,375 @@
     ViewBag.Title = "業主工種請款資料";
 }
 
-<h4>業主工種請款資料列表</h4>
+<style>
+    tr.selected > td {
+        background-color: #CCCCCC;
+    }
+</style>
 
-<p>
-    <input type="button" value="建立請款" class="btn btn-primary" onclick="location.replace('@Url.Action("CreatePayment")')" />
-</p>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerTel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConPersonTel)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerTel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConPersonTel)
-        </td>
-        <td>
-            <input type="button" value="請款工種列表" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("ListPayWork", new { id=item.ID })')" />
-            <input type="button" value="編輯" class="btn btn-warning btn-xs" onclick="location.replace('@Url.Action("EditPayment", new { id=item.ID })')" />
-            <input type="button" value="刪除" class="btn btn-danger btn-xs" onclick="if(window.confirm('確定要刪除')){location.replace('@Url.Action("DeletePayment", new { id=item.ID })')}" />
-        </td>
-    </tr>
-}
-
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>單號</th>
+            <th>業主代碼</th>
+            <th>業主名稱</th>
+            <th>電話</th>
+            <th>連絡人</th>
+            <th>連絡人手機</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>單號</th>
+            <th>業主代碼</th>
+            <th>業主名稱</th>
+            <th>電話</th>
+            <th>連絡人</th>
+            <th>連絡人手機</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
+
+<input id="create" type="button" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
+<input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
+
+<div>
+    <label class="h4"></label>
+</div>
+
+<table id="tSecond" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th width="9%">工種代碼</th>
+            <th width="9%">工種名稱</th>
+            <th width="9%">日薪</th>
+            <th width="9%">天數</th>
+            <th width="9%">加班時數</th>
+            <th width="9%">加班時薪</th>
+            <th width="9%">超時時數</th>
+            <th width="9%">超時時薪</th>
+            <th width="12%">備註</th>
+            <th width="8%"></th>
+            <th width="8%"></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<input id="secondCreate" type="hidden" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            loadMainTable();
+            //請款表格欄位點擊選擇事件
+            $('#tMain tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                    $('#secondCreate').attr('type', 'hidden');
+                    $('#tSecond tbody tr').remove();
+                }
+                else {
+                    $('#tMain tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                    $('#secondCreate').attr('type', 'button');
+                }
+                loadSecondTable();
+            });
+        });
+        //讀取請款資料
+        function loadMainTable() {
+            $.ajax({
+                url: '@Url.Action("getViewPay")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.Tel == null) {
+                            item.Tel = '';
+                        }
+                        if (item.ConPerson == null) {
+                            item.ConPerson = '';
+                        }
+                        if (item.ConPersonTel == null) {
+                            item.ConPersonTel = '';
+                        }
+                        $('#tMain tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.PayID + "</td>" +
+                            "<td>" + item.OwnerID + "</td>" +
+                            "<td>" + item.OwnerName + "</td>" +
+                            "<td>" + item.OwnerTel + "</td>" +
+                            "<td>" + item.ConPerson + "</td>" +
+                            "<td>" + item.ConPersonTel + "</td></tr>"
+                        );
+                    })
+                    $('#tMain').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+        }
+        //讀取請款項目資料
+        function loadSecondTable() {
+            $.ajax({
+		        url: '@Url.Action("getViewPayWork")',
+                type: 'GET',
+                data: { id: $('#tMain tbody tr.selected').attr('id')},
+                dataType: "json",
+                success: function (data) {
+                    $('#tSecond tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.Remark == null) {
+                            item.Remark = '';
+                        }
+                        $('#tSecond tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.WorkCareID + "</td>" +
+                            "<td>" + item.WorkCareName + "</td>" +
+                            "<td>" + item.Salary + "</td>" +
+                            "<td>" + item.SalaryDay + "</td>" +
+                            "<td>" + item.OvertimeSal + "</td>" +
+                            "<td>" + item.OvertimeHr + "</td>" +
+                            "<td>" + item.OverOvertimeSal + "</td>" +
+                            "<td>" + item.OverOvertimeHr + "</td>" +
+                            "<td>" + item.Remark + "</td>" +
+                            "<td><input id='secondEdit' type='button' value='編輯' class='btn btn-xs btn-warning' data-toggle='modal' data-target='#modalDiv' /></td>" +
+                            "<td><input id='secondDel' type='button' value='刪除' class='btn btn-xs btn-danger' /></td></tr>"
+                        );
+                    })
+                }
+            });
+        }
+        var j = 0;
+        //減少加減項項目
+        function delOne() {
+		    if(j!=1){
+			    j--;
+			    $('#form div div table tbody tr#' + j).remove();
+            }
+        }
+        //增加加減項項目
+        function addOne() {
+            if (j == 0) {
+                $('#form div div table').append(
+                    "<input type='hidden' id='SalaryDay' name='payWork[" + j + "].SalaryDay' value='0' />" +
+                    "<input type='hidden' id='OvertimeHr' name='payWork[" + j + "].OvertimeHr' value='0' />" +
+                    "<input type='hidden' id='OverOvertimeHr' name='payWork[" + j + "].OverOvertimeHr' value='0' />" +
+                    "<input type='hidden' id='WorkCareID' name='payWork[" + j + "].WorkCareID' value='0' />" +
+                    "<input type='hidden' id='PayID' name='payWork[" + j + "].PayID' value='0' />" +
+                    "<input type='hidden' id='Remark' name='payWork[" + j + "].Remark' value='0' />"
+                );
+                j++;
+            } else {
+                $.ajax({
+			        url: '@Url.Action("getWorkCate")',
+			        type: 'GET',
+			        dataType: "json",
+			        success: function (data) {
+                        $('#form div div table tbody').append(
+                            "<tr id='" + j + "'><td>" +
+                            "<select id='" + j + "' class='form-control' name='payWork[" + j + "].WorkCareID'></select>" +
+                            "</td><td>" +
+                            "<input type='text' class='form-control' id='SalaryDay' name='payWork[" + j + "].SalaryDay' />" +
+                            "</td><td>" +
+                            "<input type='text' class='form-control' id='OvertimeHr' name='payWork[" + j + "].OvertimeHr' />" +
+                            "</td><td>" +
+                            "<input type='text' class='form-control' id='OverOvertimeHr' name='payWork[" + j + "].OverOvertimeHr' />" +
+                            "</td><td>" +
+                            "<input type='text' class='form-control' id='Remark' name='payWork[" + j + "].Remark' />" +
+                            "</td></tr>"
+                        );
+				        $.each(data, function (index, item) {
+                            $('#form div div table tbody select#' + j).append(
+                                "<option value='" + item.ID + "'>" + item.WorkCareName + "</option>"
+					        );
+                        });
+                        j++;
+			        }
+		        });
+            }
+        }
+        //請款表單
+        var mainForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form- group'>" +
+            "<label for='PayID'>單號</label>" +
+            "<input type='text' class='form-control' id='PayID' name='PayID' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='OwnerID'>業主</label>" +
+            "<select class='form-control' id='OwnerID' name='OwnerID'></select>" +
+            "</div>";
+        //建立新增請款表單事件
+	    $('#create').click(function () {
+            j = 0;
+            $('#lineModalLabel').html('新增請款資料');
+            $('#form div div').remove();
+            $('#form div').append(
+                mainForm + "<div class='form-group'>" +
+                "<input id='addone' type='button' value='新增請款項目' class='btn btn-default' onclick='addOne()' />" +
+                "<input id='delone' type='button' value='刪除' class='btn btn-danger' onclick='delOne()' />" +
+                "</div>" + "<div class='form-group'>" +
+                "<table width='100%'><thead><tr><th width='20%'>工種</th><th width='20%'>天數</th><th width='20%'>加班時數</th width='20%'><th>超時時數</th width='20%'><th>備註</th></tr></thead>" +
+                "<tbody></tbody></table>" +
+                "</div>"
+            );
+            $.ajax({
+                url: '@Url.Action("getOwner")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $('#form div div select#OwnerID').append(
+                            "<option value='" + item.ID + "'>" + item.OwnerName + "</option>"
+                        );
+                    });
+                }
+            });
+            $('#form').attr('action', '@Url.Action("Create")');
+            createSubmit();
+            addOne();
+	    });
+        //建立編輯請款表單事件
+        $('#edit').click(function () {
+            $('#lineModalLabel').html('編輯請款資料');
+		    $('#form div div').remove();
+            $('#form div').append(mainForm);
+            $.ajax({
+                url: '@Url.Action("getOwner")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $('#form div div select#OwnerID').append(
+                            "<option value='" + item.ID + "'>" + item.OwnerName + "</option>"
+                        );
+                    });
+                }
+            });
+		    $.ajax({
+			    url: '@Url.Action("Edit")',
+			    type: 'GET',
+			    data: { id: $('#tMain tbody tr.selected').attr('id') },
+			    dataType: "json",
+			    success: function (data) {
+				    $('#form').attr('action', '@Url.Action("Edit")');
+                    $('#form div div').children('#ID').val(data.ID);
+                    $('#form div div').children('#OwnerID').val(data.OwnerID);
+                    $('#form div div').children('#PayID').val(data.PayID);
+			    },
+			    error: function () {
+				    $('#form').attr('action', '');
+				    $('#form div div').children('input:text').val('');
+			    }
+            });
+            editSubmit();
+	    });
+        //刪除請款事件
+	    $('#del').click(function () {
+		    if (window.confirm('確定要刪除?')) {
+                location.replace('/OwnerPay/Delete/' + $('.selected').attr('id'));
+		    }
+        });
+        //請款項目表單
+        var secondForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<input data-val='true' id='PayID' name='PayID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='WorkCareID'>工種</label>" +
+            "<select class='form-control' id='WorkCareID' name='WorkCareID'></select>" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='SalaryDay'>天數</label>" +
+            "<input type='text' class='form-control' id='SalaryDay' name='SalaryDay' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='OvertimeHr'>加班時數</label>" +
+            "<input type='text' class='form-control' id='OvertimeHr' name='OvertimeHr' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='OverOvertimeHr'>超時時數</label>" +
+            "<input type='text' class='form-control' id='OverOvertimeHr' name='OverOvertimeHr' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Remark'>備註</label>" +
+            "<textarea class='form-control' cols='20' id='Remark' name='Remark' placeholder='備註...' rows='3'></textarea>" +
+            "</div>";
+        //建立新增請款項目表單事件
+        $('#secondCreate').click(function () {
+            $('#lineModalLabel').html('新增請款項目資料');
+            $('#form div div').remove();
+            $('#form div').append(secondForm);
+            $.ajax({
+			    url: '@Url.Action("getWorkCate")',
+			    type: 'GET',
+			    dataType: "json",
+			    success: function (data) {
+				    $.each(data, function (index, item) {
+                        $('#form div div select#WorkCareID').append(
+                            "<option value='" + item.ID + "'>" + item.WorkCareName + "</option>"
+					    );
+                    });
+			    }
+		    });
+            $('#form').attr('action', '@Url.Action("CreatePayWork")');
+            createSubmit();
+            $('#form div div').children('#PayID').val($('#tMain tbody tr.selected').attr('id'));
+	    });
+        //建立編輯請款項目表單事件
+        $('#tSecond').on('click', '#secondEdit', function () {
+            $('#lineModalLabel').html('編輯請款項目資料');
+            $('#form div div').remove();
+            $('#form div').append(secondForm);
+            $.ajax({
+			    url: '@Url.Action("getWorkCate")',
+			    type: 'GET',
+			    dataType: "json",
+			    success: function (data) {
+				    $.each(data, function (index, item) {
+                        $('#form div div select#WorkCareID').append(
+                            "<option value='" + item.ID + "'>" + item.WorkCareName + "</option>"
+					    );
+                    });
+			    }
+		    });
+            $.ajax({
+                url: '@Url.Action("EditPayWork")',
+                type: 'GET',
+                data: { id: $(this).parent('td').parent('tr').attr('id') },
+                dataType: "json",
+                success: function (data) {
+                    $('#form').attr('action', '@Url.Action("EditPayWork")');
+                    $('#form div div').children('#ID').val(data.ID);
+                    $('#form div div').children('#SalaryDay').val(data.SalaryDay);
+                    $('#form div div').children('#OvertimeHr').val(data.OvertimeHr);
+                    $('#form div div').children('#OverOvertimeHr').val(data.OverOvertimeHr);
+                    $('#form div div').children('#WorkCareID').val(data.WorkCareID);
+                    $('#form div div').children('#PayID').val(data.PayID);
+                    $('#form div div').children('#Remark').val(data.Remark);
+                },
+            });
+            editSubmit();
+        });
+        //刪除工地事件
+        $('#tSecond').on('click', '#secondDel', function () {
+            if (window.confirm('確定要刪除?')) {
+                location.replace('/OwnerPay/DeletePayWork/' + $(this).parent().parent().attr('id'));
+            }
+        });
+    </script>
+}

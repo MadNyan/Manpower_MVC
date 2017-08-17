@@ -185,6 +185,7 @@ namespace Manpower_MVC.Controllers.Api
                       select new ViewOwnerPayment
                       {
                           ID = p.ID,
+                          PayID = p.PayID,
                           OwnerID = e.OwnerID,
                           OwnerName = e.OwnerName,
                           ConPerson = e.ConPerson,
