@@ -11,6 +11,27 @@ namespace Manpower_MVC.Controllers
 {
     public class PrintListController : ApiController
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult PayDetail()
+        {
+            return View();
+        }
+        public ActionResult getPayment()
+        {
+            return Json(getViewPrintPayment(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getPayDetail(int? building, int? year, int? month)
+        {
+            if (building != null && year != null && month != null)
+            {
+                return Json(getViewPrintPayDetail(building.Value, year.Value, month.Value), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new List<ViewPrintPayDetail>(), JsonRequestBehavior.AllowGet);
+        }
+        /***********************************************************/
         // PrintMonthWork
         public ActionResult MonthWork()
         {
@@ -86,18 +107,7 @@ namespace Manpower_MVC.Controllers
             }
             return View(new List<ViewPrintPayWork>());
         }
-        public ActionResult PayDetail(int? building, int? year, int? month)
-        {
-            ViewBag.Pay = getViewPrintPayment();
-            if (building != null && year != null && month != null)
-            {
-                ViewBag.building = building;
-                ViewBag.year = year;
-                ViewBag.month = month;
-                return View(getViewPrintPayDetail(building.Value, year.Value, month.Value));
-            }
-            return View(new List<ViewPrintPayDetail>());
-        }
+        
         public ActionResult PrintPayWork(int? building, int? year, int? month)
         {
             ViewBag.Date = DateTime.Now.ToString("yyyy-MM-dd");
