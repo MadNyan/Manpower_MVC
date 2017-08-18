@@ -569,17 +569,8 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\WorkCare\Index.cshtml" />
-    <Content Include="Views\WorkCare\Create.cshtml" />
-    <Content Include="Views\WorkCare\Edit.cshtml" />
     <Content Include="Views\Owner\Index.cshtml" />
-    <Content Include="Views\Owner\Create.cshtml" />
-    <Content Include="Views\Owner\Edit.cshtml" />
-    <Content Include="Views\OwnerPay\CreatePayWork.cshtml" />
-    <Content Include="Views\OwnerPay\EditPayWork.cshtml" />
     <Content Include="Views\WorkList\Index.cshtml" />
-    <Content Include="Views\WorkList\ListWorker.cshtml" />
-    <Content Include="Views\WorkList\CreateWorker.cshtml" />
-    <Content Include="Views\WorkList\EditWorker.cshtml" />
     <Content Include="Views\OwnerPay\Index.cshtml" />
     <Content Include="Views\EmpSal\Index.cshtml" />
     <Content Include="Views\EmpSal\EmpSalDetail.cshtml" />
@@ -590,21 +581,11 @@
     <Content Include="Views\PrintList\PrintEmpSal.cshtml" />
     <Content Include="Views\PrintList\PayWork.cshtml" />
     <Content Include="Views\PrintList\PayDetail.cshtml" />
-    <Content Include="Views\Owner\CreateOwnerBuilding.cshtml" />
-    <Content Include="Views\Owner\EditOwnerBuilding.cshtml" />
-    <Content Include="Views\WorkList\CreateWorkList.cshtml" />
-    <Content Include="Views\WorkList\EditWorkList.cshtml" />
     <Content Include="Views\PrintList\PrintPayWork.cshtml" />
     <Content Include="Views\PrintList\PrintPayDetail.cshtml" />
     <Content Include="Views\Employee\Print.cshtml" />
     <Content Include="Views\WorkCare\Print.cshtml" />
     <Content Include="Views\Owner\Print.cshtml" />
-    <Content Include="Views\Employee\Create.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
-    <Content Include="Views\Employee\CreateEmpIns.cshtml" />
-    <Content Include="Views\Employee\EditEmpIns.cshtml" />
-    <Content Include="Views\OwnerPay\Create.cshtml" />
-    <Content Include="Views\OwnerPay\Edit.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>

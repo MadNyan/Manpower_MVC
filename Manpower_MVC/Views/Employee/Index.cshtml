@@ -136,7 +136,6 @@
 			        type: 'GET',
 			        dataType: "json",
                     success: function (data) {
-                        $('#form').attr('action', '@Url.Action("Create")');
                         var i = 0;
                         $.each(data, function (index, item) {
                             if (index % 3 == 0) {
@@ -196,7 +195,7 @@
 			        type: 'GET',
 			        dataType: "json",
                     success: function (data) {
-                        $('#form').attr('action', 'CreateEmpIns');
+                        $('#form').attr('action', '@Url.Action("CreateEmpIns")');
 				        $.each(data, function (index, item) {
 					        $('#form div div select').append(
 						        "<option value='" + item.ID + "'>" + item.InsName + "</option>"
@@ -397,7 +396,7 @@
                         data: { id: edit.parent('td').parent('tr').attr('id') },
                         dataType: "json",
                         success: function (data) {
-                            $('#form').attr('action', 'EditEmpIns');
+                            $('#form').attr('action', '@Url.Action("EditEmpIns")');
                             $('#form div div').children('#ID').val(data.ID);
                             $('#form div div').children('#InsID').val(data.InsID);
                             $('#form div div').children('#Price').val(data.Price);

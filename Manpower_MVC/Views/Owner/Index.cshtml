@@ -148,7 +148,7 @@
                 $('#lineModalLabel').html('新增工地資料');
                 $('#form div div').remove();
                 $('#form div').append(secondForm);
-                $('#form').attr('action', 'CreateOwnerBuilding');
+                $('#form').attr('action', '@Url.Action("CreateOwnerBuilding")');
                 createSubmit();
                 $('#form div div').children('#OwnerID').val($('#tMain tbody tr.selected').attr('id'));
 	        });
@@ -340,7 +340,7 @@
                 data: { id: $(this).parent('td').parent('tr').attr('id') },
                 dataType: "json",
                 success: function (data) {
-                    $('#form').attr('action', 'EditOwnerBuilding');
+                    $('#form').attr('action', '@Url.Action("EditOwnerBuilding")');
                     $('#form div div').children('#ID').val(data.ID);
                     $('#form div div').children('#BuildingName').val(data.BuildingName);
                     $('#form div div').children('#ConPerson').val(data.ConPerson);
