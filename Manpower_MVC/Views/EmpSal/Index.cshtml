@@ -1,10 +1,13 @@
-﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewEmpSal>
-
+﻿
 @{
     ViewBag.Title = "點工薪資月結";
 }
 
-<h4>員工薪資列表</h4>
+<style>
+    tr.selected > td {
+        background-color: #CCCCCC;
+    }
+</style>
 
 <form method="get" target="_blank" action="@Url.Action("Print")">
     <p>
@@ -15,41 +18,126 @@
     </p>
 </form>
 
-<table class="table">
-    <tr>
-        <th width="200px">
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>
-        <th width="200px">
-            @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpName)
-        </td>
-        <td>
-            <input type="button" value="薪資細項" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("EmpSalDetail", new {id = item.ID , year = item.Year , month = item.Month})')" />
-        </td>
-    </tr>
-}
-
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>年月份</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>年月份</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
 
-<script>
-    var date = new Date();
+<div>
+    <label class="h4"></label>
+</div>
 
-    var month = date.getMonth() + 1;
-    var year = date.getFullYear();
+<table id="tSecond" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th width="20%">薪資項目</th>
+            <th width="20%">金額</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
-    if (month < 10) month = "0" + month;
-
-    var today = year + "-" + month;
-    document.getElementById("date").value = today;
-</script>
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (month < 10) month = "0" + month;
+            var today = year + "-" + month;
+            $("#date").val(today);
+            loadMainTable();
+            //月結表格欄位點擊選擇事件
+            $('#tMain tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#tSecond tbody tr').remove();
+                }
+                else {
+                    $('#tMain tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+                loadSecondTable();
+            });
+        });
+        //讀取月結資料
+        function loadMainTable() {
+            $.ajax({
+                url: '@Url.Action("getViewEmpSal")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.Month < 10) {
+                            item.Month = '0' + item.Month;
+                        }
+                        $('#tMain tbody').append(
+                            "<tr id='" + item.ID + "' year='" + item.Year + "' month='" + item.Month + "'>" +
+                            "<td>" + item.EmpID + "</td>" +
+                            "<td>" + item.EmpName + "</td>" +
+                            "<td>" + item.Year + "/" + item.Month + "</td></tr>"
+                        );
+                    })
+                    $('#tMain').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+        }
+        //讀取月結細項資料
+        function loadSecondTable() {
+            var pos = 0, neg = 0, sum = 0;
+            $.ajax({
+		        url: '@Url.Action("getEmpSalDetail")',
+                type: 'GET',
+                data: {
+                    id: $('#tMain tbody tr.selected').attr('id'),
+                    year: $('#tMain tbody tr.selected').attr('year'),
+                    month: $('#tMain tbody tr.selected').attr('month')
+                },
+                dataType: "json",
+                success: function (data) {
+                    $('#tSecond tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.PosOrNeg == "減項") {
+                            neg += item.Price;
+                            sum -= item.Price;
+                            $('#tSecond tbody').append(
+                                "<tr><td><font color='red'>" + item.Name + "</font></td>" +
+                                "<td><font color='red'>" + item.Price + "</font></td></tr>"
+                            );
+                        } else {
+                            pos += item.Price;
+                            sum += item.Price;
+                            $('#tSecond tbody').append(
+                                "<tr><td><font color='blue'>" + item.Name + "</font></td>" +
+                                "<td><font color='blue'>" + item.Price + "</font></td></tr>"
+                            );
+                        }
+                    })
+                    $('#tSecond tbody').append(
+                        "<tr><td colspan='2'>應支金額：" + pos + " | 應扣金額：" + neg + " | 總金額：" + sum + "</td></tr>"
+                    );
+                }
+            });
+        }
+    </script>
+}

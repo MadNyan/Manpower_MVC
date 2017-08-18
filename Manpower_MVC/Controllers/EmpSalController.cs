@@ -14,31 +14,19 @@ namespace Manpower_MVC.Controllers
         // GET: EmpSal
         public ActionResult Index()
         {
-            return View(getAllViewEmpSal());
+            return View();
         }
-        public ActionResult EmpSalDetail(int? id, int? year, int? month)
+        public ActionResult getViewEmpSal()
+        {
+            return Json(getAllViewEmpSal(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getEmpSalDetail(int? id, int? year, int? month)
         {
             if (id != null && year != null && month != null)
             {
-                List<ViewEmpSalDetail> details = getViewEmpSalDetail(id.Value, year.Value, month.Value);
-                int posPrice = 0, negPrice = 0;
-                foreach(ViewEmpSalDetail detail in details)
-                {
-                    if (detail.PosOrNeg.Equals("減項"))
-                    {
-                        negPrice += detail.Price;
-                    }
-                    else
-                    {
-                        posPrice += detail.Price;
-                    }
-                }
-                ViewBag.pos = posPrice.ToString();
-                ViewBag.neg = negPrice.ToString();
-                ViewBag.sum = (posPrice - negPrice).ToString();
-                return View(details);
+                return Json(getViewEmpSalDetail(id.Value, year.Value, month.Value), JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
+            return Json(new List<ViewEmpSalDetail>(), JsonRequestBehavior.AllowGet);
         }
         public ActionResult Print(DateTime? date)
         {
