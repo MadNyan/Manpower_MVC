@@ -152,32 +152,32 @@
                         $('#form div div table#workCate tbody tr td#' + i).append(
                             "<input type='hidden' id='hidden' name='workCateID' value='0' />"
                         );
+                        $.ajax({
+			                url: '@Url.Action("Edit")',
+			                type: 'GET',
+			                data: { id: $('#tMain tbody tr.selected').attr('id') },
+			                dataType: "json",
+			                success: function (data) {
+				                $('#form').attr('action', '@Url.Action("Edit")');
+                                $('#form div div').children('#ID').val(data.Emp.ID);
+                                $('#form div div').children('#EmpID').val(data.Emp.EmpID);
+                                $('#form div div').children('#EmpName').val(data.Emp.EmpName);
+                                $('#form div div').children('#Tel').val(data.Emp.Tel);
+                                $('#form div div').children('#Phone').val(data.Emp.Phone);
+                                $('#form div div').children('#ConPerson').val(data.Emp.ConPerson);
+                                $('#form div div').children('#ConPersonTel').val(data.Emp.ConPersonTel);
+                                $.each(data.WorkRight, function (index, item) {
+                                    $('#form div div table#workCate tbody tr td').children('#' + item.WorkCateID).attr('checked','checked');
+                                });
+			                },
+			                error: function () {
+				                $('#form').attr('action', '');
+				                $('#form div div').children('input:text').val('');
+			                }
+		                });
 			        }
 		        });
                 editSubmit();
-		        $.ajax({
-			        url: '@Url.Action("Edit")',
-			        type: 'GET',
-			        data: { id: $('#tMain tbody tr.selected').attr('id') },
-			        dataType: "json",
-			        success: function (data) {
-				        $('#form').attr('action', '@Url.Action("Edit")');
-                        $('#form div div').children('#ID').val(data.Emp.ID);
-                        $('#form div div').children('#EmpID').val(data.Emp.EmpID);
-                        $('#form div div').children('#EmpName').val(data.Emp.EmpName);
-                        $('#form div div').children('#Tel').val(data.Emp.Tel);
-                        $('#form div div').children('#Phone').val(data.Emp.Phone);
-                        $('#form div div').children('#ConPerson').val(data.Emp.ConPerson);
-                        $('#form div div').children('#ConPersonTel').val(data.Emp.ConPersonTel);
-                        $.each(data.WorkRight, function (index, item) {
-                            $('#form div div table#workCate tbody tr td').children('#' + item.WorkCateID).attr('checked','checked');
-                        });
-			        },
-			        error: function () {
-				        $('#form').attr('action', '');
-				        $('#form div div').children('input:text').val('');
-			        }
-		        });
 	        });
             //刪除點工事件
 	        $('#del').click(function () {
@@ -377,6 +377,7 @@
         }
         //建立編輯加減項表單事件
         $('#tSecond').on('click', '#insEdit', function () {
+            var edit = $(this);
             $('#lineModalLabel').html('編輯勞保加減項');
             $('#form div div').remove();
             $('#form div').append(secondForm);
@@ -390,20 +391,20 @@
                             "<option value='" + item.ID + "'>" + item.InsName + "</option>"
                         );
                     });
-                },
-            });
-            $.ajax({
-                url: '@Url.Action("EditEmpIns")',
-                type: 'GET',
-                data: { id: $(this).parent('td').parent('tr').attr('id') },
-                dataType: "json",
-                success: function (data) {
-                    $('#form').attr('action', 'EditEmpIns');
-                    $('#form div div').children('#ID').val(data.ID);
-                    $('#form div div').children('#InsID').val(data.InsID);
-                    $('#form div div').children('#Price').val(data.Price);
-                    $('#form div div').children('#Remark').val(data.Remark);
-                },
+                    $.ajax({
+                        url: '@Url.Action("EditEmpIns")',
+                        type: 'GET',
+                        data: { id: edit.parent('td').parent('tr').attr('id') },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#form').attr('action', 'EditEmpIns');
+                            $('#form div div').children('#ID').val(data.ID);
+                            $('#form div div').children('#InsID').val(data.InsID);
+                            $('#form div div').children('#Price').val(data.Price);
+                            $('#form div div').children('#Remark').val(data.Remark);
+                        },
+                    });
+                }
             });
             editSubmit();
         });

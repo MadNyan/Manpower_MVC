@@ -258,23 +258,23 @@
                             "<option value='" + item.ID + "'>" + item.OwnerName + "</option>"
                         );
                     });
+                    $.ajax({
+			            url: '@Url.Action("Edit")',
+			            type: 'GET',
+			            data: { id: $('#tMain tbody tr.selected').attr('id') },
+			            dataType: "json",
+			            success: function (data) {
+				            $('#form').attr('action', '@Url.Action("Edit")');
+                            $('#form div div').children('#ID').val(data.ID);
+                            $('#form div div').children('#OwnerID').val(data.OwnerID);
+                            $('#form div div').children('#PayID').val(data.PayID);
+			            },
+			            error: function () {
+				            $('#form').attr('action', '');
+				            $('#form div div').children('input:text').val('');
+			            }
+                    });
                 }
-            });
-		    $.ajax({
-			    url: '@Url.Action("Edit")',
-			    type: 'GET',
-			    data: { id: $('#tMain tbody tr.selected').attr('id') },
-			    dataType: "json",
-			    success: function (data) {
-				    $('#form').attr('action', '@Url.Action("Edit")');
-                    $('#form div div').children('#ID').val(data.ID);
-                    $('#form div div').children('#OwnerID').val(data.OwnerID);
-                    $('#form div div').children('#PayID').val(data.PayID);
-			    },
-			    error: function () {
-				    $('#form').attr('action', '');
-				    $('#form div div').children('input:text').val('');
-			    }
             });
             editSubmit();
 	    });
@@ -334,6 +334,7 @@
 	    });
         //建立編輯請款項目表單事件
         $('#tSecond').on('click', '#secondEdit', function () {
+            var edit = $(this);
             $('#lineModalLabel').html('編輯請款項目資料');
             $('#form div div').remove();
             $('#form div').append(secondForm);
@@ -347,24 +348,24 @@
                             "<option value='" + item.ID + "'>" + item.WorkCareName + "</option>"
 					    );
                     });
+                    $.ajax({
+                        url: '@Url.Action("EditPayWork")',
+                        type: 'GET',
+                        data: { id: edit.parent('td').parent('tr').attr('id') },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#form').attr('action', '@Url.Action("EditPayWork")');
+                            $('#form div div').children('#ID').val(data.ID);
+                            $('#form div div').children('#SalaryDay').val(data.SalaryDay);
+                            $('#form div div').children('#OvertimeHr').val(data.OvertimeHr);
+                            $('#form div div').children('#OverOvertimeHr').val(data.OverOvertimeHr);
+                            $('#form div div').children('#WorkCareID').val(data.WorkCareID);
+                            $('#form div div').children('#PayID').val(data.PayID);
+                            $('#form div div').children('#Remark').val(data.Remark);
+                        },
+                    });
 			    }
 		    });
-            $.ajax({
-                url: '@Url.Action("EditPayWork")',
-                type: 'GET',
-                data: { id: $(this).parent('td').parent('tr').attr('id') },
-                dataType: "json",
-                success: function (data) {
-                    $('#form').attr('action', '@Url.Action("EditPayWork")');
-                    $('#form div div').children('#ID').val(data.ID);
-                    $('#form div div').children('#SalaryDay').val(data.SalaryDay);
-                    $('#form div div').children('#OvertimeHr').val(data.OvertimeHr);
-                    $('#form div div').children('#OverOvertimeHr').val(data.OverOvertimeHr);
-                    $('#form div div').children('#WorkCareID').val(data.WorkCareID);
-                    $('#form div div').children('#PayID').val(data.PayID);
-                    $('#form div div').children('#Remark').val(data.Remark);
-                },
-            });
             editSubmit();
         });
         //刪除工地事件

@@ -157,7 +157,7 @@
 			    $('#form div div table tbody tr#' + j).remove();
             }
         }
-        //增加工人項目-----
+        //增加工人項目
         function addOne() {
             if (j == 0) {
                 $('#form div div table').append(
@@ -176,10 +176,12 @@
 			        dataType: "json",
                     success: function (data) {
                         $('#form div div table tbody').append(
-                            "<tr id='" + j + "'><td>" +
-                            "<select id='Emp' class='form-control' name='worker[" + j + "].EmpID'></select>" +
-                            "</td><td id='WorkCare>" +
-                            "<select id='WorkCare' class='form-control' name='worker[" + j + "].WorkCareID'></select>" +
+                            "<tr id='" + j + "'><td id='Emp1'>" +
+                            "<select id='Emp' class='form-control' name='worker[" + j + "].EmpID' >" +
+                            "<option value='0'>請選擇員工</option></select>" +
+                            "</td><td>" +
+                            "<select id='WorkCare' class='form-control' name='worker[" + j + "].WorkCareID' >" +
+                            "<option value='0'>請先選擇員工</option></select>" +
                             "</td><td>" +
                             "<input type='text' class='form-control' id='SalaryDay' name='worker[" + j + "].SalaryDay' />" +
                             "</td><td>" +
@@ -201,22 +203,28 @@
             }
         }
         //第二段下拉式清單
-        @*$(document).on('change', '#Emp', function () {
+        $(document).on('change', '#Emp', function () {
+            var workCate = $(this).parent().next().children('select#WorkCare');
             $.ajax({
 			    url: '@Url.Action("getWorkRight")',
                 type: 'GET',
                 data: { id: $(this).val()},
 			    dataType: "json",
                 success: function (data) {
-                    $(this).parent('td#WorkCare').children('select#WorkCare').empty();
-				    $.each(data, function (index, item) {
-                        $(this).parent('td#WorkCare').children('select#WorkCare').append(
+                    workCate.empty();
+                    workCate.append("<option value='0'>請選擇工種</option>");
+                    $.each(data, function (index, item) {
+                        workCate.append(
                             "<option value='" + item.WorkCateID + "'>" + item.WorkCateName + "</option>"
                         );
                     });
-			    }
+                },
+                error: function () {
+                    workCate.empty();
+                    workCate.append("<option value='0'>請先選擇員工</option>");
+                }
 		    });
-        });*@
+        });
         //工單表單
         var mainForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
@@ -238,17 +246,18 @@
             j = 0;
             $('#lineModalLabel').html('新增工單資料');
             $('#form div div').remove();
+            $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(
                 mainForm + "<div class='form-group'>" +
                 "<input id='addone' type='button' value='新增出工工人' class='btn btn-default' onclick='addOne()' />" +
                 "<input id='delone' type='button' value='刪除' class='btn btn-danger' onclick='delOne()' />" +
                 "</div>" + "<div class='form-group'>" +
                 "<table width='100%'><thead><tr>" +
-                "<th width='16%'>員工</th>" +
-                "<th width='16%'>工種</th>" +
-                "<th width='16%'>天數</th>" +
-                "<th width='16%'>加班時數</th>" +
-                "<th width='16%'>超時時數</th>" +
+                "<th width='22%'>員工</th>" +
+                "<th width='28%'>工種</th>" +
+                "<th width='10%'>天數</th>" +
+                "<th width='10%'>加班時數</th>" +
+                "<th width='10%'>超時時數</th>" +
                 "<th width='20%'>備註</th></tr></thead>" +
                 "<tbody></tbody></table>" +
                 "</div>"
@@ -272,7 +281,8 @@
         //建立編輯工單表單事件
         $('#edit').click(function () {
             $('#lineModalLabel').html('編輯工單資料');
-		    $('#form div div').remove();
+            $('#form div div').remove();
+            $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(mainForm);
             $.ajax({
                 url: '@Url.Action("getBuilding")',
@@ -284,24 +294,24 @@
                             "<option value='" + item.ID + "'>" + item.BuildingName + "</option>"
                         );
                     });
+                    $.ajax({
+			            url: '@Url.Action("Edit")',
+			            type: 'GET',
+			            data: { id: $('#tMain tbody tr.selected').attr('id') },
+			            dataType: "json",
+			            success: function (data) {
+				            $('#form').attr('action', '@Url.Action("Edit")');
+                            $('#form div div').children('#ID').val(data.ID);
+                            $('#form div div').children('#SerialNum').val(data.SerialNum);
+                            $('#form div div').children('#SingleNum').val(data.SingleNum);
+                            $('#form div div').children('#BuildingID').val(data.BuildingID);
+			            },
+			            error: function () {
+				            $('#form').attr('action', '');
+				            $('#form div div').children('input:text').val('');
+			            }
+                    });
                 }
-            });
-		    $.ajax({
-			    url: '@Url.Action("Edit")',
-			    type: 'GET',
-			    data: { id: $('#tMain tbody tr.selected').attr('id') },
-			    dataType: "json",
-			    success: function (data) {
-				    $('#form').attr('action', '@Url.Action("Edit")');
-                    $('#form div div').children('#ID').val(data.ID);
-                    $('#form div div').children('#SerialNum').val(data.SerialNum);
-                    $('#form div div').children('#SingleNum').val(data.SingleNum);
-                    $('#form div div').children('#BuildingID').val(data.BuildingID);
-			    },
-			    error: function () {
-				    $('#form').attr('action', '');
-				    $('#form div div').children('input:text').val('');
-			    }
             });
             editSubmit();
 	    });
@@ -320,11 +330,13 @@
             "</div>" +
             "<div class='form-group'>" +
             "<label for='EmpID'>員工</label>" +
-            "<select class='form-control' id='EmpID' name='EmpID'></select>" +
+            "<select class='form-control' id='EmpID' name='EmpID' >" +
+            "<option value='0'>請選擇員工</option></select>" +
             "</div >" +
             "<div class='form-group'>" +
             "<label for='WorkCareID'>工種</label>" +
-            "<select class='form-control' id='WorkCareID' name='WorkCareID'></select>" +
+            "<select class='form-control' id='WorkCareID' name='WorkCareID' >" +
+            "<option value='0'>請先選擇員工</option></select>" +
             "</div >" +
             "<div class='form-group'>" +
             "<label for='SalaryDay'>天數</label>" +
@@ -346,6 +358,7 @@
         $('#secondCreate').click(function () {
             $('#lineModalLabel').html('新增出工資料');
             $('#form div div').remove();
+            $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(secondForm);
             $.ajax({
 			    url: '@Url.Action("getEmp")',
@@ -359,59 +372,66 @@
                     });
 			    }
             });
-            $.ajax({
-			    url: '@Url.Action("getWorkRight")',
-                type: 'GET',
-                data: { id: 1},
-			    dataType: "json",
-                success: function (data) {
-                    $('#form div div select#WorkCareID').empty();
-				    $.each(data, function (index, item) {
-                        $('#form div div select#WorkCareID').append(
-                            "<option value='" + item.WorkCateID + "'>" + item.WorkCateName + "</option>"
-					    );
-                    });
-			    }
-		    });
             $('#form').attr('action', '@Url.Action("CreateWorker")');
             createSubmit();
             $('#form div div').children('#ListID').val($('#tMain tbody tr.selected').attr('id'));
 	    });
         //建立編輯工人表單事件
         $('#tSecond').on('click', '#secondEdit', function () {
+            var edit = $(this);
             $('#lineModalLabel').html('編輯出工資料');
             $('#form div div').remove();
+            $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(secondForm);
             $.ajax({
 			    url: '@Url.Action("getEmp")',
 			    type: 'GET',
 			    dataType: "json",
-			    success: function (data) {
-				    $.each(data, function (index, item) {
+			    success: function (dataEmp) {
+                    $.each(dataEmp, function (index, item) {
                         $('#form div div select#EmpID').append(
                             "<option value='" + item.ID + "'>" + item.EmpID + " - " + item.EmpName + "</option>"
 					    );
                     });
+                    $.ajax({
+                        url: '@Url.Action("EditWorker")',
+                        type: 'GET',
+                        data: { id: edit.parent('td').parent('tr').attr('id') },
+                        dataType: "json",
+                        success: function (dataWorker) {
+                            $('#form').attr('action', '@Url.Action("EditWorker")');
+                            $('#form div div').children('#ID').val(dataWorker.ID);
+                            $('#form div div').children('#EmpID').val(dataWorker.EmpID);
+                            $.ajax({
+			                    url: '@Url.Action("getWorkRight")',
+                                type: 'GET',
+                                data: { id: $('#EmpID').val()},
+			                    dataType: "json",
+                                success: function (data) {
+                                    $('select#WorkCareID').empty();
+                                    $('select#WorkCareID').append("<option value='0'>請選擇工種</option>");
+                                    $.each(data, function (index, item) {
+                                        $('select#WorkCareID').append(
+                                            "<option value='" + item.WorkCateID + "'>" + item.WorkCateName + "</option>"
+                                        );
+                                    });
+                                    $('#form div div').children('#WorkCareID').val(dataWorker.WorkCareID);
+                                },
+                                error: function () {
+                                    $('select#WorkCareID').empty();
+                                    $('select#WorkCareID').append("<option value='0'>請先選擇員工</option>");
+                                }
+		                    });
+                            $('#form div div').children('#OvertimeHr').val(dataWorker.OvertimeHr);
+                            $('#form div div').children('#OverOvertimeHr').val(dataWorker.OverOvertimeHr);
+                            $('#form div div').children('#SalaryDay').val(dataWorker.SalaryDay);                          
+                            $('#form div div').children('#ListID').val(dataWorker.ListID);
+                            $('#form div div').children('#Remark').val(dataWorker.Remark);
+                        }
+                    });
 			    }
             });
             editSubmit();
-            $.ajax({
-                url: '@Url.Action("EditWorker")',
-                type: 'GET',
-                data: { id: $(this).parent('td').parent('tr').attr('id') },
-                dataType: "json",
-                success: function (data) {
-                    $('#form').attr('action', '@Url.Action("EditWorker")');
-                    $('#form div div').children('#ID').val(data.ID);
-                    $('#form div div').children('#EmpID').val(data.EmpID);
-                    $('#form div div').children('#OvertimeHr').val(data.OvertimeHr);
-                    $('#form div div').children('#OverOvertimeHr').val(data.OverOvertimeHr);
-                    $('#form div div').children('#SalaryDay').val(data.SalaryDay);
-                    $('#form div div').children('#WorkCareID').val(data.WorkCareID);
-                    $('#form div div').children('#ListID').val(data.ListID);
-                    $('#form div div').children('#Remark').val(data.Remark);
-                },
-            });
         });
         //第二段下拉式清單
         $(document).on('change', '#EmpID', function () {
@@ -422,12 +442,17 @@
 			    dataType: "json",
                 success: function (data) {
                     $('select#WorkCareID').empty();
-				    $.each(data, function (index, item) {
+                    $('select#WorkCareID').append("<option value='0'>請選擇工種</option>");
+                    $.each(data, function (index, item) {
                         $('select#WorkCareID').append(
                             "<option value='" + item.WorkCateID + "'>" + item.WorkCateName + "</option>"
                         );
                     });
-			    }
+                },
+                error: function () {
+                    $('select#WorkCareID').empty();
+                    $('select#WorkCareID').append("<option value='0'>請先選擇員工</option>");
+                }
 		    });
         });
         //刪除工地事件
@@ -436,5 +461,20 @@
                 location.replace('/WorkList/DeleteWorker/' + $(this).parent().parent().attr('id'));
             }
         });
+        //檢察選取
+        function checkForm() {
+            var b = 1;
+            $('select').each(function () {
+                if ($(this).val() == 0) {
+                    b = 0;
+                }
+            });
+            if (b == 1) {
+                return true;
+            } else {
+                alert('請選擇員工與工種');
+                return false;
+            }
+        }
     </script>
 }
