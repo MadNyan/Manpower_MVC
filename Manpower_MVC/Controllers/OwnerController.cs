@@ -12,6 +12,11 @@ namespace Manpower_MVC.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["isLogin"] == null)
+            {
+                TempData["login"] = 1;
+                return RedirectToAction("Login", "User");
+            }
             return View();
         }
         public ActionResult getOwner()

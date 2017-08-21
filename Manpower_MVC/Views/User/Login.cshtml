@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登入</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/css/icheck/blue.min.css" rel="stylesheet">
+    @Styles.Render("~/Bundles/css")
+    <style>
+        .container {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <h2>登入 全域人力管理系統</h2>
+        <h3></h3>
+        <form id="form" method="post" action='@Url.Action("Login", "User")'>
+            <div>
+                <div class='form- group'>
+                    <label for='acc'>帳號</label>
+                    <input type='text' class='form-control' id='acc' name='acc' required='required' />
+                </div>
+                <div class='form-group'>
+                    <label for='pwd'>密碼</label>
+                    <input type='password' class='form-control' id='pwd' name='pwd' required='required' />
+                </div>
+            </div>
+            <div class="pull-left">
+                <a href='@Url.Action("Index", "Home")' role="button" class="btn btn-default btn-flat">回主頁</a>
+            </div>
+            <div class="pull-right">
+                <input id='submit' type='submit' class='btn btn-primary btn-flat' value='登入' />
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var msg = "帳號或密碼錯誤，請再輸入一次";
+        if (@TempData["login"] == 1) {
+            msg = "請登入後再進行操作";
+        }
+        alert(msg);
+    });
+</script>

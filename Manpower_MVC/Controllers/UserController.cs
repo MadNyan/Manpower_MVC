@@ -11,10 +11,31 @@ namespace Manpower_MVC.Controllers
 {
     public class UserController : ApiController
     {
-        // GET: User
-        public User login(string acc, string pwd)
+        public ActionResult Login()
         {
-            return null;
+            return View();
+        }
+        // GET: User
+        [HttpPost]
+        public ActionResult Login(string acc, string pwd)
+        {
+            User Get = (from p in db.User where p.Account == acc && p.Password == pwd select p).FirstOrDefault();
+            Session["isLogin"] = null;
+            Session["name"] = null;
+            if (Get != null)
+            {
+                Session["isLogin"] = Get.ID;
+                Session["name"] = Get.Name;
+                return RedirectToAction("Index", "Home");
+            }
+            TempData["login"] = 0;
+            return View();
+        }
+        public ActionResult Logout()
+        {
+            Session["isLogin"] = null;
+            Session["name"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 }
