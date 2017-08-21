@@ -1,146 +1,150 @@
-﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewPrintPayWork>
-
+﻿
 @{
     ViewBag.Title = "請款總表";
 }
 
-<table class="table">
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
         <tr>
-            <th width="180px">
-                帳款年月
-            </th>
-            <th width="180px">
-                業主代碼
-            </th>
-            <th width="200px">
-                業主名稱
-            </th>
-            <th width="200px">
-                工程名稱
-            </th>
-            <th width="200px">
-                連絡人
-            </th>
-            <th width="200px">
-                連絡人電話
-            </th>
-            <th colspan="2"></th>
+            <th>帳款年月</th>
+            <th>業主代碼</th>
+            <th>業主名稱</th>
+            <th>工程名稱</th>
+            <th>連絡人</th>
+            <th>連絡人電話</th>
+            <th></th>
         </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>帳款年月</th>
+            <th>業主代碼</th>
+            <th>業主名稱</th>
+            <th>工程名稱</th>
+            <th>連絡人</th>
+            <th>連絡人電話</th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
-<div style="overflow:auto; max-height: 168px">
-    <table class="table">
-        @foreach (var item in ViewBag.Pay)
-        {
-            string month = "";
-            if (item.Month < 10)
-            {
-                month = "0" + item.Month;
-            }
-            else
-            {
-                month = "" + item.Month;
-            }
-            <tr>
-                <td width="180px">
-                    @item.Year / @month
-                </td>
-                <td width="180px">
-                    @item.OwnerID
-                </td>
-                <td width="200px">
-                    @item.OwnerName
-                </td>
-                <td width="200px">
-                    @item.BuildName
-                </td>
-                <td width="200px">
-                    @item.ConPerson
-                </td>
-                <td width="200px">
-                    @item.ConPersonTel
-                </td>
-                <td>
-                    <input type="button" value="顯示" class="btn btn-info btn-xs" onclick="location.replace('@Url.Action("PayWork", new { building = item.ID, year = item.Year, month = item.Month })')" />
-                </td>
-                <td>
-                    <input type="button" value="列印" class="btn btn-success btn-xs" onclick="window.open('@Url.Action("PrintPayWork", new {building = item.ID, year = item.Year, month = item.Month})')" />
-                </td>
-            </tr>
-        }
 
-    </table>
+<div>
+    <label class="h4"></label>
 </div>
-<p></p>
-<table class="table">
-    <tr>
-        <th>
-        </th>
-        <th colspan="2">
-            日薪(天)
-        </th>
-        <th colspan="2">
-            加班時數(小時)
-        </th>
-        <th colspan="2">
-            超時時數(小時)
-        </th>
-        <th>
-        </th>
-    </tr>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.WorkCate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SalaryDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Salary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sum)
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.WorkCate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalaryDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salary)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OvertimeHr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OvertimeSal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeHr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverOvertimeSal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sum)
-        </td>
-    </tr>
-}
-
+<table id="tSecond" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th></th>
+            <th colspan="2">日薪(天)</th>
+            <th colspan="2">加班時數(小時)</th>
+            <th colspan="2">超時時數(小時)</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th width="12.5%">工種</th>
+            <th width="12.5%">數量</th>
+            <th width="12.5%">金額</th>
+            <th width="12.5%">數量</th>
+            <th width="12.5%">金額</th>
+            <th width="12.5%">數量</th>
+            <th width="12.5%">金額</th>
+            <th width="12.5%">合計</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
 </table>
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            loadMainTable();
+            //請款表格欄位點擊選擇事件
+            $('#tMain tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#tSecond tbody tr').remove();
+                }
+                else {
+                    $('#tMain tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+                loadSecondTable();
+            });
+        });
+        //讀取請款資料
+        function loadMainTable() {
+            $.ajax({
+                url: '@Url.Action("getPayment")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.ConPerson == null) {
+                            item.ConPerson = '';
+                        }
+                        if (item.ConPersonTel == null) {
+                            item.ConPersonTel = '';
+                        }
+                        $('#tMain tbody').append(
+                            "<tr id='" + item.ID + "' year='" + item.Year + "' month='" + item.Month + "'>" +
+                            "<td>" + item.Date + "</td>" +
+                            "<td>" + item.OwnerID + "</td>" +
+                            "<td>" + item.OwnerName + "</td>" +
+                            "<td>" + item.BuildName + "</td>" +
+                            "<td>" + item.ConPerson + "</td>" +
+                            "<td>" + item.ConPersonTel + "</td>" +
+                            "<td><input id='print' type='button' value='列印' class='btn btn-success btn-xs' /></td></tr >"
+                        );
+                    })
+                    $('#tMain').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+        }
+        //讀取請款明細資料
+        function loadSecondTable() {
+            var pos = 0, neg = 0, sum = 0;
+            $.ajax({
+		        url: '@Url.Action("getPayWork")',
+                type: 'GET',
+                data: {
+                    building: $('#tMain tbody tr.selected').attr('id'),
+                    year: $('#tMain tbody tr.selected').attr('year'),
+                    month: $('#tMain tbody tr.selected').attr('month')
+                },
+                dataType: "json",
+                success: function (data) {
+                    $('#tSecond tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        $('#tSecond tbody').append(
+                            "<tr id='" + item.ID + "'>" +
+                            "<td>" + item.WorkCate + "</td>" +
+                            "<td>" + item.SalaryDay + "</td>" +
+                            "<td>" + item.Salary + "</td>" +
+                            "<td>" + item.OvertimeHr + "</td>" +
+                            "<td>" + item.OvertimeSal + "</td>" +
+                            "<td>" + item.OverOvertimeHr + "</td>" +
+                            "<td>" + item.OverOvertimeSal + "</td>" +
+                            "<td>" + item.Sum + "</td></tr>"
+                        );
+                    })
+                }
+            });
+        }
+        $('#tMain').on('click', '#print', function () {
+            window.open(
+                '/PrintList/PrintPayWork?building=' + $(this).parent().parent().attr('id') +
+                '&year=' + $(this).parent().parent().attr('year') +
+                '&month=' + $(this).parent().parent().attr('month')
+            );
+        });
+    </script>
+}

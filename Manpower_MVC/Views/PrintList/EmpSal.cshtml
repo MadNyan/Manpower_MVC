@@ -1,95 +1,96 @@
-﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewPrintEmpSal>
-
+﻿
 @{
     ViewBag.Title = "出工薪資總表";
 }
 
 <input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("PrintEmpSal")')" />
 
-<table class="table">
-    <tr>
-        <th colspan="3">
-         
-        </th>
-        <th colspan="2">
-            日薪(天)
-        </th>
-        <th colspan="2">
-            加班時數(小時)
-        </th>
-        <th colspan="2">
-            超時時數(小時)
-        </th>
-        <th>
-        </th>
-    </tr>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WorkCate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SalaryDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Salary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeHr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverOvertimeSal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sum)
-        </th>
-    </tr>
-        @foreach (var item in Model)
-        {
+<div>
+    <label class="h4"></label>
+</div>
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkCate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalaryDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OvertimeHr)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OvertimeSal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OverOvertimeHr)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OverOvertimeSal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sum)
-                </td>
-            </tr>
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th colspan="3"></th>
+            <th colspan="2">日薪(天)</th>
+            <th colspan="2">加班時數(小時)</th>
+            <th colspan="2">超時時數(小時)</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th width="10%">工號</th>
+            <th width="10%">姓名</th>
+            <th width="10%">工種</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">合計</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th width="10%">工號</th>
+            <th width="10%">姓名</th>
+            <th width="10%">工種</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">數量</th>
+            <th width="10%">金額</th>
+            <th width="10%">合計</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
+</table>
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            loadMainTable();
+        });
+        //讀取請款資料
+        function loadMainTable() {
+            $.ajax({
+                url: '@Url.Action("getEmpSal")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        if (item.ConPerson == null) {
+                            item.ConPerson = '';
+                        }
+                        if (item.ConPersonTel == null) {
+                            item.ConPersonTel = '';
+                        }
+                        $('#tMain tbody').append(
+                            "<tr id='" + item.ID + "'>" +
+                            "<td>" + item.EmpID + "</td>" +
+                            "<td>" + item.EmpName + "</td>" +
+                            "<td>" + item.WorkCate + "</td>" +
+                            "<td>" + item.SalaryDay + "</td>" +
+                            "<td>" + item.Salary + "</td>" +
+                            "<td>" + item.OvertimeHr + "</td>" +
+                            "<td>" + item.OvertimeSal + "</td>" +
+                            "<td>" + item.OverOvertimeHr + "</td>" +
+                            "<td>" + item.OverOvertimeSal + "</td>" +
+                            "<td>" + item.Sum + "</td></tr>"
+                        );
+                    })
+                    $('#tMain').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
         }
-
-    </table>
+    </script>
+}

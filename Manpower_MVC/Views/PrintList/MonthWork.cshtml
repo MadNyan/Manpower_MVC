@@ -1,119 +1,122 @@
-﻿@model IEnumerable<Manpower_MVC.ViewModels.ViewPrintMonthWork>
-
+﻿
 @{
     ViewBag.Title = "出工月報表";
 }
 
-<form method="post" action="@Url.Action("MonthWork")">
-    <p>
-        <input type="month" name="date" id="date" value="" />
-    </p>
-    <p>
-        <input type="submit" value="顯示報表" class="btn btn-info" name="sub" id="sub" />
-    </p>
-</form>
 
-<input type="button" value="列印" class="btn btn-success" onclick="window.open('@Url.Action("PrintMonthWork", new { year = ViewBag.year, month = ViewBag.month})')" />
-@if (ViewBag.month < 10)
-{
-    string month = "0" + ViewBag.month;
-    <p>
-        <h2>@ViewBag.year/@month 出工月報表</h2>
-    </p>
-}
-else
-{
-    <p>
-        <h2>@ViewBag.year/@ViewBag.month 出工月報表</h2>
-    </p>
-}
+<p>
+    <input type="month" name="date" id="date" value="" />
+</p>
+<p>
+    <input type="button" value="顯示報表" class="btn btn-info" name="sub" id="sub" />
+</p>
+<p>
+    <input type="button" value="列印" class="btn btn-success" name="print" id="print" />
+</p>
+<p id="pageTitle"></p>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Worktime)
-        </th>
-        @for (int i = 1; i <= 31; i++)
-        {
-            if (i < 10)
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>工種</th>
+            @for (int i = 1; i <= 31; i++)
             {
-                string str = "0" + i;
-                <th>
-                    @str
-                </th>
+                if (i < 10)
+                {
+                    string str = "0" + i;
+                    <th>@str</th>
+                }
+                else
+                {
+                    <th>@i</th>
+                }
             }
-            else
+            <th>合計</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>工號</th>
+            <th>姓名</th>
+            <th>工種</th>
+            @for (int i = 1; i <= 31; i++)
             {
-                <th>
-                    @i
-                </th>
+                if (i < 10)
+                {
+                    string str = "0" + i;
+                    <th>@str</th>
+                }
+                else
+                {
+                    <th>@i</th>
+                }
             }
-        }
-        <th>
-            @Html.DisplayNameFor(model => model.Sum)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        if (item.Worktime.ToString().Equals("正常"))
-        {
-            <tr class="active">
-                <td rowspan="2" valign="middle">
-                    @Html.DisplayFor(modelItem => item.EmpID)
-                </td>
-                <td rowspan="2" valign="middle">
-                    @Html.DisplayFor(modelItem => item.EmpName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Worktime)
-                </td>
-                @foreach (var date in item.Date)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => date)
-                    </td>
-                }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sum)
-                </td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Worktime)
-                </td>
-                @foreach (var date in item.Date)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => date)
-                    </td>
-                }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sum)
-                </td>
-            </tr>
-        }
-
-    }
-
+            <th>合計</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
 </table>
-<script>
-    var date = new Date();
 
-    var month = date.getMonth() + 1;
-    var year = date.getFullYear();
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (month < 10) month = "0" + month;
+            var today = year + "-" + month;
+            $("#date").val(today);
+            $("#pageTitle").append("<h2>" + today + " 出工月報表</h2 >");
+            loadMainTable(today);
+            //月結表格欄位點擊選擇事件
+            $(document).on('click', '#sub', function () {
+                loadMainTable($("#date").val());
+                $("#pageTitle").empty();
+                $("#pageTitle").append("<h2>" + $("#date").val() + " 出工月報表</h2 >");
+            });
+            $(document).on('click', '#print', function () {
+                window.open('/PrintList/PrintMonthWork?date=' + $("#date").val());
+            });
+        });
+        //讀取月結資料
+        function loadMainTable(date) {
+            $.ajax({
+                url: '@Url.Action("getMonthWork")',
+                type: 'GET',
+                dataType: "json",
+                data: { date: date },
+                success: function (data) {
+                    var i = 0;
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        i++;
+                        if (item.Worktime == "正常") {
+                            $('#tMain tbody').append(
+                                "<tr id='" + i + "'>" +
+                                "<td rowspan='2'>" + item.EmpID + "</td>" +
+                                "<td rowspan='2'>" + item.EmpName + "</td>" +
+                                "<td>" + item.Worktime + "</td></tr>"
+                            );
+                        } else {
+                            $('#tMain tbody').append(
+                                "<tr id='" + i + "'>" +
+                                "<td>" + item.Worktime + "</td></tr>"
+                            );
+                        }
+                        $.each(item.Date, function (index, date) {
+                            $('#tMain tbody tr#' + i).append(
+                                "<td>" + date + "</td>"
+                            );
+                        });
+                        $('#tMain tbody tr#' + i).append(
+                            "<td>" + item.Sum + "</td>"
+                        );
 
-    if (month < 10) month = "0" + month;
-
-    var today = year + "-" + month;
-    document.getElementById("date").value = today;
-</script>
+                    });
+                }
+            });
+        }
+    </script>
+}

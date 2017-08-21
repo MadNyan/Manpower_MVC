@@ -15,9 +15,33 @@ namespace Manpower_MVC.Controllers
         {
             return View();
         }
+        public ActionResult MonthWork()
+        {
+            return View();
+        }
+        public ActionResult EmpSal()
+        {
+            return View();
+        }
         public ActionResult PayDetail()
         {
             return View();
+        }
+        public ActionResult PayWork()
+        {
+            return View();
+        }
+        public ActionResult getMonthWork(DateTime? date)
+        {
+            if (date != null)
+            {
+                return Json(getViewPrintMonthWork(date.Value.Year, date.Value.Month), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new ViewPrintMonthWork(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getEmpSal()
+        {
+            return Json(getViewPrintEmpSal(), JsonRequestBehavior.AllowGet);
         }
         public ActionResult getPayment()
         {
@@ -31,37 +55,25 @@ namespace Manpower_MVC.Controllers
             }
             return Json(new List<ViewPrintPayDetail>(), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult getPayWork(int? building, int? year, int? month)
+        {
+            if (building != null && year != null && month != null)
+            {
+                return Json(getViewPrintPayWork(building.Value, year.Value, month.Value), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new List<ViewPrintPayWork>(), JsonRequestBehavior.AllowGet);
+        }
+
         /***********************************************************/
         // PrintMonthWork
-        public ActionResult MonthWork()
+
+        public ActionResult PrintMonthWork(DateTime? date)
         {
-            DateTime date = DateTime.Now;
-            ViewBag.year = date.Year;
-            ViewBag.month = date.Month;
-            return View(getViewPrintMonthWork(date.Year, date.Month));
-        }
-        [HttpPost]
-        public ActionResult MonthWork(DateTime? date)
-        {
-            if (date != null)
-            {
-                ViewBag.year = date.Value.Year;
-                ViewBag.month = date.Value.Month;
-                return View(getViewPrintMonthWork(date.Value.Year, date.Value.Month));
-            }
-            return MonthWork();
-        }
-        public ActionResult PrintMonthWork(int year, int month)
-        {
+            int year = date.Value.Year;
+            int month = date.Value.Month;
             ViewBag.year = year;
             ViewBag.month = month;
             return View(getViewPrintMonthWork(year, month));
-        }
-
-        // PrintEmpSal
-        public ActionResult EmpSal()
-        {
-            return View(getViewPrintEmpSal());
         }
         public ActionResult PrintEmpSal()
         {
@@ -95,18 +107,6 @@ namespace Manpower_MVC.Controllers
         }
 
         // PrintPay
-        public ActionResult PayWork(int? building, int? year, int? month)
-        {
-            ViewBag.Pay = getViewPrintPayment();
-            if (building != null && year != null && month != null)
-            {
-                ViewBag.building = building;
-                ViewBag.year = year;
-                ViewBag.month = month;
-                return View(getViewPrintPayWork(building.Value, year.Value, month.Value));
-            }
-            return View(new List<ViewPrintPayWork>());
-        }
         
         public ActionResult PrintPayWork(int? building, int? year, int? month)
         {
