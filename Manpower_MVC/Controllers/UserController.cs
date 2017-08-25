@@ -28,13 +28,24 @@ namespace Manpower_MVC.Controllers
                 Session["name"] = Get.Name;
                 return RedirectToAction("Index", "Home");
             }
-            TempData["login"] = 0;
+            TempData["loginMsg"] = 0;
             return View();
         }
         public ActionResult Logout()
         {
             Session["isLogin"] = null;
             Session["name"] = null;
+            return RedirectToAction("Index", "Home");
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Register(User user)
+        {
+            db.User.Add(user);
+            db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
     }

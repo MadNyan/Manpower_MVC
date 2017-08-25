@@ -16,7 +16,7 @@ namespace Manpower_MVC.Controllers
         {
             if (Session["isLogin"] == null)
             {
-                TempData["login"] = 1;
+                TempData["loginMsg"] = 1;
                 return RedirectToAction("Login", "User");
             }
             return View();
