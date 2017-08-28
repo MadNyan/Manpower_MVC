@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "使用者管理";
+}
+
+<table id="tMain" class="table table-hover" cellspacing="0" width="100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>帳號</th>
+            <th>使用者名稱</th>
+            <th>是否為管理員</th>
+        </tr>
+    </thead>
+    <tfoot class="thead-inverse">
+        <tr>
+            <th>帳號</th>
+            <th>使用者名稱</th>
+            <th>是否為管理員</th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
+</table>
+
+<input id="create" type="button" value="新增" class="btn btn-primary" data-toggle="modal" data-target="#modalDiv" />
+<input id="edit" disabled="disabled" type="button" value="編輯" class="btn btn-warning" data-toggle="modal" data-target="#modalDiv" />
+<input id="del" disabled="disabled" type="button" value="刪除" class="btn btn-danger " />
+
+@section pagesection{
+    <script>
+        $(document).ready(function () {
+            loadMainTable();
+            //欄位點擊選擇事件
+            $('#tMain tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#edit').attr('disabled', true);
+                    $('#del').attr('disabled', true);
+                }
+                else {
+                    $('#tMain tbody').children('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').attr('disabled', false);
+                    $('#del').attr('disabled', false);
+                }
+            });
+            //新增新增表單事件
+            $('#create').click(function () {
+                $('#lineModalLabel').html('新增使用者');
+		        $('#form div div').remove();
+                $('#form div').append(userForm);
+                createSubmit();
+		        $('#form').attr('action', '@Url.Action("Create")');
+            });
+            //建立編輯表單事件
+            $('#edit').click(function () {
+                $('#lineModalLabel').html('編輯使用者');
+		        $('#form div div').remove();
+                $('#form div').append(userForm);
+                editSubmit();
+		        $.ajax({
+			        url: '@Url.Action("Edit")',
+			        type: 'GET',
+                    data: { id: $('#tMain tbody tr.selected').attr('id') },
+			        dataType: "json",
+			        success: function (data) {
+				        $('#form').attr('action', '@Url.Action("Edit")');
+                        $('#form div div').children('#ID').val(data.ID);
+                        $('#form div div').children('#Account').val(data.Account);
+                        $('#form div div').children('#Name').val(data.Name);
+                        $('#form div div').children('#isAdmin').val(data.isAdmin);
+			        },
+			        error: function () {
+				        $('#form').attr('action', '');
+				        $('#form div div').children('input:text').val('');
+			        }
+		        });
+            });
+            //刪除事件
+            $('#del').click(function () {
+                if (window.confirm('確定要刪除?')) {
+                    location.replace('/User/Delete/' + $('.selected').attr('id'));
+                }
+            });
+        });
+        //工種表單
+        var userForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Account'>帳號</label>" +
+            "<input type='text' class='form-control' id='Account' name='Account' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='Name'>使用者名稱</label>" +
+            "<input type='text' class='form-control' id='Name' name='Name' required='required' />" +
+            "</div>" +aa
+            "<div class='form-group'>" +
+            "<label for='isAdmin'>是否為管理員</label>" +
+            "<select id='isAdmin' class='form-control' name='isAdmin'>" +
+            "<option value='1'>是</option>" +
+            "<option value='0'>否</option>" +
+            "</select>" +
+            "</div>";
+        //讀取工種資料
+        function loadMainTable() {
+            $.ajax({
+		        url: '@Url.Action("getUser")',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $('#tMain tbody tr').remove();
+                    $.each(data, function (index, item) {
+                        var admin = '';
+                        if (item.isAdmin == 1) {
+                            admin = '是';
+                        } else {
+                            admin = '否';
+                        }
+                        $('#tMain tbody').append(
+                            "<tr id='" + item.ID + "'><td>" + item.Account + "</td>" +
+                            "<td>" + item.Name + "</td>" +
+                            "<td>" + admin + "</td></tr>"
+                        );
+                    })
+                    $('#tMain').DataTable({
+                        language: {
+                            url: "../Content/dataTables.Chinese.traditional.txt"
+                        },
+                        displayLength: 5,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                    });
+                }
+            });
+        }
+    </script>
+}
