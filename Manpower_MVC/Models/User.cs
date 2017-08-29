@@ -18,6 +18,6 @@ namespace Manpower_MVC.Models
         public string Account { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
-        public int isAdmin { get; set; }
+        public bool isAdmin { get; set; }
     }
 }

@@ -47,7 +47,7 @@
             $('#create').click(function () {
                 $('#lineModalLabel').html('新增使用者');
 		        $('#form div div').remove();
-                $('#form div').append(userForm);
+                $('#form div').append(userCreateForm);
                 createSubmit();
 		        $('#form').attr('action', '@Url.Action("Create")');
             });
@@ -55,7 +55,7 @@
             $('#edit').click(function () {
                 $('#lineModalLabel').html('編輯使用者');
 		        $('#form div div').remove();
-                $('#form div').append(userForm);
+                $('#form div').append(userEditForm);
                 editSubmit();
 		        $.ajax({
 			        url: '@Url.Action("Edit")',
@@ -67,7 +67,6 @@
                         $('#form div div').children('#ID').val(data.ID);
                         $('#form div div').children('#Account').val(data.Account);
                         $('#form div div').children('#Name').val(data.Name);
-                        $('#form div div').children('#isAdmin').val(data.isAdmin);
 			        },
 			        error: function () {
 				        $('#form').attr('action', '');
@@ -82,8 +81,29 @@
                 }
             });
         });
-        //工種表單
-        var userForm = "<div class='form-group'>" +
+        var userCreateForm = "<div class='form-group'>" +
+            "<input data-val='true' id='ID' name='ID' type='hidden' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='Account'>帳號</label>" +
+            "<input type='text' class='form-control' id='Account' name='Account' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='Password'>密碼</label>" +
+            "<input type='text' class='form-control' id='Password' name='Password' required='required' />" +
+            "</div >" +
+            "<div class='form-group'>" +
+            "<label for='Name'>使用者名稱</label>" +
+            "<input type='text' class='form-control' id='Name' name='Name' required='required' />" +
+            "</div>" +
+            "<div class='form-group'>" +
+            "<label for='isAdmin'>是否為管理員</label>" +
+            "<select id='isAdmin' class='form-control' name='isAdmin'>" +
+            "<option value='False'>否</option>" +
+            "<option value='True'>是</option>" +
+            "</select>" +
+            "</div>";
+        var userEditForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
             "<div class='form-group'>" +
@@ -93,15 +113,14 @@
             "<div class='form-group'>" +
             "<label for='Name'>使用者名稱</label>" +
             "<input type='text' class='form-control' id='Name' name='Name' required='required' />" +
-            "</div>" +aa
+            "</div>" +
             "<div class='form-group'>" +
             "<label for='isAdmin'>是否為管理員</label>" +
             "<select id='isAdmin' class='form-control' name='isAdmin'>" +
-            "<option value='1'>是</option>" +
-            "<option value='0'>否</option>" +
+            "<option value='false'>否</option>" +
+            "<option value='true'>是</option>" +
             "</select>" +
             "</div>";
-        //讀取工種資料
         function loadMainTable() {
             $.ajax({
 		        url: '@Url.Action("getUser")',
@@ -111,7 +130,7 @@
                     $('#tMain tbody tr').remove();
                     $.each(data, function (index, item) {
                         var admin = '';
-                        if (item.isAdmin == 1) {
+                        if (item.isAdmin) {
                             admin = '是';
                         } else {
                             admin = '否';

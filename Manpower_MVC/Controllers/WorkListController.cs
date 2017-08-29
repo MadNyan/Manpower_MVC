@@ -18,7 +18,12 @@ namespace Manpower_MVC.Controllers
                 TempData["loginMsg"] = 1;
                 return RedirectToAction("Login", "User");
             }
-            return View();
+            else if ((Session["isAdmin"] != null) && ((bool)Session["isAdmin"]))
+            {
+                return View();
+            }
+            TempData["Msg"] = 1;
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult getViewWorkList()
         {

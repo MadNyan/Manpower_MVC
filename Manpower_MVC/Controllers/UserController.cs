@@ -27,7 +27,7 @@ namespace Manpower_MVC.Controllers
             {
                 Session["isLogin"] = Get.ID;
                 Session["name"] = Get.Name;
-                Session["isAdmin"] = Get.isAdmin.ToString();
+                Session["isAdmin"] = Get.isAdmin;
                 return RedirectToAction("Index", "Home");
             }
             TempData["loginMsg"] = 0;
@@ -47,20 +47,18 @@ namespace Manpower_MVC.Controllers
         [HttpPost]
         public ActionResult Register(User user)
         {
-            user.isAdmin = 0;
+            user.isAdmin = false;
             db.User.Add(user);
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Index()
         {
-            if (Session["isAdmin"] != null)
+            if ((Session["isAdmin"] != null)&& ((bool)Session["isAdmin"]))
             {
-                if (Session["isAdmin"].Equals("1"))
-                {
-                    return View();
-                }
+                return View();
             }
+            TempData["Msg"] = 1;
             return RedirectToAction("Index", "Home");
         }
         public ActionResult getUser()

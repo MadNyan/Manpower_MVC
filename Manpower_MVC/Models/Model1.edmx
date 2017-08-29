@@ -91,6 +91,7 @@
           <Property Name="Account" Type="nchar" MaxLength="16" Nullable="false" />
           <Property Name="Password" Type="nchar" MaxLength="16" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -253,6 +254,7 @@
           <Property Name="Account" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkCategory">
           <Key>
@@ -391,6 +393,7 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="ManpowerDBModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Account" ColumnName="Account" />

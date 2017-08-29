@@ -10,3 +10,12 @@
         </div>
     </div>
 </div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if (@TempData["Msg"] == 1) {
+            alert("您上未有編輯權限，請告知管理員且取得權限");
+        }
+    });
+</script>
