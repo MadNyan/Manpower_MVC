@@ -171,7 +171,7 @@
                     success: function (data) {
                         $('#form div div table tbody').append(
                             "<tr id='" + j + "'><td id='Emp1'>" +
-                            "<select id='Emp' class='form-control' name='worker[" + j + "].EmpID' >" +
+                            "<select id='Emp' class='form-control select2' name='worker[" + j + "].EmpID' >" +
                             "<option value='0'>請選擇員工</option></select>" +
                             "</td><td>" +
                             "<select id='WorkCare' class='form-control' name='worker[" + j + "].WorkCareID' >" +
@@ -189,11 +189,13 @@
 				        $.each(data, function (index, item) {
                             $('#form div div table tbody tr#' + j + ' select#Emp').append(
                                 "<option value='" + item.ID + "'>" + item.EmpID + " - " + item.EmpName + "</option>"
-					        );
+                            );
+                            disabledEmp();
                         });
                         j++;
-			        }
-                });
+                        $(".select2").select2();
+                    }
+                });  
             }
         }
         //第二段下拉式清單
@@ -219,15 +221,30 @@
                 }
 		    });
         });
+        function disabledEmp() {
+            //for (var x = 1; x < j; x++) {
+            //    var selectVal = $('select[name="worker[' + x + '].EmpID"]').val();
+            //    for (var y = 1; y <= j; y++) {
+            //        $('#form div div table tbody tr#' + y + ' select#Emp option[value="' + selectVal + '"]').prop('disabled', true);
+            //    }
+            //}
+            //$("select#Emp option").prop('disabled', false);
+            //for (var x = 1; x < j; x++) {
+            //    var selectVal = $('select[name="worker[' + x + '].EmpID"]').val();
+            //    for (var y = 1; y <= j; y++) {
+            //        $('#form div div table tbody tr#' + y + ' select#Emp option[value="' + selectVal + '"]').prop('disabled', true);
+            //    }
+            //}
+        }
         //工單表單
         var mainForm = "<div class='form-group'>" +
             "<input data-val='true' id='ID' name='ID' type='hidden' />" +
             "</div>" +
-            "<div class='form- group'>" +
+            "<div class='form-group'>" +
             "<label for='SerialNum'>流水號</label>" +
             "<input type='text' class='form-control' id='SerialNum' name='SerialNum' required='required' />" +
             "</div >" +
-            "<div class='form- group'>" +
+            "<div class='form-group'>" +
             "<label for='SingleNum'>單號</label>" +
             "<input type='text' class='form-control' id='SingleNum' name='SingleNum' />" +
             "</div >" +
