@@ -174,7 +174,7 @@
 			        success: function (data) {
                         $('#form div div table tbody').append(
                             "<tr id='" + j + "'><td>" +
-                            "<select id='" + j + "' class='form-control' name='payWork[" + j + "].WorkCareID'></select>" +
+                            "<select id='" + j + "' class='form-control select2' style='width: 100%;' style='width: 100%;' name='payWork[" + j + "].WorkCareID'></select>" +
                             "</td><td>" +
                             "<input type='text' class='form-control' id='SalaryDay' name='payWork[" + j + "].SalaryDay' />" +
                             "</td><td>" +
@@ -190,6 +190,7 @@
                                 "<option value='" + item.ID + "'>" + item.WorkCareName + "</option>"
 					        );
                         });
+                        $(".select2").select2();
                         j++;
 			        }
 		        });
@@ -205,7 +206,7 @@
             "</div >" +
             "<div class='form-group'>" +
             "<label for='OwnerID'>業主</label>" +
-            "<select class='form-control' id='OwnerID' name='OwnerID'></select>" +
+            "<select class='form-control select2' style='width: 100%;' id='OwnerID' name='OwnerID'></select>" +
             "</div>";
         //建立新增請款表單事件
 	    $('#create').click(function () {
@@ -221,6 +222,7 @@
                 "<tbody></tbody></table>" +
                 "</div>"
             );
+            $(".select2").select2();
             $.ajax({
                 url: '@Url.Action("getOwner")',
                 type: 'GET',
@@ -242,6 +244,7 @@
             $('#lineModalLabel').html('編輯請款資料');
 		    $('#form div div').remove();
             $('#form div').append(mainForm);
+            $(".select2").select2();
             $.ajax({
                 url: '@Url.Action("getOwner")',
                 type: 'GET',
@@ -287,7 +290,7 @@
             "</div>" +
             "<div class='form-group'>" +
             "<label for='WorkCareID'>工種</label>" +
-            "<select class='form-control' id='WorkCareID' name='WorkCareID'></select>" +
+            "<select class='form-control select2' style='width: 100%;' id='WorkCareID' name='WorkCareID'></select>" +
             "</div >" +
             "<div class='form-group'>" +
             "<label for='SalaryDay'>天數</label>" +
@@ -310,6 +313,7 @@
             $('#lineModalLabel').html('新增請款項目資料');
             $('#form div div').remove();
             $('#form div').append(secondForm);
+            $(".select2").select2();
             $.ajax({
 			    url: '@Url.Action("getWorkCate")',
 			    type: 'GET',
@@ -332,6 +336,7 @@
             $('#lineModalLabel').html('編輯請款項目資料');
             $('#form div div').remove();
             $('#form div').append(secondForm);
+            $(".select2").select2();
             $.ajax({
 			    url: '@Url.Action("getWorkCate")',
 			    type: 'GET',
@@ -353,7 +358,7 @@
                             $('#form div div').children('#SalaryDay').val(data.SalaryDay);
                             $('#form div div').children('#OvertimeHr').val(data.OvertimeHr);
                             $('#form div div').children('#OverOvertimeHr').val(data.OverOvertimeHr);
-                            $('#form div div').children('#WorkCareID').val(data.WorkCareID);
+                            $('#form div div').children('#WorkCareID').val(data.WorkCareID).trigger("change");
                             $('#form div div').children('#PayID').val(data.PayID);
                             $('#form div div').children('#Remark').val(data.Remark);
                         },

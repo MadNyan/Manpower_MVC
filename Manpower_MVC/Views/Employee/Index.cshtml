@@ -184,6 +184,7 @@
                 $('#lineModalLabel').html('新增勞保加減項');
                 $('#form div div').remove();
                 $('#form div').append(secondForm);
+                $(".select2").select2();
                 createSubmit();
                 $.ajax({
 			        url: '@Url.Action("getInsCate")',
@@ -246,7 +247,7 @@
             "</div>" +
             "<div class='form-group'>" +
             "<label for='InsID'>項目</label>" +
-            "<select class='form-control' id='InsID' name='InsID'></select>" +
+            "<select class='form-control select2' style='width: 100%;' id='InsID' name='InsID'></select>" +
             "</div >" +
             "<div class='form-group'>" +
             "<label for='Price'>金額</label>" +
@@ -282,7 +283,7 @@
 			        success: function (data) {
                         $('#form div div table#ins tbody').append(
 					        "<tr id='" + j + "'><td>" +
-					        "<select id='" + j + "' class='form-control' name='ins[" + j + "].InsID'></select>" +
+                            "<select id='" + j + "' class='form-control select2' style='width: 100%;' name='ins[" + j + "].InsID'></select>" +
 					        "</td><td>" +
 					        "<input type='text' class='form-control' id='Price' name='ins[" + j + "].Price' required='required'/>" +
 					        "</td><td>" +
@@ -294,6 +295,7 @@
 						        "<option value='" + item.ID + "'>" + item.InsName + "</option>"
 					        );
                         });
+                        $(".select2").select2();
                         j++;
 			        }
 		        });
@@ -375,6 +377,7 @@
             $('#lineModalLabel').html('編輯勞保加減項');
             $('#form div div').remove();
             $('#form div').append(secondForm);
+            $(".select2").select2();
             $.ajax({
                 url: '@Url.Action("getInsCate")',
                 type: 'GET',
@@ -393,7 +396,7 @@
                         success: function (data) {
                             $('#form').attr('action', '@Url.Action("EditEmpIns")');
                             $('#form div div').children('#ID').val(data.ID);
-                            $('#form div div').children('#InsID').val(data.InsID);
+                            $('#form div div').children('#InsID').val(data.InsID).trigger("change");
                             $('#form div div').children('#Price').val(data.Price);
                             $('#form div div').children('#Remark').val(data.Remark);
                         },

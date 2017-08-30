@@ -171,10 +171,10 @@
                     success: function (data) {
                         $('#form div div table tbody').append(
                             "<tr id='" + j + "'><td id='Emp1'>" +
-                            "<select id='Emp' class='form-control select2' name='worker[" + j + "].EmpID' >" +
+                            "<select id='Emp' class='form-control select2' style='width: 100%;' name='worker[" + j + "].EmpID' >" +
                             "<option value='0'>請選擇員工</option></select>" +
                             "</td><td>" +
-                            "<select id='WorkCare' class='form-control' name='worker[" + j + "].WorkCareID' >" +
+                            "<select id='WorkCare' class='form-control select2' style='width: 100%;' name='worker[" + j + "].WorkCareID' >" +
                             "<option value='0'>請先選擇員工</option></select>" +
                             "</td><td>" +
                             "<input type='text' class='form-control' id='SalaryDay' name='worker[" + j + "].SalaryDay' />" +
@@ -193,13 +193,13 @@
                             disabledEmp();
                         });
                         j++;
-                        $(".select2").select2();
                     }
                 });  
             }
         }
         //第二段下拉式清單
         $(document).on('change', '#Emp', function () {
+            disabledEmp();
             var workCate = $(this).parent().next().children('select#WorkCare');
             $.ajax({
 			    url: '@Url.Action("getWorkRight")',
@@ -222,19 +222,20 @@
 		    });
         });
         function disabledEmp() {
-            //for (var x = 1; x < j; x++) {
-            //    var selectVal = $('select[name="worker[' + x + '].EmpID"]').val();
-            //    for (var y = 1; y <= j; y++) {
-            //        $('#form div div table tbody tr#' + y + ' select#Emp option[value="' + selectVal + '"]').prop('disabled', true);
-            //    }
-            //}
-            //$("select#Emp option").prop('disabled', false);
-            //for (var x = 1; x < j; x++) {
-            //    var selectVal = $('select[name="worker[' + x + '].EmpID"]').val();
-            //    for (var y = 1; y <= j; y++) {
-            //        $('#form div div table tbody tr#' + y + ' select#Emp option[value="' + selectVal + '"]').prop('disabled', true);
-            //    }
-            //}
+            $("#Emp").each(function () {
+                $(this).children("option").each(function () {
+                    $(this).prop('disabled', false);
+                });
+            });
+            for (var x = 1; x < j; x++) {
+                var selectVal = $('select[name="worker[' + x + '].EmpID"]').val();
+                for (var y = 1; y <= j; y++) {
+                    if (x != y && selectVal != 0) {
+                        $('tr#' + y + ' select#Emp option[value="' + selectVal + '"]').prop('disabled', true);
+                    }
+                }
+            }
+            $(".select2").select2();
         }
         //工單表單
         var mainForm = "<div class='form-group'>" +
@@ -250,7 +251,7 @@
             "</div >" +
             "<div class='form-group'>" +
             "<label for='BuildingID'>工地</label>" +
-            "<select class='form-control' id='BuildingID' name='BuildingID'></select>" +
+            "<select class='form-control select2' style='width: 100%;' id='BuildingID' name='BuildingID'></select>" +
             "</div>";
         //建立新增工單表單事件
 	    $('#create').click(function () {
@@ -273,6 +274,7 @@
                 "<tbody></tbody></table>" +
                 "</div>"
             );
+            $(".select2").select2();
             $.ajax({
                 url: '@Url.Action("getBuilding")',
                 type: 'GET',
@@ -295,6 +297,7 @@
             $('#form div div').remove();
             $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(mainForm);
+            $(".select2").select2();
             $.ajax({
                 url: '@Url.Action("getBuilding")',
                 type: 'GET',
@@ -315,7 +318,7 @@
                             $('#form div div').children('#ID').val(data.ID);
                             $('#form div div').children('#SerialNum').val(data.SerialNum);
                             $('#form div div').children('#SingleNum').val(data.SingleNum);
-                            $('#form div div').children('#BuildingID').val(data.BuildingID);
+                            $('#form div div').children('#BuildingID').val(data.BuildingID).trigger("change");
 			            },
 			            error: function () {
 				            $('#form').attr('action', '');
@@ -341,12 +344,12 @@
             "</div>" +
             "<div class='form-group'>" +
             "<label for='EmpID'>員工</label>" +
-            "<select class='form-control' id='EmpID' name='EmpID' >" +
+            "<select class='form-control select2' style='width: 100%;' id='EmpID' name='EmpID' >" +
             "<option value='0'>請選擇員工</option></select>" +
             "</div >" +
             "<div class='form-group'>" +
             "<label for='WorkCareID'>工種</label>" +
-            "<select class='form-control' id='WorkCareID' name='WorkCareID' >" +
+            "<select class='form-control select2' style='width: 100%;' id='WorkCareID' name='WorkCareID' >" +
             "<option value='0'>請先選擇員工</option></select>" +
             "</div >" +
             "<div class='form-group'>" +
@@ -371,6 +374,7 @@
             $('#form div div').remove();
             $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(secondForm);
+            $(".select2").select2();
             $.ajax({
 			    url: '@Url.Action("getEmp")',
 			    type: 'GET',
@@ -394,6 +398,7 @@
             $('#form div div').remove();
             $('#form').attr('onsubmit', 'return checkForm();');
             $('#form div').append(secondForm);
+            $(".select2").select2();
             $.ajax({
 			    url: '@Url.Action("getEmp")',
 			    type: 'GET',
@@ -412,7 +417,7 @@
                         success: function (dataWorker) {
                             $('#form').attr('action', '@Url.Action("EditWorker")');
                             $('#form div div').children('#ID').val(dataWorker.ID);
-                            $('#form div div').children('#EmpID').val(dataWorker.EmpID);
+                            $('#form div div').children('#EmpID').val(dataWorker.EmpID).trigger("change");
                             $.ajax({
 			                    url: '@Url.Action("getWorkRight")',
                                 type: 'GET',
@@ -426,7 +431,7 @@
                                             "<option value='" + item.WorkCateID + "'>" + item.WorkCateName + "</option>"
                                         );
                                     });
-                                    $('#form div div').children('#WorkCareID').val(dataWorker.WorkCareID);
+                                    $('#form div div').children('#WorkCareID').val(dataWorker.WorkCareID).trigger("change");
                                 },
                                 error: function () {
                                     $('select#WorkCareID').empty();
