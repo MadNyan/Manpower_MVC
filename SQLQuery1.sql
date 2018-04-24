@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[WorkList] (
-    [Id]         INT           IDENTITY (1, 1) NOT NULL,
+    [ID]         INT           IDENTITY (1, 1) NOT NULL,
     [SerialNum]  NVARCHAR (50) NOT NULL,
     [SingleNum]  NVARCHAR (50) NULL,
     [CreateDate] DATE          NOT NULL,
@@ -50,6 +50,17 @@ CREATE TABLE [dbo].[OwnerPayment] (
     [ID]      INT           IDENTITY (1, 1) NOT NULL,
     [PayID]   NVARCHAR (50) NOT NULL,
     [OwnerID] INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+CREATE TABLE [dbo].[OwnerPayWork] (
+    [ID]      INT           IDENTITY (1, 1) NOT NULL,
+	[SalaryDay]      INT           DEFAULT ((0)) NOT NULL,
+    [OvertimeHr]     INT           DEFAULT ((0)) NOT NULL,
+    [OverOvertimeHr] INT           DEFAULT ((0)) NOT NULL,
+    [WorkCareID]     INT           NOT NULL,
+	[PayID]     INT           NOT NULL,
+	[Remark] NVARCHAR (50) NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
