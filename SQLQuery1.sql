@@ -4,7 +4,7 @@
     [SingleNum]  NVARCHAR (50) NULL,
     [CreateDate] DATE          NOT NULL,
     [BuildingID] INT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
 CREATE TABLE [dbo].[Worker] (
@@ -16,17 +16,6 @@ CREATE TABLE [dbo].[Worker] (
     [EmpID]          INT           NOT NULL,
     [WorkCareID]     INT           NOT NULL,
     [Remark]         NVARCHAR (50) NULL,
-    PRIMARY KEY CLUSTERED ([ID] ASC)
-);
-
-CREATE TABLE [dbo].[WorkCategory] (
-    [ID]              INT           IDENTITY (1, 1) NOT NULL,
-    [WorkCareID]      NVARCHAR (50) NOT NULL,
-    [WorkCareName]    NVARCHAR (50) NOT NULL,
-    [Salary]          INT           NOT NULL,
-    [OvertimeSal]     INT           NOT NULL,
-    [OverOvertimeSal] INT           NOT NULL,
-    [Remark]          NVARCHAR (50) NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
