@@ -30,14 +30,30 @@ CREATE TABLE [dbo].[WorkCategory] (
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
-CREATE TABLE [dbo].[OwnerPayWork] (
+CREATE TABLE [dbo].[WorkCategory] (
+    [ID]              INT           IDENTITY (1, 1) NOT NULL,
+    [WorkCareID]      NVARCHAR (50) NOT NULL,
+    [WorkCareName]    NVARCHAR (50) NOT NULL,
+    [Salary]          INT           NOT NULL,
+    [OvertimeSal]     INT           NOT NULL,
+    [OverOvertimeSal] INT           NOT NULL,
+    [Remark]          NVARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+CREATE TABLE [dbo].[WorkRight] (
+    [ID]             INT           IDENTITY (1, 1) NOT NULL,
+    [EmpID]          INT           NOT NULL,
+    [WorkCateID]     INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+CREATE TABLE [dbo].[User] (
     [ID]             INT IDENTITY (1, 1) NOT NULL,
-    [SalaryDay]      INT DEFAULT ((0)) NOT NULL,
-    [OvertimeHr]     INT DEFAULT ((0)) NOT NULL,
-    [OverOvertimeHr] INT DEFAULT ((0)) NOT NULL,
-    [WorkCareID]     INT NOT NULL,
-    [PayID]          INT NOT NULL,
-	[Remark]         NVARCHAR (50) NULL,
+    [Account]        NVARCHAR (50) NOT NULL,
+    [Password]       NVARCHAR (50) NOT NULL,
+    [Name] 			 NVARCHAR (50) NOT NULL,
+    [isAdmin]        BIT NOT NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
